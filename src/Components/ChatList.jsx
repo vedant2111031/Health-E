@@ -15,6 +15,27 @@ const chats = [
     time: '8:01',
     unreadCount: 3,
   },
+  {
+    name: 'Dr. Anurag Agarwal',
+    specialty: 'Orthopedic',
+    message: 'Described Medicines are these',
+    time: '8:01',
+    unreadCount: 3,
+  },
+  {
+    name: 'Dr. Anurag Agarwal',
+    specialty: 'Orthopedic',
+    message: 'Described Medicines are these',
+    time: '8:01',
+    unreadCount: 3,
+  },
+  {
+    name: 'Dr. Anurag Agarwal',
+    specialty: 'Orthopedic',
+    message: 'Described Medicines are these',
+    time: '8:01',
+    unreadCount: 3,
+  },
   // Add more chat objects as needed
 ];
 
@@ -28,7 +49,7 @@ const ChatList = () => {
             <div className="flex items-center space-x-4">
               <div className="flex-shrink-0">
                 <img
-                  src="" // Replace with actual image URLs if available
+                  src="img/image Dr. Floyd Miles" // Replace with actual image URLs if available
                   alt={chat.name}
                   className="h-10 w-10 rounded-full"
                 />

@@ -1,6 +1,7 @@
 // src/UserSelection.js
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const UserSelection = () => {
   return (
@@ -9,7 +10,8 @@ const UserSelection = () => {
         <h1 className="text-3xl font-bold mb-4">Let's get acquainted</h1>
         <p className="text-gray-500 mb-8">Pellentesque placerat arcu in risus facilisis, sed laoreet eros laoreet.</p>
         <div className="flex flex-col space-y-4">
-          <button className="flex items-center justify-center px-8 py-4 bg-white text-blue-500 border border-gray-200 rounded-lg shadow-md hover:shadow-lg">
+          <Link to="/UserDetails" className='flex items-center justify-center px-8 py-4 bg-white text-black border border-gray-200  shadow-md hover:text-blue-500 rounded-lg'>
+          <button className="flex items-center">
             <span className="mr-2">
               {/* Patient Icon */}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -18,7 +20,9 @@ const UserSelection = () => {
             </span>
             I'm a patient
           </button>
-          <button className="flex items-center justify-center px-8 py-4 bg-white text-black border border-gray-200 rounded-lg shadow-md hover:shadow-lg">
+          </Link>
+          <Link to="/UserDetails" className='flex items-center justify-center px-8 py-4 bg-white text-black border border-gray-200  shadow-md hover:text-blue-500 rounded-lg'>
+          <button className="flex items-center">
             <span className="mr-2">
               {/* Doctor Icon */}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -28,6 +32,7 @@ const UserSelection = () => {
             </span>
             I'm a doctor
           </button>
+          </Link>
         </div>
       </div>
     </div>

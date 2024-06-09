@@ -1,4 +1,4 @@
-import { useState } from 'react'
+
 
 import './App.css'
 import LoginForm from './Components/LoginForm'
@@ -11,21 +11,33 @@ import MedicalInfoForm from './Components/MedicalInfoForm'
 import UploadPrescriptionForm from './Components/UploadPrescriptionForm'
 import ChatList from './Components/ChatList'
 import ProcessingScreen from './Components/ProgressingScreen'
+
+
+
+
+
+
 function App() {
-  const [count, setCount] = useState(0)
+  
+
+
+
+  
+  
 
   return (
     <>
-    {/* <LoginForm/> */}
-    {/* <SignUpForm/> */}
-    {/* <VerificationCodeForm/> */}
-    {/* <UserSelection/> */}
-    {/* <UserDetails/> */}
-    {/* <ProfileInfo/> */}
-    {/* <MedicalInfoForm/> */}
-    {/* <UploadPrescriptionForm/> */}
-    {/* <ChatList/> */}
-    <ProcessingScreen/>
+    <LoginForm/>
+    {/* <SignUpForm/>
+    <VerificationCodeForm/>
+     <UserSelection/> 
+    <UserDetails/> 
+    <ProfileInfo/> 
+     <MedicalInfoForm/> 
+<UploadPrescriptionForm/>
+    <ChatList/>
+    <ProcessingScreen/>  */}
+    
     </>
   )
 }

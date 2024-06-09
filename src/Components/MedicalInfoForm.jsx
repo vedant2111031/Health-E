@@ -1,17 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MedicalInfoForm = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-50 py-8">
       <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6">
         <div className="text-center mb-6">
-          <div className="flex justify-center mb-4">
-            <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
-            <div className="w-8 h-1 bg-gray-300"></div>
-            <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
-            <div className="w-8 h-1 bg-gray-300"></div>
-            <div className="w-4 h-4 bg-gray-300 rounded-full"></div>
+        <div className="flex justify-center mb-8">
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 rounded-full bg-blue-500"></div>
+            <div className="w-12 h-px bg-gray-300"></div>
+            <div className="w-4 h-4 rounded-full bg-blue-500"></div>
+            <div className="w-12 h-px bg-gray-300"></div>
+            <div className="w-4 h-4 rounded-full bg-gray-300"></div>
           </div>
+        </div>
           <h2 className="text-2xl font-semibold">Medical info</h2>
           <p className="text-gray-600">Fill in the data of disease that you have been experiencing</p>
         </div>
@@ -46,12 +49,13 @@ const MedicalInfoForm = () => {
             ></textarea>
           </div>
           <div className="text-center">
-            <button
+            <Link to="/UploadPrescriptionForm"><button
               type="submit"
               className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Go Next →
             </button>
+            </Link>
           </div>
         </form>
       </div>

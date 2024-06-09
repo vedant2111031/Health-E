@@ -7,6 +7,12 @@ const UserDetails = () => {
   const [birthday, setBirthday] = useState({ day: '', month: '', year: '' }); // State to handle birthday
   const [location, setLocation] = useState(''); // State to handle location
 
+
+
+
+  const handelContinue =()=>{
+    console.log(gender,birthday,location);
+  }
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="text-center">
@@ -100,7 +106,7 @@ const UserDetails = () => {
         </div>
         
         {/* Continue Button */}
-        <button className="px-8 py-4 bg-blue-500 text-white rounded-lg shadow-md hover:shadow-lg">
+        <button onClick={handelContinue} className="px-8 py-4 bg-blue-500 text-white rounded-lg shadow-md hover:shadow-lg">
           Continue
         </button>
       </div>
