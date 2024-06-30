@@ -3,10 +3,10 @@ import {Doctor} from "../models/doctor.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
 import {User} from "../models/user.model.js"
-
+import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
 const signUp= asyncHandler(async(req,res)=>{
-    const {email, password, name, role, gender, photo, phone}=req.body
+    const {email, password, name, role, gender, phone}=req.body
 
     //validations
     if(
@@ -33,10 +33,16 @@ const signUp= asyncHandler(async(req,res)=>{
         throw new ApiError(400,"User already exist")
     }
 
+    let photoLocalPath=null
+    if(req.files && Array.isArray(req.files.photo) && req.files.photo.length>0){
+        photoLocalPath=req.files.photo[0].path
+    }
+
+//   pushing photo on clodinary 
+    let photo=await uploadOnCloudinary(photoLocalPath)
 
     // making the db input 
     let user=null
-
     if(role=='doctor'){
         const createdUser=await Doctor.create({
             name,
@@ -44,8 +50,9 @@ const signUp= asyncHandler(async(req,res)=>{
             password,
             gender,
             role,
-            photo,
-            phone
+            photo:photo?.url || "",
+            phone,
+            
         })
         
         user=await Doctor.findById(createdUser._id).select("-password")
@@ -58,7 +65,7 @@ const signUp= asyncHandler(async(req,res)=>{
             gender,
             role,
             phone,
-            photo
+            photo:photo?.url || "",
         })
 
         user=await User.findById(createdUser._id).select("-password")

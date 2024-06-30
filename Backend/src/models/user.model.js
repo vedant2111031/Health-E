@@ -17,10 +17,6 @@ const userSchema=new mongoose.Schema({
     },
 
     phone:{
-        type:Number
-    },
-
-    photo:{
         type:String
     },
 
@@ -36,6 +32,10 @@ const userSchema=new mongoose.Schema({
     },
 
     bloodType:{
+        type:String
+    },
+    
+    photo:{
         type:String
     },
     
