@@ -4,6 +4,16 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
 import {User} from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
+import bcrypt from "bcryptjs"
+
+const generatetoken=async(userId)=>{
+    const user=await User.findById(userId)
+
+    const jwttoken=await user.generatejwttoken()
+
+    return {jwttoken}
+}
+
 
 const signUp= asyncHandler(async(req,res)=>{
     const {email, password, name, role, gender, phone}=req.body
@@ -77,7 +87,47 @@ const signUp= asyncHandler(async(req,res)=>{
 
 
 const login=asyncHandler(async(req,res)=>{
+    const {email, password}=req.body
 
+    let user=null
+    // checking user exits or not 
+    const patient=await User.findOne({email})
+    const doctor=await Doctor.findOne({email})
+
+    if(patient){
+        user=patient
+    }
+    if(doctor){
+        user=doctor
+    }
+
+    if(!user){
+        throw new ApiError(404, "user not found")
+    }
+
+    // compare password 
+    const isPasswordMatch=await bcrypt.compare(password, user.password)
+
+    if(!isPasswordMatch){
+        throw new ApiError(400, "invalid credentions`")
+    }
+
+
+    // creating json web token 
+    const {jwttoken}=await generatetoken(user._id)
+
+   const finalUser=await User.findById(user._id).select("-password")
+
+    const option={
+        httpOnly:true,
+        secure:true
+    }
+
+    res.status(200).
+        cookie("token",jwttoken, option)
+        .json(new ApiResponse(
+            200, finalUser, "login successful"
+        ))
 })
 
 export {signUp, login}
