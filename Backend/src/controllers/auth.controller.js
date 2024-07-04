@@ -6,10 +6,21 @@ import {User} from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import bcrypt from "bcryptjs"
 
-const generatetoken=async(userId)=>{
-    const user=await User.findById(userId)
 
-    const jwttoken=await user.generatejwttoken()
+// you can also take user(which can be doctor or patient) directly and call like user.generatejwttoken()
+const generatetoken=async(userId, userRole)=>{
+    let jwttoken=null
+    if(userRole=="patient"){
+        const patient=await User.findById(userId)
+        if(patient){
+            jwttoken=await patient.generatejwttoken()
+        }
+    }
+    else{
+        const doctor=await Doctor.findById(userId)
+        if(doctor)
+            jwttoken=await doctor.generatejwttoken()
+    }
 
     return {jwttoken}
 }
@@ -48,7 +59,7 @@ const signUp= asyncHandler(async(req,res)=>{
         photoLocalPath=req.files.photo[0].path
     }
 
-//   pushing photo on clodinary 
+    //   pushing photo on clodinary 
     let photo=await uploadOnCloudinary(photoLocalPath)
 
     // making the db input 
@@ -114,9 +125,9 @@ const login=asyncHandler(async(req,res)=>{
 
 
     // creating json web token 
-    const {jwttoken}=await generatetoken(user._id)
+    const {jwttoken}=await generatetoken(user._id, user.role)
 
-   const finalUser=await User.findById(user._id).select("-password")
+    const {userpassword, role, appointments, ...rest}=user._doc
 
     const option={
         httpOnly:true,
@@ -126,7 +137,7 @@ const login=asyncHandler(async(req,res)=>{
     res.status(200).
         cookie("token",jwttoken, option)
         .json(new ApiResponse(
-            200, finalUser, "login successful"
+            200,{...rest, role} , "login successful"
         ))
 })
 

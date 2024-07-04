@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
-    "start":"node index.js",
-    "start-dev":"nodemon -r dotenv/config --experimental-json-modules index.js"
+    "start": "node index.js",
+    "start-dev": "nodemon -r dotenv/config --experimental-json-modules index.js"
   },
   "author": "Aanand rai",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
