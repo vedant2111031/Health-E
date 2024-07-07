@@ -10,13 +10,13 @@ const updateDoctor=asyncHandler(async(req,res)=>{
 
     
     if (!mongoose.Types.ObjectId.isValid(doctorId)) {
-        throw new ApiError(400, "Invalid user ID format")
+        throw new ApiError(400, "Invalid doctor ID format")
     }
 
     const doctor=await Doctor.findByIdAndUpdate(doctorId, {$set:req.body},{new:true}).select("-password")
 
     if(!doctor){
-        throw new ApiError(400, "User not found")
+        throw new ApiError(400, "Doctor not found")
     }
 
     res.status(200).json(new ApiResponse(200, doctor,"Data Updated successfully"))
@@ -28,16 +28,16 @@ const deleteDoctor=asyncHandler(async(req,res)=>{
     const doctorId=req.params.id
 
     if (!mongoose.Types.ObjectId.isValid(doctorId)) {
-        throw new ApiError(400, "Invalid user ID format")
+        throw new ApiError(400, "Invalid doctor ID format")
     }
 
     const doctor=await Doctor.findByIdAndDelete(doctorId).select("-password")
 
     if(!doctor){
-        throw new ApiError(400, "User not found")
+        throw new ApiError(400, "Doctor not found")
     }
 
-    res.status(200).json(new ApiResponse(200, doctor,"User deleted successfully"))
+    res.status(200).json(new ApiResponse(200, doctor,"Doctor deleted successfully"))
 
 })
 
@@ -46,28 +46,41 @@ const getSingleDoctor=asyncHandler(async(req,res)=>{
     const doctorId=req.params.id
 
     if (!mongoose.Types.ObjectId.isValid(doctorId)) {
-        throw new ApiError(400, "Invalid user ID format")
+        throw new ApiError(400, "Invalid docotr ID format")
     }
     // console.log(doctorId)
     const doctor=await Doctor.findById(doctorId).select("-password")
 
     if(!doctor){
-        throw new ApiError(400, "User not found")
+        throw new ApiError(400, "Doctor not found")
     }
 
-    res.status(200).json(new ApiResponse(200, doctor,"Geting user successfuly"))
+    res.status(200).json(new ApiResponse(200, doctor,"Geting doctor successfuly"))
 
 })
 
 const getAllDoctor=asyncHandler(async(req,res)=>{
 
-    const doctor=await Doctor.find().select("-password")
+    const {query}=req.query
 
-    if(!doctor){
-        throw new ApiError(400, "User not found or no user exist")
+    let doctor
+
+    if(query){
+        doctor=await Doctor.find({
+            isApproved:'approved',
+            $or:[{name:{$regex:query, $options:"i"}}],
+            $or:[{specialization:{$regex:query, $options:"i"}}]
+        })
+    }
+    else{
+        doctor=await Doctor.find().select("-password")
     }
 
-    res.status(200).json(new ApiResponse(200, doctor,"Geting user successfuly"))
+    if(!doctor){
+        throw new ApiError(400, "Doctor not found or no doctor exist")
+    }
+
+    res.status(200).json(new ApiResponse(200, doctor,"Geting doctor successfuly"))
 
 })
 
