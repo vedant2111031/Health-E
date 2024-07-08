@@ -14,6 +14,7 @@ import About from "../Components/About/About";
 import ServicesList from "../Components/Services/ServicesList";
 import FaqList from "../Components/Faq/FaqList";
 import TestimonialComponent from "../Components/Testimonials/Testimonials";
+import DoctorList from "../Components/Doctors/DoctorList";
 
 const Home = () => {
   return (
