@@ -57,10 +57,11 @@ const doctorSchema=new mongoose.Schema({
         type:Array
     },
 
-    reviews:{
+    reviews:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Review"
-    },
+    
+    }],
 
     averageRating:{
         type:Number,

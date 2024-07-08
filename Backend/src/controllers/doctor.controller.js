@@ -49,7 +49,7 @@ const getSingleDoctor=asyncHandler(async(req,res)=>{
         throw new ApiError(400, "Invalid docotr ID format")
     }
     // console.log(doctorId)
-    const doctor=await Doctor.findById(doctorId).select("-password")
+    const doctor=await Doctor.findById(doctorId).populate("reviews").select("-password")
 
     if(!doctor){
         throw new ApiError(400, "Doctor not found")
@@ -73,7 +73,7 @@ const getAllDoctor=asyncHandler(async(req,res)=>{
         })
     }
     else{
-        doctor=await Doctor.find().select("-password")
+        doctor=await Doctor.find({isApproved:'approved'}).select("-password")
     }
 
     if(!doctor){
