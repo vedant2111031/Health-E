@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import signupImg from "../assets/images/signup.gif";
-import avatar from "../assets/images/patient-avatar.png";
 import { Link, useNavigate } from "react-router-dom";
 import {BASE_URL} from "../config"
 import {toast} from "react-toastify"
@@ -54,20 +53,26 @@ const submitHandler=async (event)=>{
 
   try{
     const res=await fetch(`${BASE_URL}/auth/register`,{
-      method:'post',
+      method:'POST',
       body:formDataToSend
     })
+  
 
     const data=await res.json()
     if(!res.ok){
-      throw new Error(data.message)
+      const error = new Error(data.message);
+      error.statusCode = res.status;
+      throw error;
     }
 
     setLoading(false)
     toast.success(data.message)
     navigate('/login')
   }catch(error){
-    toast.error(error.message)
+    if(error.statusCode==500)
+      toast.error("Internal server error")
+    else
+      toast.error(error.message)
     setLoading(false)
   }
 

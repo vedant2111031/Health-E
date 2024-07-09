@@ -127,17 +127,18 @@ const login=asyncHandler(async(req,res)=>{
     // creating json web token 
     const {jwttoken}=await generatetoken(user._id, user.role)
 
-    const {userpassword, role, appointments, ...rest}=user._doc
-
+    let {password: userPassword, role, appointments, ...rest}=user._doc
     const option={
         httpOnly:true,
-        secure:true
+        secure:false,
+        // sameSite: 'None',
+        path: '/',
     }
 
     res.status(200).
         cookie("token",jwttoken, option)
         .json(new ApiResponse(
-            200,{...rest, role} , "login successful"
+            200,{...rest, role ,token:jwttoken} , "login successful"
         ))
 })
 

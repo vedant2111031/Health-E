@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import {Link} from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import {Link,useNavigate} from 'react-router-dom';
+import { BASE_URL } from "../config";
+import {toast} from "react-toastify";
+import { authContext } from "../context/AuthContext";
+import HashLoader from "react-spinners/HashLoader"
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -7,9 +11,63 @@ const Login = () => {
     password: "",
   });
 
+  const [loading, setLoading]=useState(false)
+  const navigate=useNavigate()
+  const {dispatch}=useContext(authContext)
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const submitHandler=async (event)=>{
+    event.preventDefault()
+    setLoading(true)
+
+    try{
+      const res=await fetch(`${BASE_URL}/auth/login`,{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify(formData),
+        credentials:"include"
+      })
+
+    
+      const result=await res.json()
+  
+      if(!res.ok){
+        const error = new Error(result.message);
+        error.statusCode = res.status;
+        throw error;
+      }
+
+      let { token, ...newresult } = result.data;
+
+      dispatch({
+        type:'LOGIN_SUCCESS',
+        payload:{
+          user:newresult,
+          token:token,
+          role:newresult.role
+        }
+      })
+
+      // console.log(result,result.data, result.cookie, "login data");
+  
+      setLoading(false)
+      toast.success(result.message)
+      navigate('/home')
+    }catch(error){
+      if(error.statusCode==500)
+        toast.error("Internal server error")
+      else
+        toast.error(error.message)
+      setLoading(false)
+    }
+  
+  }
+
 
   return (
     <section className="px-5 lg:px-0 pt-5">
@@ -21,7 +79,7 @@ const Login = () => {
           Please <span className="text-primaryColor">Sign</span>Up{" "}
         </h3>
 
-        <form className="py-4 md:py-0">
+        <form className="py-4 md:py-0" onSubmit={submitHandler}>
           <div className="mb-5">
             <input
               type="email"
@@ -47,7 +105,7 @@ const Login = () => {
               type="submit"
               className="w-full bg-primaryColor text-white text-[16px] leading[30px] rounded-lg px-4 py-3"
             >
-              Login
+              {loading?<HashLoader size={25} color='#fff'/>: 'Login'}
             </button>
           </div>
 
