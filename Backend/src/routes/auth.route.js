@@ -3,7 +3,7 @@ import {login , signUp} from "../controllers/auth.controller.js"
 import {upload} from "../middlewares/multer.js"
 const router=express.Router();
 
-router.route("/signup")
+router.route("/register")
     .post(
         upload.fields(
             [{
