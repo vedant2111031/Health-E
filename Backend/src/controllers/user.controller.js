@@ -2,6 +2,8 @@ import {User} from "../models/user.model.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
+import {Booking} from "../models/booking.model.js"
+import {Doctor} from "../models/doctor.model.js"
 import mongoose from "mongoose"
 
 
@@ -72,4 +74,32 @@ const getAllUser=asyncHandler(async(req,res)=>{
 
 })
 
-export {updateUser, deleteUser, getSingleUser, getAllUser}
+const getUserProfile=asyncHandler(async(req,res)=>{
+    const userId=req.userId
+
+    const user=await User.findById(userId)
+
+    if(!user){
+        throw new ApiError(404, "User not found")
+    }
+
+    const {password, ...rest}=user._doc 
+
+    res.status(200).json(new ApiResponse(200, rest, "Profile info is getting"))
+})
+
+const getMyAppointments=asyncHandler(async(req,res)=>{
+    // retriving appointment from the specific user 
+    const bookings=await Booking.find({user:req.userId})
+
+    // extract doctorId from booking 
+    const doctorIds=bookings.map(el=>el.doctor.id)
+
+    // retrieve doctors using doctor ids 
+    const doctors= await Doctor.find({_id:{$in:doctorIds}}).select(-password)
+
+    res.status(200).json(new ApiResponse(200, doctors, "Appointments are getting"))
+
+})
+
+export {updateUser, deleteUser, getSingleUser, getAllUser, getMyAppointments, getUserProfile}

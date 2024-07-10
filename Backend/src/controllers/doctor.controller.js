@@ -2,6 +2,7 @@ import {Doctor} from "../models/doctor.model.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
+import Booking from "../models/booking.model.js"
 import mongoose from "mongoose"
 
 
@@ -84,4 +85,19 @@ const getAllDoctor=asyncHandler(async(req,res)=>{
 
 })
 
-export {updateDoctor, deleteDoctor, getSingleDoctor, getAllDoctor}
+const getDoctorProfile=asyncHandler(async(req,res)=>{
+    const doctorId=req.userId
+
+    const doctor=await Doctor.findById(doctorId)
+
+    if(!doctor){
+        throw new ApiError(404, "Doctor not found")
+    }
+
+    const {password, ...rest}=doctor._doc 
+    const appointments=await Booking.find({doctor:doctorId})
+
+    res.status(200).json(new ApiResponse(200, {...rest,appointments}, "Profile info is getting"))
+})
+
+export {updateDoctor, deleteDoctor, getSingleDoctor, getAllDoctor, getDoctorProfile}
