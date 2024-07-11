@@ -1,100 +1,9 @@
-import React, { useState } from "react";
-import signupImg from "../assets/images/signup.gif";
-import { Link, useNavigate } from "react-router-dom";
-import {BASE_URL} from "../config"
-import {toast} from "react-toastify"
-import HashLoader from "react-spinners/HashLoader"
-import 'react-toastify/dist/ReactToastify.css';
+import React from 'react'
 
-const Signup = () => {
-
-const[selectedFile,setSelectedFile]=useState(null)
-const[previewURL,setPreviewURL]=useState('')
-const [loading, setLoading]=useState(false)
-
-  const [formData, setFormData] = useState({
-    name:"",
-    email: "",
-    password: "",
-    photo:selectedFile,
-    gender:"",
-    role:'patient',
-  });
-
-  const navigate=useNavigate();
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-const handelFileInputChange=async(event)=>{
-  const file=event.target.files[0]
-  setSelectedFile(file)
-
-  const reader=new FileReader();
-  reader.onloadend=()=>{
-    setPreviewURL(reader.result);
-  };
-  reader.readAsDataURL(file)
-};
-
-const submitHandler=async (event)=>{
-  // console.log(formData)
-  event.preventDefault()
-  setLoading(true)
-
-  const formDataToSend = new FormData();
-  formDataToSend.append('name', formData.name);
-  formDataToSend.append('email', formData.email);
-  formDataToSend.append('password', formData.password);
-  formDataToSend.append('gender', formData.gender);
-  formDataToSend.append('role', formData.role);
-  formDataToSend.append('photo', selectedFile);
-
-  try{
-    const res=await fetch(`${BASE_URL}/auth/register`,{
-      method:'POST',
-      body:formDataToSend
-    })
-  
-
-    const data=await res.json()
-    if(!res.ok){
-      const error = new Error(data.message);
-      error.statusCode = res.status;
-      throw error;
-    }
-
-    setLoading(false)
-    toast.success(data.message)
-    navigate('/login')
-  }catch(error){
-    if(error.statusCode==500)
-      toast.error("Internal server error")
-    else
-      toast.error(error.message)
-    setLoading(false)
-  }
-
-}
-
-
+function Profile() {
   return (
-    <section className="px-5 xl:px-0 py-5">
-      <div className="max-w-[900px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          <div className="hidden lg:block bg-primaryColor rounded-l-lg">
-            <figure className="rounded-l-lg ">
-              <img src={signupImg} alt="" className="w-full rounded-l-lg" />
-            </figure>
-          </div>
-
-          <div className="rounded-l-lg lg:pl-16 py-10">
-            <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
-              Create an <span className="text-primaryColor">account</span>
-            </h3>
-
-            <form onSubmit={submitHandler}>
+    <div>
+       <form onSubmit={submitHandler}>
               <div className="mb-5">
                 <input
                   type="text"
@@ -203,11 +112,8 @@ const submitHandler=async (event)=>{
                 </Link>
               </p>
             </form>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+    </div>
+  )
+}
 
-export default Signup;
+export default Profile

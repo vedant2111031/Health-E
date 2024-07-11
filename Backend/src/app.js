@@ -22,10 +22,17 @@ app.use("/api/v1/auth",authRouter)
 
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/doctors", doctorRouter)
+
+
+//check this
+// app.get('/api/v1/user/profile/me', (req, res) => {
+//     res.send('User profile data');
+//   });
 // app.use("/api/v1/reviews", reviewRouter)
 
 // app.get("/",(req,res)=>{
 //     res.send("testing testing")
 // })
+
 
 export {app}
