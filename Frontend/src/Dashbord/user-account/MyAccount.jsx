@@ -17,23 +17,23 @@ const MyAccount = () => {
     data: userData,
     loading,
     error,
-  } = useFetchData(`${BASE_URL}/user/profile/me`);
+  } = useFetchData(`${BASE_URL}/users/profile/me`);
 
 
-  console.log(userData,'userdata');
+  // console.log(userData,'userdata');
 
   const handleLogout = () => {
-    dispatch({ type: "Logout" });
+    dispatch({ type: "LOGOUT" });
   };
 
   return (
     <section className="pt-5">
       <div className="max-w-[1170px] px-5 mx-auto mt-5">
-        {loading &&!error&& <Loading/>}
-        {error&&!loading&& <Error errMessage={error}/> }
+        {loading && !error && <Loading/>}
+        {error && !loading && <Error errMessage={error}/> }
         
         {
-            !loading && error && <div className="grid md:grid-cols-3 gap-10">
+            !loading && !error && (<div className="grid md:grid-cols-3 gap-10">
             <div className="pb-[50px] px-[30px] rounded-md">
               <div className="flex items-center justify-center">
                 <figure className="w-[100px] h-[100px] rounded-full border-2 border-solid border-primaryColor">
@@ -44,9 +44,10 @@ const MyAccount = () => {
                   />
                 </figure>
               </div>
+
               <div className="text-center mt-4">
                 <h3 className="text-[18px] leading-[30px] text-headingColor font-bold">
-                  Ashish Mishra
+                  ABCD RAI
                 </h3>
                 <p className="text-textColor text-[15px] leading-6 font-medium">
                   example@gmail.com
@@ -58,18 +59,21 @@ const MyAccount = () => {
                   </span>
                 </p>
               </div>
-              <div className="mt-[50px] md:mt-[100px] flex flex-col items-center">
+
+              <div className="mt-[50px] md:mt-[100px] ">
                 <button
                   onClick={handleLogout}
-                  className="text-white w-1/2 bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md"
+                  className="w-full text-white  bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md "
                 >
                   Logout
                 </button>
-                <button className="text-white w-1/2 bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md">
-                  Delete account
+                <button className="w-full text-white  bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md">
+                  Delete account 
                 </button>
               </div>
             </div>
+
+
             <div className="md:col-span-2 md:px-[30px]">
               <div>
                 <button
@@ -92,7 +96,7 @@ const MyAccount = () => {
               {tab === "bookings" && <MyBookings />}
               {tab === "settings" && <Profile />}
             </div>
-          </div>
+          </div>)
         }
 
         
