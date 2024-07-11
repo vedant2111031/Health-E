@@ -28,7 +28,7 @@ app.use("/api/v1/doctors", doctorRouter)
 // app.get('/api/v1/user/profile/me', (req, res) => {
 //     res.send('User profile data');
 //   });
-// app.use("/api/v1/reviews", reviewRouter)
+app.use("/api/v1/reviews", reviewRouter)
 
 // app.get("/",(req,res)=>{
 //     res.send("testing testing")
