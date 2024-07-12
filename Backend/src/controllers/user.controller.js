@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
 import {Booking} from "../models/booking.model.js"
 import {Doctor} from "../models/doctor.model.js"
+import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import mongoose from "mongoose"
 
 
@@ -14,7 +15,26 @@ const updateUser=asyncHandler(async(req,res)=>{
         throw new ApiError(400, "Invalid user ID format")
     }
 
-    const user=await User.findByIdAndUpdate(userId, {$set:req.body},{new:true}).select("-password")
+        
+    const userPresent=await User.findById(userId)
+
+    if(!userPresent){
+        throw new ApiError(400, "User not found")
+    }
+
+    let photoLocalPath=null
+    if(req.files && Array.isArray(req.files.photo) && req.files.photo.length>0){
+        photoLocalPath=req.files.photo[0].path
+    }
+    if(photoLocalPath!=null){
+        let p=await uploadOnCloudinary(photoLocalPath)
+        req.body.photo=p.url
+    }
+    const user = await User.findOneAndUpdate(
+        { _id:userId },
+        { $set: req.body },
+        { new: true }
+    ).select("-password");
 
     if(!user){
         throw new ApiError(400, "User not found")

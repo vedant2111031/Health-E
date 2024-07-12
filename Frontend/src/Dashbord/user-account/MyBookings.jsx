@@ -19,7 +19,7 @@ const MyBookings=()=> {
         </div>)}
 
         {!loading && !error && appointments.length===0 && <h2 className="mt-5 text-center text-primaryColor leading-7 text-[20px]">
-            You did not book any doctor yet</h2>}
+            You did not book any doctor yet!</h2>}
     </div>
   )
 }

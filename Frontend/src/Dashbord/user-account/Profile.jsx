@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { BASE_URL, token } from "../../config";
 import { toast } from "react-toastify";
 import HashLoader from "react-spinners/HashLoader";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 
-const Profile = (user) => {
-  const [selectedFile, setSelectedFile] = useState(null);
+const Profile = ({user}) => {
+  const [selectedFile, setSelectedFile] = useState("");
+  // const[previewURL,setPreviewURL]=useState('')
 
   const [loading, setLoading] = useState(false);
 
@@ -15,15 +16,15 @@ const Profile = (user) => {
     name: "",
     email: "",
     password: "",
-    photo: selectedFile,
+    photo:selectedFile,
     gender: "",
-    bloodtype: "",
+    bloodType: "",
   });
 
   const navigate = useNavigate();
 
   useEffect(()=>{
-    setFormData({name:user.name,email:user.email,photo:user.photo,gender:user.gender,bloodtype:user.bloodtype})
+    setFormData({ name:user.name , email:user.email, photo:user.photo , gender:user.gender , bloodType:user.bloodType })
   },[user])
 
   const handleInputChange = (e) => {
@@ -36,7 +37,7 @@ const Profile = (user) => {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setPreviewURL(reader.result);
+      // setPreviewURL(reader.result);
     };
     reader.readAsDataURL(file);
   };
@@ -46,22 +47,29 @@ const Profile = (user) => {
     event.preventDefault();
     setLoading(true);
 
-    // const formDataToSend = new FormData();
-    // formDataToSend.append("name", formData.name);
-    // formDataToSend.append("email", formData.email);
-    // formDataToSend.append("password", formData.password);
-    // formDataToSend.append("gender", formData.gender);
-    // formDataToSend.append("role", formData.role);
-    // formDataToSend.append("photo", selectedFile);
+    const formDataToSend = new FormData();
+    const appendIfNotEmpty = (key, value) => {
+      if (value !== null && value !== undefined && value !== '') {
+        formDataToSend.append(key, value);
+      }
+    };
+  
+    appendIfNotEmpty("name", formData.name);
+    appendIfNotEmpty("email", formData.email);
+    appendIfNotEmpty("password", formData.password);
+    appendIfNotEmpty("gender", formData.gender);
+    appendIfNotEmpty("role", formData.role);
+    appendIfNotEmpty("photo", selectedFile);
+    appendIfNotEmpty("bloodType", formData.bloodType);
+  
 
     try {
       const res = await fetch(`${BASE_URL}/users/${user._id}`, {
         method: "put",
         headers:{
-          "Content-Type":"application/json",
           Authorization:`Bearer ${token}`
         },
-        body: JSON.stringify(formData),
+        body:formDataToSend,
       });
 
       const {message}= await res.json();
@@ -101,7 +109,8 @@ const Profile = (user) => {
             value={formData.email}
             onChange={handleInputChange}
             className="w-full pr-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[17px] leading-7 text-headingColor placeholder:text-textColor rounded-md cursor-pointer"
-            required
+            aria-readonly
+            readOnly
           />
         </div>
         <div className="mb-5">
@@ -119,8 +128,8 @@ const Profile = (user) => {
           <input
             type="text"
             placeholder="Blood Type"
-            name="bloodtype"
-            value={formData.bloodtype}
+            name="bloodType"
+            value={formData.bloodType}
             onChange={handleInputChange}
             className="w-full pr-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[17px] leading-7 text-headingColor placeholder:text-textColor rounded-md cursor-pointer"
             required
@@ -163,7 +172,7 @@ const Profile = (user) => {
               htmlFor="customFile"
               className="absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer"
             >
-              Upload Photo
+              {selectedFile ? selectedFile.name:'Upload Photo'}
             </label>
           </div>
         </div>
