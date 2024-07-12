@@ -58,9 +58,11 @@ const signUp= asyncHandler(async(req,res)=>{
     if(req.files && Array.isArray(req.files.photo) && req.files.photo.length>0){
         photoLocalPath=req.files.photo[0].path
     }
+    console.log(photoLocalPath);
 
     //   pushing photo on clodinary 
     let photo=await uploadOnCloudinary(photoLocalPath)
+    console.log(photo.url);
 
     // making the db input 
     let user=null

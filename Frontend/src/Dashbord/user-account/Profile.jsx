@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const Profile = ({user}) => {
   const [selectedFile, setSelectedFile] = useState("");
-  // const[previewURL,setPreviewURL]=useState('')
+  const[previewURL,setPreviewURL]=useState('')
 
   const [loading, setLoading] = useState(false);
 
@@ -37,9 +37,10 @@ const Profile = ({user}) => {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      // setPreviewURL(reader.result);
+      setPreviewURL(reader.result);
     };
     reader.readAsDataURL(file);
+    // setFormData({photo:user.photo})
   };
 
   const submitHandler = async (event) => {
@@ -155,7 +156,7 @@ const Profile = ({user}) => {
         <div className="mb-5 flex items-center gap-3">
           {formData.photo && (
             <figure className="w-[40px] h-[40px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
-              <img src={formData.photo} alt="" className="w-full rounded-full" />
+              <img src={previewURL} alt="" className="w-full rounded-full" />
             </figure>
           )}
 

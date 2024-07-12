@@ -52,7 +52,8 @@ const submitHandler=async (event)=>{
   formDataToSend.append('photo', selectedFile);
 
   try{
-    const res=await fetch(`${BASE_URL}/auth/register`,{
+    const res=await fetch(`${BASE_URL}/auth/register`,
+      {
       method:'POST',
       body:formDataToSend
     })
