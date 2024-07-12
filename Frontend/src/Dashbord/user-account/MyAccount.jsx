@@ -1,5 +1,4 @@
 import { React, useContext, useState } from "react";
-import userImg from "../../assets/images/doctorImg03.png";
 import { authContext } from "../../context/AuthContext";
 import Loading from "../../Components/Loader/Loading";
 import MyBookings from "./MyBookings";
@@ -20,7 +19,7 @@ const MyAccount = () => {
   } = useFetchData(`${BASE_URL}/users/profile/me`);
 
 
-  // console.log(userData,'userdata');
+  console.log(userData,'userdata');
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -38,7 +37,7 @@ const MyAccount = () => {
               <div className="flex items-center justify-center">
                 <figure className="w-[100px] h-[100px] rounded-full border-2 border-solid border-primaryColor">
                   <img
-                    src={userImg}
+                    src={userData.photo}
                     alt=""
                     className="w-full h-full rounded-full"
                   />
@@ -47,15 +46,15 @@ const MyAccount = () => {
 
               <div className="text-center mt-4">
                 <h3 className="text-[18px] leading-[30px] text-headingColor font-bold">
-                  ABCD RAI
+                  {userData.name}
                 </h3>
                 <p className="text-textColor text-[15px] leading-6 font-medium">
-                  example@gmail.com
+                  {userData.email}
                 </p>
                 <p className="text-textColor text-[15px] leading-6 font-medium">
                   Blood Type:
                   <span className="ml-2 text-headingColor text-[22px] leading-8">
-                    B+
+                    {userData.bloodType}
                   </span>
                 </p>
               </div>
@@ -94,7 +93,8 @@ const MyAccount = () => {
                 </button>
               </div>
               {tab === "bookings" && <MyBookings />}
-              {tab === "settings" && <Profile />}
+              {tab === "settings" && <Profile user={userData}/>}
+              
             </div>
           </div>)
         }

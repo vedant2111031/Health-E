@@ -76,7 +76,7 @@ const submitHandler=async (event)=>{
     setLoading(false)
   }
 
-}
+};
 
 
   return (
