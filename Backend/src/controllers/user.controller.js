@@ -88,9 +88,6 @@ const getUserProfile=asyncHandler(async(req,res)=>{
     res.status(200).json(new ApiResponse(200, rest, "Profile info is getting"))
 })
 
-function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
 
 
 const getMyAppointments=asyncHandler(async(req,res)=>{
