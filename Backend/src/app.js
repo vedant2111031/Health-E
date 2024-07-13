@@ -17,6 +17,7 @@ import authRouter from "./routes/auth.route.js"
 import userRouter from "./routes/user.route.js"
 import doctorRouter from "./routes/doctor.route.js"
 import reviewRouter from "./routes/review.route.js"
+import bookingRouter from "./routes/booking.js"
 
 app.use("/api/v1/auth",authRouter)
 
@@ -29,6 +30,7 @@ app.use("/api/v1/doctors", doctorRouter)
 //     res.send('User profile data');
 //   });
 app.use("/api/v1/reviews", reviewRouter)
+app.use("/api/v1/bookings", bookingRouter)
 
 // app.get("/",(req,res)=>{
 //     res.send("testing testing")

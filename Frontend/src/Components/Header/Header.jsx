@@ -29,18 +29,18 @@ function Header() {
 
 
 
-
+//check this
   const {
     data: userData,
     loading,
     error,
-  } = useFetchData(`${BASE_URL}/users/profile/me`);
-
+  } = useFetchData(`${BASE_URL}/doctors/profile/me`);
 
 
 
 const headerRef=useRef(null)
 const menuRef=useRef(null)
+
 const {user,role,token}=useContext(authContext)
 
 const handleStickyHeader=()=>{
@@ -92,9 +92,9 @@ const toggleMenu =()=>menuRef.current.classList.toggle('show__menu')
           {
             token && user?  (
               <div>
-                  <Link to={`${role==='doctor'?'/doctors/profile.me' : '/users/profile/me'}`}>
+                  <Link to={`${role==='doctor'?'/doctors/profile/me' : '/users/profile/me'}`}>
                   <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                    <img src={userData.photo} className="w-full rounded-full" alt="" />
+                    <img src={user.photo} className="w-full rounded-full" alt="" />
                   </figure>
       
                   </Link>

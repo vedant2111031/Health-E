@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 
 const doctorSchema=new mongoose.Schema({
     email:{
