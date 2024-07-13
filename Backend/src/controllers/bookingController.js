@@ -2,14 +2,16 @@ import { User } from '../models/user.model.js';
 import { Doctor } from '../models/doctor.model.js';
 import { Booking } from '../models/booking.model.js';
 import Stripe from 'stripe';
+import { asyncHandler } from "../utils/asyncHandler.js"
+import { ApiError } from '../utils/ApiError.js';
+import { ApiResponse } from "../utils/ApiResponse.js"
 
-export const getCheckoutSession = async (req, res) => {
-  try {
+export const getCheckoutSession =asyncHandler(async (req, res) => {
     const doctor = await Doctor.findById(req.params.doctorID);
     const user = await User.findById(req.userId);
 
     if (!doctor || !user) {
-      return res.status(404).json({ success: false, message: "Doctor or user not found" });
+      throw new ApiError( 404,"Doctor or user not found" )
     }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -44,9 +46,5 @@ export const getCheckoutSession = async (req, res) => {
     });
 
     await booking.save();
-    res.status(200).json({ success: true, message: 'Successfully created checkout session', session });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: "Error creating checkout session" });
-  }
-};
+    res.status(200).json(new ApiResponse(200, session, 'Successfully created checkout session' ));
+});

@@ -153,10 +153,11 @@ const Profile = ({user}) => {
             </select>
           </label>
         </div>
+
         <div className="mb-5 flex items-center gap-3">
-          {formData.photo && (
+          {previewURL && (
             <figure className="w-[40px] h-[40px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
-              <img src={previewURL} alt="" className="w-full rounded-full" />
+              <img src={previewURL} alt="Preview" className="w-full rounded-full" />
             </figure>
           )}
 

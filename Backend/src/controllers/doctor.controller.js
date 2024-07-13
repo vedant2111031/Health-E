@@ -4,6 +4,8 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
 import {Booking} from "../models/booking.model.js"
 import mongoose from "mongoose"
+import { uploadOnCloudinary } from "../utils/cloudinary.js"
+
 
 
 const updateDoctor=asyncHandler(async(req,res)=>{
@@ -14,7 +16,30 @@ const updateDoctor=asyncHandler(async(req,res)=>{
         throw new ApiError(400, "Invalid doctor ID format")
     }
 
-    const doctor=await Doctor.findByIdAndUpdate(doctorId, {$set:req.body},{new:true}).select("-password")
+    const doctorPresent=await Doctor.findById(doctorId)
+    if(!doctorPresent){
+        throw new ApiError(400, "Doctor not found")
+    }
+
+    req.body.qualifications = JSON.parse(req.body.qualifications);
+    req.body.experiences = JSON.parse(req.body.experiences);
+    req.body.timeSlots = JSON.parse(req.body.timeSlots);
+    
+    let photoLocalPath=null
+    
+    if(req.files && Array.isArray(req.files.photo) && req.files.photo.length>0){
+        photoLocalPath=req.files.photo[0].path
+    }
+    if(photoLocalPath!=null){
+        let p=await uploadOnCloudinary(photoLocalPath)
+        req.body.photo=p.url
+    }
+
+    const doctor = await Doctor.findOneAndUpdate(
+        { _id:doctorId },
+        { $set: req.body },
+        { new: true }
+    ).select("-password");
 
     if(!doctor){
         throw new ApiError(400, "Doctor not found")
@@ -87,6 +112,10 @@ const getAllDoctor=asyncHandler(async(req,res)=>{
 
 const getDoctorProfile=asyncHandler(async(req,res)=>{
     const doctorId=req.userId
+
+    if (!mongoose.Types.ObjectId.isValid(doctorId)) {
+        throw new ApiError(400, "Invalid docotr ID format")
+    }
 
     const doctor=await Doctor.findById(doctorId)
 

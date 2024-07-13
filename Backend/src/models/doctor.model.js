@@ -12,6 +12,12 @@ const doctorSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
+
+    gender:{
+        type:String,
+        enum:["male","female","other"],
+        required:true,
+    },
     name:{
         type:String,
         required:true,
@@ -107,5 +113,17 @@ doctorSchema.methods.generatejwttoken=function(){
             expiresIn:process.env.JWT_EXPIRY
     })
 }
+
+doctorSchema.pre("findOneAndUpdate", async function(next) {
+    const update = this.getUpdate();
+
+   // Check if $set is present and if password is within $set
+   if (update.$set && update.$set.password) {
+    // Hash the password
+    update.$set.password = await bcrypt.hash(update.$set.password, 10);
+}
+
+    next();
+});
 
 export const Doctor=mongoose.model("Doctor", doctorSchema)

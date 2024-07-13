@@ -97,6 +97,10 @@ const getAllUser=asyncHandler(async(req,res)=>{
 const getUserProfile=asyncHandler(async(req,res)=>{
     const userId=req.userId
 
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new ApiError(400, "Invalid user ID format")
+    }
+
     const user=await User.findById(userId)
 
     if(!user){

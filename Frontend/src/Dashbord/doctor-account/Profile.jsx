@@ -3,6 +3,8 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { BASE_URL,token } from "../../config";
 import { toast } from "react-toastify";
 
+
+
 const Profile = ({doctorData}) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -17,7 +19,7 @@ const Profile = ({doctorData}) => {
     experiences: [],
     timeSlots: [],
     about: "",
-    photo: null,
+    photo:"",
   });
 
   useEffect(()=>{
@@ -33,14 +35,15 @@ const Profile = ({doctorData}) => {
     experiences: doctorData?.experiences,
     timeSlots: doctorData?.timeSlots,
     about: doctorData?.about,
-    photo: doctorData?.photo,
+    photo: doctorData?.photo || "",
 
     });
+
   },[doctorData])
 
 
-
   const[previewURL,setPreviewURL]=useState('')
+
 
   const[selectedFile,setSelectedFile]=useState(null)
 
@@ -53,23 +56,47 @@ const Profile = ({doctorData}) => {
   //check this
 
   const handelFileInputChange = async (event) => {
-    
+    const file=event.target.files[0]
+    setSelectedFile(file)
+
+    const reader=new FileReader();
+
+    reader.onloadend=()=>{
+      setPreviewURL(reader.result);
+    };
+    reader.readAsDataURL(file)
   };
 
 
-
+  
 
 //
   const updateProfileHandler = async (e) => {
     e.preventDefault();
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', formData.name);
+  formDataToSend.append('email', formData.email);
+  formDataToSend.append('gender', formData.gender);
+  formDataToSend.append('bio', formData.bio);
+  formDataToSend.append('phone', formData.phone);
+  formDataToSend.append('specialization', formData.specialization);
+  formDataToSend.append('ticketPrice', formData.ticketPrice);
+  formDataToSend.append('qualifications', JSON.stringify(formData.qualifications));
+  formDataToSend.append('experiences', JSON.stringify(formData.experiences));
+  formDataToSend.append('timeSlots', JSON.stringify(formData.timeSlots));
+  formDataToSend.append('about', formData.about);
+
+  if(selectedFile){
+   formDataToSend.append('photo', selectedFile);
+  }
     try {
         const res=await fetch(`${BASE_URL}/doctors/${doctorData._id}`,{
             method:'PUT',
             headers:{
-                'content-type':'application/json',
                 Authorization:`Bearer ${token}`,
             },
-            body:JSON.stringify(formData),
+            body:formDataToSend,
         })
 
         const result=await res.json()
@@ -94,7 +121,10 @@ const Profile = ({doctorData}) => {
 
   const handleReusableInputChangefunc = (key, index, event) => {
     const { name, value } = event.target;
+
+
     setFormData((prevFormData) => {
+  
       const updateItems = [...prevFormData[key]];
       updateItems[index][name] = value;
       return {
@@ -468,11 +498,11 @@ const Profile = ({doctorData}) => {
         </div>
 
         <div className="mb-5 flex items-center gap-3">
-          {formData.photo && (
+          {previewURL && (
             <figure className="w-[40px] h-[40px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
               <img
-                src={formData.photo}
-                alt=""
+                src={previewURL}
+                alt="Preview"
                 className="w-full rounded-full"
               />
             </figure>
