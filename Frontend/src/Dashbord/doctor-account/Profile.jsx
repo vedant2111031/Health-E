@@ -100,7 +100,7 @@ const Profile = ({doctorData}) => {
         })
 
         const result=await res.json()
-        console.log(formData);
+
         if(!res.ok){
             throw Error(result.message);
             

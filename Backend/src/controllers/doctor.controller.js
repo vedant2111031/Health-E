@@ -94,9 +94,8 @@ const getAllDoctor=asyncHandler(async(req,res)=>{
     if(query){
         doctor=await Doctor.find({
             isApproved:'approved',
-            $or:[{name:{$regex:query, $options:"i"}}],
-            $or:[{specialization:{$regex:query, $options:"i"}}]
-        })
+            $or:[{name:{$regex:query, $options:"i"}}, {specialization:{$regex:query, $options:"i"}}],
+        }).select("-password")
     }
     else{
         doctor=await Doctor.find({isApproved:'approved'}).select("-password")

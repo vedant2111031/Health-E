@@ -27,7 +27,13 @@ const navLinks = [
 
 function Header() {
 
-
+// const userRole = localStorage.getItem('role')
+// let usefor
+// if(role==="patient"){
+//   usefor="users"
+// }else{
+//   usefor="doctors"
+// }
 
 //check this
   const {

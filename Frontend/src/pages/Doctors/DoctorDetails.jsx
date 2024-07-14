@@ -106,7 +106,7 @@ const DoctorDetails = () => {
             </div>
             <div>
               <SidePanel
-                doctorID={doctor._id}
+                doctorId={doctor._id}
                 ticketPrice={ticketPrice}
                 timeSlots={timeSlots}
               />

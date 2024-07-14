@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import avatar from "../../assets/images/patient-avatar.png";
+
 import { formateDate } from "../../utils/formateDate";
 import { AiFillStar } from "react-icons/ai";
 import FeedbackForm from "./FeedbackForm";
