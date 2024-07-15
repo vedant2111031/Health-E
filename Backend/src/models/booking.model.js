@@ -26,6 +26,10 @@ const bookingSchema=new mongoose.Schema({
     isPaid:{
         type:Boolean,
         default:true
+    },
+
+    session:{
+        type:String,
     }
 
 },{timestamps:true})

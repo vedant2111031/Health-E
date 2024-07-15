@@ -11,15 +11,13 @@ const MyAccount = () => {
   const [tab, setTab] = useState("bookings");
   const { dispatch } = useContext(authContext);
 
-//check this
+
   const {
     data: userData,
     loading,
     error,
   } = useFetchData(`${BASE_URL}/users/profile/me`);
 
-
-  console.log(userData,'userdata');
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });

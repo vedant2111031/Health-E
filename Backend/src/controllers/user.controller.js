@@ -115,8 +115,16 @@ const getUserProfile=asyncHandler(async(req,res)=>{
 
 
 const getMyAppointments=asyncHandler(async(req,res)=>{
+
+    const userId=req.userId
+
+    if(userId){
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            throw new ApiError(400, "Invalid user ID format")
+        }
+    }
     // retriving appointment from the specific user 
-    const bookings=await Booking.find({user:req.userId})
+    const bookings=await Booking.find({user:userId})
     
 
     if(Object.entries(bookings).length === 0){
@@ -128,7 +136,7 @@ const getMyAppointments=asyncHandler(async(req,res)=>{
     const doctorIds=bookings.map(el=>el.doctor.id)
     
     // retrieve doctors using doctor ids 
-    const doctors= await Doctor.find({_id:{$in:doctorIds}}).select(-password)
+    const doctors= await Doctor.find({_id:{$in:doctorIds}}).select("-password")
 
     res.status(200).json(new ApiResponse(200, doctors, "Appointments are getting"))
 

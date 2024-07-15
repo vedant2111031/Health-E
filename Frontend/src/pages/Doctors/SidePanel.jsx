@@ -2,55 +2,37 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { BASE_URL, token } from "../../config";
 import convertTime from "../../utils/convertTime";
-import Stripe from "stripe";
 
-const stripe = Stripe("stripe publickey");
 
-const SidePanel = ({doctorId,ticketPrice,timeSlots}) => {
-  const [isBookingLoading , setIsBookingLoading] = useState(false);
-    const bookingHandler=async()=>{
-    
 
-      try {
-        setIsBookingLoading(true);
-  
-        const res = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`, {
-          method: 'post',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json', // Ensure correct content type
-          }
-        });
-  
-        const data = await res.json();
-  
-        if (!res.ok) {
-          throw new Error(data.message + ' Please try again');
+const SidePanel=({doctorId,ticketPrice,timeSlots})=>{
+
+  const bookingHandler= async()=>{
+    try{
+      const res=await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`,{
+        method:'POST',
+        headers:{
+          Authorization:`Bearer ${token}`
         }
-  
-        // Use stripe.confirmCardPayment to handle payment
-        const { error } = await stripe.confirmCardPayment(data.clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              name: 'Jenny Rosen',
-            },
-          }
-        });
-  
-        if (error) {
-          console.error(error.message);
-          toast.error('Payment failed: ' + error.message);
-        } else {
-          toast.success('Payment successful!');
-          // Redirect or show success message as needed
-        }
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setIsBookingLoading(false);
+      })
+
+      const datas=await res.json()
+
+      if(!res.ok){
+        throw new Error(datas.message + ' Please try again')
       }
+
+      if(datas.data.url){
+        window.location.href=datas.data.url
+      }
+    }
+    catch(err){
+      toast.error(err.message)
+    }
   }
+
+
+
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">
@@ -76,7 +58,7 @@ const SidePanel = ({doctorId,ticketPrice,timeSlots}) => {
          ))}
         </ul>
       </div>
-      <button onClick={bookingHandler} className="btn px-2 w-full rounded-md" disabled={isBookingLoading}> {isBookingLoading ? 'Booking...' : 'Book Appointment'}</button>
+      <button onClick={bookingHandler} className="btn px-2 w-full rounded-md"> Book Appointment</button>
     </div>
   );
 };
