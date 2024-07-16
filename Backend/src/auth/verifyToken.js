@@ -14,7 +14,7 @@ export const authenticate= asyncHandler(async(req,res, next)=>{
 
     const token=authToken.split(" ")[1]
     const decoded=jwt.verify(token, process.env.JWT_SECRET)
-
+    
     req.userId=decoded.id
     req.role=decoded.role
 

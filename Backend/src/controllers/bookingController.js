@@ -58,6 +58,12 @@ export const getCheckoutSession =asyncHandler(async (req, res) => {
   });
   await booking.save()
 
+
+  await User.findByIdAndUpdate(user._id , {$push:{appointments:booking._id}})
+  await Doctor.findByIdAndUpdate(doctor._id , {$push:{appointments:booking._id}})
+
+
+
   res.status(200).json(new ApiResponse(200 , session , "successfully paid"))
 
 });

@@ -92,7 +92,7 @@ const signUp= asyncHandler(async(req,res)=>{
         user=await User.findById(createdUser._id).select("-password")
     }
 
-    res.status(200).json(new ApiResponse(200, user ,"user created successfull"))
+    res.status(200).json(new ApiResponse(200, user ,"user registered successfull"))
 })
 
 
