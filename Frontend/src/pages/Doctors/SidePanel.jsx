@@ -3,35 +3,40 @@ import { useState } from "react";
 import { BASE_URL, token } from "../../config";
 import convertTime from "../../utils/convertTime";
 
+const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
+  const [isLoading, setIsLoading] = useState(false);
 
+  const bookingHandler = async () => {
+    if (!token) {
+      toast.error("Authorization token is missing");
+      return;
+    }
 
-const SidePanel=({doctorId,ticketPrice,timeSlots})=>{
+    setIsLoading(true);
 
-  const bookingHandler= async()=>{
-    try{
-      const res=await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`,{
-        method:'POST',
-        headers:{
-          Authorization:`Bearer ${token}`
-        }
-      })
+    try {
+      const res = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      const datas=await res.json()
+      const datas = await res.json();
 
-      if(!res.ok){
-        throw new Error(datas.message + ' Please try again')
+      if (!res.ok) {
+        throw new Error(datas.message || 'Something went wrong. Please try again.');
       }
 
-      if(datas.data.url){
-        window.location.href=datas.data.url
+      if (datas.data?.url) {
+        window.location.href = datas.data.url;
       }
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
     }
-    catch(err){
-      toast.error(err.message)
-    }
-  }
-
-
+  };
 
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
@@ -46,19 +51,25 @@ const SidePanel=({doctorId,ticketPrice,timeSlots})=>{
           Available Time Slots:
         </p>
         <ul className="mt-3">
-         {timeSlots?.map((item,index)=>(
-          <li key={index} className="flex items-center justify-between mb-2">
-          <p className="text-[15px] leading-6 text-textColor font-semibold">
-            {item.day.charAt(0).toUpperCase()+item.day.slice(1)}
-          </p>
-          <p className="text-[15px] leading-6 text-textColor font-semibold">
-            {convertTime(item.startingTime)} - {convertTime(item.endingTime)}
-          </p>
-        </li>
-         ))}
+          {timeSlots?.map((item) => (
+            <li key={item.id} className="flex items-center justify-between mb-2">
+              <p className="text-[15px] leading-6 text-textColor font-semibold">
+                {item.day.charAt(0).toUpperCase() + item.day.slice(1)}
+              </p>
+              <p className="text-[15px] leading-6 text-textColor font-semibold">
+                {convertTime(item.startingTime)} - {convertTime(item.endingTime)}
+              </p>
+            </li>
+          ))}
         </ul>
       </div>
-      <button onClick={bookingHandler} className="btn px-2 w-full rounded-md"> Book Appointment</button>
+      <button 
+        onClick={bookingHandler} 
+        className="btn px-2 w-full rounded-md" 
+        disabled={isLoading}
+      >
+        {isLoading ? 'Booking...' : 'Book Appointment'}
+      </button>
     </div>
   );
 };

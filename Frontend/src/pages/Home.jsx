@@ -8,7 +8,7 @@ import faq from "../assets/images/faq.png";
 import feature1 from "../assets/images/features1.png";
 import videoIcon from "../assets/images/video-icon.png";
 import user from "../assets/images/user.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsArrowRight } from "react-icons/bs";
 import About from "../Components/About/About";
 import ServicesList from "../Components/Services/ServicesList";
@@ -17,6 +17,11 @@ import TestimonialComponent from "../Components/Testimonials/Testimonials";
 import DoctorList from "../Components/Doctors/DoctorList";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleRequestAppointment = () => {
+    navigate("/doctors");
+  };
   return (
     <>
       <section className="hero__section pt-[40px] 2xl:h-[800px] shadow-lg">
@@ -33,7 +38,7 @@ const Home = () => {
                   accusantium vel dolorum velit culpa aliquam voluptate suscipit
                   ab obcaecati odit, iste minima dicta officia?
                 </p>
-                <button className="btn">Request an Appointment</button>
+                <button onClick={handleRequestAppointment} className="btn">Request an Appointment</button>
               </div>
               <div className="mt-[30px] lg:mt-[70px] flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-[30px] mb-7">
                 <div>

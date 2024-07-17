@@ -1,9 +1,9 @@
-import { useEffect, useRef , useContext} from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 import logo from "../../assets/images/logo.png";
 import { NavLink, Link } from "react-router-dom";
-import {BiMenu} from "react-icons/bi";
+import { BiMenu } from "react-icons/bi";
 import { authContext } from "../../context/AuthContext";
-import useFetchData from "../../hooks/useFetchData";
+import useFetchData from "../../hooks/useFetchData"; // Adjust this import as per your hook implementation
 import { BASE_URL } from "../../config";
 
 const navLinks = [
@@ -26,53 +26,55 @@ const navLinks = [
 ];
 
 function Header() {
+  const { user, role, token, dispatch } = useContext(authContext);
 
-// const userRole = localStorage.getItem('role')
-// let usefor
-// if(role==="patient"){
-//   usefor="users"
-// }else{
-//   usefor="doctors"
-// }
+  const [shouldFetchUser, setShouldFetchUser] = useState(true); // State to trigger user data fetching
+  const { data: userData, loading, setData: setUserData } = useFetchData(); // Ensure useFetchData returns setData
 
-//check this
-  const {
-    data: userData,
-    loading,
-    error,
-  } = useFetchData(`${BASE_URL}/doctors/profile/me`);
+  const headerRef = useRef(null);
+  const menuRef = useRef(null);
 
+  const handleStickyHeader = () => {
+    window.addEventListener("scroll", () => {
+      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+        headerRef.current.classList.add("sticky_header");
+      } else {
+        headerRef.current.classList.remove("sticky_header");
+      }
+    });
+  };
 
+  useEffect(() => {
+    handleStickyHeader();
+    return () => window.removeEventListener("scroll", handleStickyHeader);
+  }, []);
 
-const headerRef=useRef(null)
-const menuRef=useRef(null)
+  const toggleMenu = () => menuRef.current.classList.toggle("show__menu");
 
-const {user,role,token}=useContext(authContext)
-
-const handleStickyHeader=()=>{
-  window.addEventListener('scroll',()=>{
-    if(document.body.scrollTop>80||document.documentElement.scrollTop>80){
-      headerRef.current.classList.add('sticky_header')
+  useEffect(() => {
+    if (!token) {
+      setShouldFetchUser(false); // Reset shouldFetchUser state if not authenticated
+    } else {
+      setShouldFetchUser(true); // Trigger user data fetching when authenticated
     }
-    else{
-      headerRef.current.classList.remove('sticky_header')
-    }
-  })
-}
-useEffect(()=>{
-  handleStickyHeader()
-  return()=>window.removeEventListener('scroll',handleStickyHeader)
-});
+  }, [token]);
 
-const toggleMenu =()=>menuRef.current.classList.toggle('show__menu')
+  useEffect(() => {
+    if (shouldFetchUser && token) {
+      const apiUrl = role === "doctor" ? `${BASE_URL}/doctors/profile/me` : `${BASE_URL}/users/profile/me`;
+      // Check if setUserData is defined to avoid errors
+      if (setUserData) {
+        setUserData(apiUrl); // Trigger fetching user data
+      }
+    }
+  }, [shouldFetchUser, token, role, setUserData]);
 
   return (
-   
     <header className="header flex items-center" ref={headerRef}>
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <img src={logo} alt="" />
+            <img src={logo} alt="Logo" />
           </div>
           <div className="navigation" ref={menuRef} onClick={toggleMenu}>
             <ul className="menu flex items-center gap-[2.7rem]">
@@ -93,26 +95,26 @@ const toggleMenu =()=>menuRef.current.classList.toggle('show__menu')
             </ul>
           </div>
 
-          {/* <==================== nav right================> */}
           <div className="flex items-center gap-4">
-          {
-            token && user?  (
+            {token && user ? (
               <div>
-                  <Link to={`${role==='doctor'?'/doctors/profile/me' : '/users/profile/me'}`}>
+                <Link to={`${role === 'doctor' ? '/doctors/profile/me' : '/users/profile/me'}`}>
                   <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                    <img src={user.photo} className="w-full rounded-full" alt="" />
+                    {!loading && <img src={user?.photo} className="w-full rounded-full" alt="User" />}
                   </figure>
-      
-                  </Link>
-                </div>):(<Link to='/login'>
-                <button className="bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]">Login</button>
                 </Link>
-                )
-          }
-                
-                <span className="md:hidden" onClick={toggleMenu}>
-                  <BiMenu className="w-6 h-6 cursor-pointer"/>
-                </span>
+              </div>
+            ) : (
+              <Link to='/login'>
+                <button className="bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]">
+                  Login
+                </button>
+              </Link>
+            )}
+
+            <span className="md:hidden" onClick={toggleMenu}>
+              <BiMenu className="w-6 h-6 cursor-pointer" />
+            </span>
           </div>
         </div>
       </div>

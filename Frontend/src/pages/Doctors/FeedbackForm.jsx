@@ -13,7 +13,7 @@ const FeedbackForm = () => {
 
   const { id } = useParams();
 
-  const handleSubmitReview = async e => {
+  const handleSubmitReview = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -24,28 +24,34 @@ const FeedbackForm = () => {
       }
 
       const res = await fetch(`${BASE_URL}/doctors/${id}/reviews`, {
-        method: 'post',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ rating, reviewText })
+        body: JSON.stringify({ rating, reviewText }),
       });
       const result = await res.json();
 
       if (!res.ok) {
         throw new Error(result.message);
       }
+
       setLoading(false);
       toast.success(result.message);
+
+      // Clear the form
+      setRating(0);
+      setHover(0);
+      setReviewText('');
     } catch (error) {
       setLoading(false);
       toast.error(error.message);
     }
-  }
+  };
 
   return (
-    <form action="">
+    <form onSubmit={handleSubmitReview}>
       <div>
         <h3 className="text-headingColor text-[16px] leading-6 font-semibold mb-4 mt-0">
           Rate the Site.
@@ -58,7 +64,7 @@ const FeedbackForm = () => {
                 key={index}
                 type="button"
                 className={`${
-                  index <= ((rating && hover) || hover)
+                  index <= (hover || rating)
                     ? "text-yellowColor"
                     : "text-gray-400"
                 } bg-transparent border-none outline-none text-[22px] cursor-pointer`}
@@ -87,10 +93,11 @@ const FeedbackForm = () => {
           className="border border-solid border-[#0066ff34] focus:outline outline-primaryColor w-full px-4 py-3 rounded-md"
           rows="5"
           placeholder="Write Your message"
+          value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
         ></textarea>
       </div>
-      <button type="submit" onClick={handleSubmitReview} className="btn">
+      <button type="submit" className="btn">
         {loading ? <HashLoader size={25} color="#fff" /> : `Submit Feedback`}
       </button>
     </form>
