@@ -21,6 +21,9 @@ const Appointments = ({ appointments }) => {
           <th scope="col" className="px-6 py-3">
             Booked On
           </th>
+          <th scope="col" className="px-6 py-3">
+            Time Slot
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -49,6 +52,8 @@ const Appointments = ({ appointments }) => {
             </td>
             <td className="px-6 py-4">{item.ticketPrice}</td>
             <td className="px-6 py-4">{formateDate(item.createdAt)}</td>
+
+            <td className="px-6 py-4">{item.timeSlot}</td>
           </tr>
         ))}
       </tbody>

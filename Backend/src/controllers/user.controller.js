@@ -125,14 +125,14 @@ const getMyAppointments=asyncHandler(async(req,res)=>{
     }
     // retriving appointment from the specific user 
     const bookings=await Booking.find({user:userId})
-    // console.log(bookings )
 
     if(Object.entries(bookings).length === 0){
         res.status(200).json(new ApiResponse(200, [], "No appintments present "))
         return 
     }
 
-    console.log(Object.entries(bookings).length)
+    // for debuge 
+    // console.log(Object.entries(bookings).length)
     
     // extract doctorId from booking 
     const doctorIds=bookings.map(el=>el.doctor.id)

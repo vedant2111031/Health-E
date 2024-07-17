@@ -19,7 +19,12 @@ export const getCheckoutSession =asyncHandler(async (req, res) => {
   if (!doctor || !user) {
     throw new ApiError(404, "Doctor or user not found");
   }
-  
+
+  const timeSlot=req.body.timeSlot
+
+  if(!timeSlot || timeSlot==undefined){
+    throw new ApiError(404,"Time Slot is required")
+  }
   const stripe=new Stripe(process.env.STRIPE_SECRET_KEY)
 
 
@@ -54,7 +59,8 @@ export const getCheckoutSession =asyncHandler(async (req, res) => {
     doctor: doctor._id,
     user: user._id,
     ticketPrice: doctor.ticketPrice,
-    session:session.id
+    session:session.id,
+    timeSlot:timeSlot
   });
   await booking.save()
 

@@ -35,7 +35,6 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          doctorId,
           timeSlot: selectedTimeSlotId,
           ticketPrice,
         }),
