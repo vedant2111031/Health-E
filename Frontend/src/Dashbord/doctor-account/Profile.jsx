@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
-import { BASE_URL,token } from "../../config";
+import { BASE_URL, token } from "../../config";
 import { toast } from "react-toastify";
 
-
-
-const Profile = ({doctorData}) => {
+const Profile = ({ doctorData }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password:"",
+    password: "",
     phone: "",
     bio: "",
     gender: "",
@@ -19,96 +17,89 @@ const Profile = ({doctorData}) => {
     experiences: [],
     timeSlots: [],
     about: "",
-    photo:"",
+    photo: "",
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     setFormData({
-        name:doctorData?.name,
-        email: doctorData?.email,
-    phone: doctorData?.phone,
-    bio: doctorData?.bio,
-    gender: doctorData?.gender,
-    specialization: doctorData?.specialization,
-    ticketPrice: doctorData?.ticketPrice,
-    qualifications: doctorData?.qualifications,
-    experiences: doctorData?.experiences,
-    timeSlots: doctorData?.timeSlots,
-    about: doctorData?.about,
-    photo: doctorData?.photo || "",
-
+      name: doctorData?.name,
+      email: doctorData?.email,
+      phone: doctorData?.phone,
+      bio: doctorData?.bio,
+      gender: doctorData?.gender,
+      specialization: doctorData?.specialization,
+      ticketPrice: doctorData?.ticketPrice,
+      qualifications: doctorData?.qualifications,
+      experiences: doctorData?.experiences,
+      timeSlots: doctorData?.timeSlots,
+      about: doctorData?.about,
+      photo: doctorData?.photo || "",
     });
+  }, [doctorData]);
 
-  },[doctorData])
+  const [previewURL, setPreviewURL] = useState("");
 
-
-  const[previewURL,setPreviewURL]=useState('')
-
-
-  const[selectedFile,setSelectedFile]=useState(null)
-
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   //check this
 
   const handelFileInputChange = async (event) => {
-    const file=event.target.files[0]
-    setSelectedFile(file)
+    const file = event.target.files[0];
+    setSelectedFile(file);
 
-    const reader=new FileReader();
+    const reader = new FileReader();
 
-    reader.onloadend=()=>{
+    reader.onloadend = () => {
       setPreviewURL(reader.result);
     };
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
   };
 
-
-  
-
-//
+  //
   const updateProfileHandler = async (e) => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
-    formDataToSend.append('name', formData.name);
-  formDataToSend.append('email', formData.email);
-  formDataToSend.append('gender', formData.gender);
-  formDataToSend.append('bio', formData.bio);
-  formDataToSend.append('phone', formData.phone);
-  formDataToSend.append('specialization', formData.specialization);
-  formDataToSend.append('ticketPrice', formData.ticketPrice);
-  formDataToSend.append('qualifications', JSON.stringify(formData.qualifications));
-  formDataToSend.append('experiences', JSON.stringify(formData.experiences));
-  formDataToSend.append('timeSlots', JSON.stringify(formData.timeSlots));
-  formDataToSend.append('about', formData.about);
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("gender", formData.gender);
+    formDataToSend.append("bio", formData.bio);
+    formDataToSend.append("phone", formData.phone);
+    formDataToSend.append("specialization", formData.specialization);
+    formDataToSend.append("ticketPrice", formData.ticketPrice);
+    formDataToSend.append(
+      "qualifications",
+      JSON.stringify(formData.qualifications)
+    );
+    formDataToSend.append("experiences", JSON.stringify(formData.experiences));
+    formDataToSend.append("timeSlots", JSON.stringify(formData.timeSlots));
+    formDataToSend.append("about", formData.about);
 
-  if(selectedFile){
-   formDataToSend.append('photo', selectedFile);
-  }
+    if (selectedFile) {
+      formDataToSend.append("photo", selectedFile);
+    }
     try {
-        const res=await fetch(`${BASE_URL}/doctors/${doctorData._id}`,{
-            method:'PUT',
-            headers:{
-                Authorization:`Bearer ${token}`,
-            },
-            body:formDataToSend,
-        })
+      const res = await fetch(`${BASE_URL}/doctors/${doctorData._id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formDataToSend,
+      });
 
-        const result=await res.json()
+      const result = await res.json();
 
-        if(!res.ok){
-            throw Error(result.message);
-            
-        }
+      if (!res.ok) {
+        throw Error(result.message);
+      }
 
-        toast.success(result.message);
+      toast.success(result.message);
     } catch (error) {
-        toast.error(error.message)
+      toast.error(error.message);
     }
   };
 
@@ -122,9 +113,7 @@ const Profile = ({doctorData}) => {
   const handleReusableInputChangefunc = (key, index, event) => {
     const { name, value } = event.target;
 
-
     setFormData((prevFormData) => {
-  
       const updateItems = [...prevFormData[key]];
       updateItems[index][name] = value;
       return {
@@ -471,7 +460,10 @@ const Profile = ({doctorData}) => {
                     />
                   </div>
                   <div className="flex items-center">
-                    <button onClick={(e) => deleteTimeSlot(e, index)} className="bg-red-600 p-2 rounded-full text-white text-[18px] cursor-pointer mt-6">
+                    <button
+                      onClick={(e) => deleteTimeSlot(e, index)}
+                      className="bg-red-600 p-2 rounded-full text-white text-[18px] cursor-pointer mt-6"
+                    >
                       <AiOutlineDelete />
                     </button>
                   </div>
@@ -479,7 +471,10 @@ const Profile = ({doctorData}) => {
               </div>
             </div>
           ))}
-          <button onClick={addTimeSlot} className="bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer">
+          <button
+            onClick={addTimeSlot}
+            className="bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer"
+          >
             Add TimeSlot
           </button>
         </div>
@@ -514,7 +509,6 @@ const Profile = ({doctorData}) => {
               name="photo"
               id="customFile"
               onChange={handelFileInputChange}
-              
               accept=".jpg, .png"
               className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
             />
@@ -522,7 +516,7 @@ const Profile = ({doctorData}) => {
               htmlFor="customFile"
               className="absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer"
             >
-              {selectedFile ? selectedFile.name:'Upload Photo'}
+              {selectedFile ? selectedFile.name : "Upload Photo"}
             </label>
           </div>
         </div>

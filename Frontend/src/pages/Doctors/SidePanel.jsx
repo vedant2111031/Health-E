@@ -1,14 +1,27 @@
-import { toast } from "react-toastify";
-import { useState } from "react";
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { BASE_URL, token } from "../../config";
 import convertTime from "../../utils/convertTime";
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTimeSlotId, setSelectedTimeSlotId] = useState("");
 
-  const bookingHandler = async () => {
+  const handleTimeSlotChange = (e) => {
+    const selectedId = e.target.value;
+    setSelectedTimeSlotId(selectedId);
+    console.log("Selected Time Slot ID:", selectedId);
+  };
+
+  const bookingHandler = async (e) => {
+    e.preventDefault();
     if (!token) {
       toast.error("Authorization token is missing");
+      return;
+    }
+
+    if (!selectedTimeSlotId) {
+      toast.error("Please select a time slot.");
       return;
     }
 
@@ -19,17 +32,23 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          doctorId,
+          timeSlot: selectedTimeSlotId,
+          ticketPrice,
+        }),
       });
-
-      const datas = await res.json();
-
+     
+      const data = await res.json();
+      
       if (!res.ok) {
-        throw new Error(datas.message || 'Something went wrong. Please try again.');
+        throw new Error(data.message || 'Something went wrong. Please try again.');
       }
 
-      if (datas.data?.url) {
-        window.location.href = datas.data.url;
+      if (data.data?.url) {
+        window.location.href = data.data.url;
       }
     } catch (err) {
       toast.error(err.message);
@@ -50,23 +69,25 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
         <p className="text__para mt-0 font-semibold text-headingColor">
           Available Time Slots:
         </p>
-        <ul className="mt-3">
-          {timeSlots?.map((item) => (
-            <li key={item.id} className="flex items-center justify-between mb-2">
-              <p className="text-[15px] leading-6 text-textColor font-semibold">
-                {item.day.charAt(0).toUpperCase() + item.day.slice(1)}
-              </p>
-              <p className="text-[15px] leading-6 text-textColor font-semibold">
-                {convertTime(item.startingTime)} - {convertTime(item.endingTime)}
-              </p>
-            </li>
+        <select 
+          onChange={handleTimeSlotChange} 
+          value={selectedTimeSlotId} 
+          className="form__input py-3.5 mt-3" 
+          aria-label="Select a time slot"
+        >
+          <option value="">Select a Time Slot</option>
+          {timeSlots?.map((slot) => (
+            <option key={slot.id} value={slot.id}>
+              {slot.day.charAt(0).toUpperCase() + slot.day.slice(1)}: {convertTime(slot.startingTime)} - {convertTime(slot.endingTime)}
+            </option>
           ))}
-        </ul>
+        </select>
       </div>
       <button 
         onClick={bookingHandler} 
-        className="btn px-2 w-full rounded-md" 
-        disabled={isLoading}
+        className="btn px-2 w-full rounded-md mt-5" 
+        disabled={isLoading} 
+        aria-label="Book appointment"
       >
         {isLoading ? 'Booking...' : 'Book Appointment'}
       </button>
