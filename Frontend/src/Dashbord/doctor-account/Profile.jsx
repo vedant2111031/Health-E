@@ -432,6 +432,7 @@ const Profile = ({ doctorData }) => {
                       value={item.day}
                       className="form__input py-3.5"
                       onChange={(e) => handleTimeSlotChange(e, index)}
+                      required
                     >
                       <option value="">Select</option>wednesday
                       <option value="monday">Monday</option>thrusday

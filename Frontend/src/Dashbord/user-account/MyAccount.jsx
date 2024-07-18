@@ -1,4 +1,4 @@
-import { React, useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { authContext } from "../../context/AuthContext";
 import Loading from "../../Components/Loader/Loading";
 import MyBookings from "./MyBookings";
@@ -11,26 +11,63 @@ const MyAccount = () => {
   const [tab, setTab] = useState("bookings");
   const { dispatch } = useContext(authContext);
 
-
   const {
     data: userData,
     loading,
     error,
+    fetchData: fetchUserData,
   } = useFetchData(`${BASE_URL}/users/profile/me`);
 
+ 
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
+    window.location.reload();
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account? This action cannot be undone."
+    );
+  
+    if (confirmDelete) {
+      try {
+        console.log('Attempting to delete account...');
+        console.log('URL:', `${BASE_URL}/users/profile/me`);
+        console.log('Token:', token);
+  
+        const response = await fetch(`${BASE_URL}/users/profile/me`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (response.ok) {
+          dispatch({ type: "LOGOUT" });
+          alert("Account deleted successfully.");
+          window.location.reload();
+        } else {
+          const errorData = await response.json();
+          console.error('Delete account error:', errorData);
+          alert(`Error: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        alert("An error occurred. Please try again later.");
+      }
+    }
   };
 
   return (
     <section className="pt-5">
       <div className="max-w-[1170px] px-5 mx-auto mt-5">
-        {loading && !error && <Loading/>}
-        {error && !loading && <Error errMessage={error}/> }
-        
-        {
-            !loading && !error && (<div className="grid md:grid-cols-3 gap-10">
+        {loading && !error && <Loading />}
+        {error && !loading && <Error errMessage={error} />}
+
+        {!loading && !error && (
+          <div className="grid md:grid-cols-3 gap-10">
             <div className="pb-[50px] px-[30px] rounded-md">
               <div className="flex items-center justify-center">
                 <figure className="w-[100px] h-[100px] rounded-full border-2 border-solid border-primaryColor">
@@ -57,19 +94,18 @@ const MyAccount = () => {
                 </p>
               </div>
 
-              <div className="mt-[50px] md:mt-[100px] ">
+              <div className="mt-[50px] md:mt-[100px]">
                 <button
                   onClick={handleLogout}
-                  className="w-full text-white  bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md "
+                  className="w-full text-white  bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md"
                 >
                   Logout
                 </button>
-                <button className="w-full text-white  bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md">
-                  Delete account 
+                <button onClick={handleDeleteAccount} className="w-full text-white  bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md">
+                  Delete account
                 </button>
               </div>
             </div>
-
 
             <div className="md:col-span-2 md:px-[30px]">
               <div>
@@ -91,13 +127,10 @@ const MyAccount = () => {
                 </button>
               </div>
               {tab === "bookings" && <MyBookings />}
-              {tab === "settings" && <Profile user={userData}/>}
-              
+              {tab === "settings" && <Profile user={userData} />}
             </div>
-          </div>)
-        }
-
-        
+          </div>
+        )}
       </div>
     </section>
   );

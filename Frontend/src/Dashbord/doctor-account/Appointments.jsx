@@ -1,63 +1,73 @@
 import React from "react";
 import { formateDate } from "../../utils/formateDate";
+import { AiOutlineDelete } from "react-icons/ai";
 
-const Appointments = ({ appointments }) => {
+const Appointments = ({ appointments, onStatusChange, onDelete }) => {
+  const handleStatusChange = (id, event) => {
+    const newStatus = event.target.value;
+    onStatusChange(id, newStatus);
+  };
+
+  const handleDelete = (id) => {
+    console.log(id)
+  };
+
   return (
-    <table className="w-full text-left text-sm text-gray-500">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-        <tr>
-          <th scope="col" className="px-6 py-3">
-            Name
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Gender
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Payment
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Price
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Booked On
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Time Slot
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {appointments?.map((item) => (
-          <tr key={item._id}>
-            <th
-              scope="row"
-              className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
-            >
-              <img src={item.user.photo} className="w-10 h-10 rounded-full" alt="" />
-              <div className="pl-3">
-                <div className="text-base font-semibold">{item.user.name}</div>
-                <div className="text-normal text-gray-500">{item.user.email}</div>
-              </div>
-            </th>
-            <td className="px-6 py-4">{item.user.gender}</td>
-            <td className="px-6 py-4">
-                {item.isPaid && (<div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                    Paid
-                    </div>)}
-                    {!item.isPaid && (<div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
-                    Unpaid
-                    </div>)}
-            </td>
-            <td className="px-6 py-4">{item.ticketPrice}</td>
-            <td className="px-6 py-4">{formateDate(item.createdAt)}</td>
-
-            <td className="px-6 py-4">{item.timeSlot}</td>
+    <div className="ml-[-5rem]">
+      <table className="w-full text-left text-sm text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" className="px-6 py-3">Name</th>
+            <th scope="col" className="px-6 py-3">Gender</th>
+            <th scope="col" className="px-6 py-3">Price</th>
+            <th scope="col" className="px-6 py-3">Booked On</th>
+            <th scope="col" className="px-6 py-3">Time Slot</th>
+            <th scope="col" className="px-6 py-3">Status</th>
+            <th scope="col" className="px-6 py-3">Delete Data</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {appointments?.map((item) => (
+            <tr key={item._id}>
+              <th
+                scope="row"
+                className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
+              >
+                <img src={item.user.photo} className="w-10 h-10 rounded-full" alt="" />
+                <div className="pl-3">
+                  <div className="text-base font-semibold">{item.user.name}</div>
+                  <div className="text-normal text-gray-500">{item.user.email}</div>
+                </div>
+              </th>
+              <td className="px-6 py-4">{item.user.gender}</td>
+              <td className="px-6 py-4">{item.ticketPrice}</td>
+              <td className="px-6 py-4">{formateDate(item.createdAt)}</td>
+              <td className="px-6 py-4">{item.timeSlot}</td>
+              <td className="px-6 py-4">
+                <select
+                  value={item.status || "pending"}
+                  onChange={(event) => handleStatusChange(item._id, event)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+                  style={{ minWidth: "120px" }}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="accepted">Accepted</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </td>
+              <td className="px-6 py-4">
+                <button
+                  onClick={() => handleDelete(item._id)}
+                  className="bg-red-600 p-2 rounded-full text-white text-[18px] cursor-pointer"
+                >
+                  <AiOutlineDelete />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

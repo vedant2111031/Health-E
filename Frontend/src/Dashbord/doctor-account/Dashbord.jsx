@@ -1,26 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Loader from "../../Components/Loader/Loading";
 import Error from "../../Components/Error/Error";
-import useGetProfile from "../../hooks/useFetchData";
+import useFetchData from "../../hooks/useFetchData";
 import { BASE_URL } from "../../config";
 import Tabs from "./Tabs";
 import starIcon from "../../assets/images/Star.png";
-import DoctorAbout from "./../../pages/Doctors/DoctorAbout";
+import DoctorAbout from "../../pages/Doctors/DoctorAbout";
 import Profile from "./Profile";
 import Appointments from "./Appointments";
 
 const Dashbord = () => {
-  const { data, loading, error } = useGetProfile(
+  const { data, loading, error, fetchData } = useFetchData(
     `${BASE_URL}/doctors/profile/me`
   );
 
   const [tab, setTab] = useState("overview");
+
+  useEffect(() => {
+    if (!data) {
+      fetchData();
+    }
+  }, [data, fetchData]);
+
   return (
     <section className="mt-10">
       <div className="max-w-[1170px] px-5 mx-auto">
         {loading && !error && <Loader />}
         {error && !loading && <Error />}
-        {!loading && !error && (
+        {!loading && !error && data && (
           <div className="grid lg:grid-cols-3 gap-[30px] lg:gap-[50px]">
             <Tabs tab={tab} setTab={setTab} />
 
@@ -43,7 +50,7 @@ const Dashbord = () => {
                   <span className="sr-only">Info</span>
                   <div className="ml-3 text-sm font-medium">
                     To get approval please complete the profile with only
-                    correct details.We&apos;ll review and approve within 3days.
+                    correct details. We&apos;ll review and approve within 3 days.
                   </div>
                 </div>
               )}
@@ -53,7 +60,11 @@ const Dashbord = () => {
                   <div>
                     <div className="flex items-center gap-4 mb-10">
                       <figure className="max-w-[200px] max-h-[200px]">
-                        <img src={data?.photo} alt="" className="max-w-[200px] max-h-[200px]" />
+                        <img
+                          src={data?.photo}
+                          alt=""
+                          className="max-w-[200px] max-h-[200px]"
+                        />
                       </figure>
                       <div>
                         <span className="bg-[#CCF0F3] text-irisBlueColor py-1 px-4 lg:py-2 lg:px-6 rounded text-[12px] leading-4 lg:text-[16px] lg:leading-6 font-semibold">
@@ -84,8 +95,10 @@ const Dashbord = () => {
                     />
                   </div>
                 )}
-                {tab === "appointments" && <Appointments appointments={data.appointments}/>}
-                {tab === "settings" && <Profile doctorData={data}/>}
+                {tab === "appointments" && (
+                  <Appointments appointments={data.appointments} />
+                )}
+                {tab === "settings" && <Profile doctorData={data} />}
               </div>
             </div>
           </div>

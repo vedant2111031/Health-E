@@ -4,7 +4,7 @@ import hero2 from "../assets/images/hero2.png";
 import icon1 from "../assets/images/icon01.png";
 import icon2 from "../assets/images/icon02.png";
 import icon3 from "../assets/images/icon03.png";
-import faq from "../assets/images/faq.png";
+import faq from "../assets/images/faq2.png";
 import feature1 from "../assets/images/features1.png";
 import videoIcon from "../assets/images/video-icon.png";
 import user from "../assets/images/user.png";
@@ -226,7 +226,7 @@ const Home = () => {
       <section className="shadow-md">
         <div className="container pt-9">
           <div className="flex justify-between gap-[50px] lg:gap-">
-            <div className="w-1/2 mt-[200px] hidden md:block ">
+            <div className="w-[500px] mt-[80px] mb-[50px] hidden md:block ">
             <img src={faq} alt="" />
             </div>
             <div className="w-full md:w-1/2">
