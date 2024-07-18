@@ -1,5 +1,5 @@
 import { useEffect, useRef, useContext, useState } from "react";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo01.png";
 import { NavLink, Link } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 import { authContext } from "../../context/AuthContext";
@@ -74,7 +74,7 @@ function Header() {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <img src={logo} alt="Logo" />
+            <img src={logo} alt="Logo" className="max-w-[160px]"/>
           </div>
           <div className="navigation" ref={menuRef} onClick={toggleMenu}>
             <ul className="menu flex items-center gap-[2.7rem]">

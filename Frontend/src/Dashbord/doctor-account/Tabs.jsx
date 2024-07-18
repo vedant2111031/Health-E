@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 const Tabs = ({ tab, setTab }) => {
 
-
-
   const {dispatch} =useContext(authContext);
+
   const navigate =useNavigate()
+
+
   const handleLogout = () => {
-    dispatch({ type: "LOGOUT" })
+    dispatch({ type: "LOGOUT" });
+    window.location.reload();
     navigate('/')
   };
 

@@ -15,7 +15,7 @@ const DoctorCard = ({ doctor }) => {
   return (
     <div className="p-3 lg:p-5">
       <div>
-        <img src={photo} className="w-full" alt="" />
+        <img src={photo} className="max-w-[250px] max-h-[200px]" alt="" />
       </div>
       <h2 className="text-[18px] leading-[30px] lg:text-[24px] lg:leading-9 text-headingColor font-[700] mt-3 lg:mt-5">
         {name}
