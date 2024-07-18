@@ -29,7 +29,11 @@ function Header() {
   const { user, role, token, dispatch } = useContext(authContext);
 
   const [shouldFetchUser, setShouldFetchUser] = useState(true); // State to trigger user data fetching
+
+
   const { data: userData, loading, setData: setUserData } = useFetchData(); // Ensure useFetchData returns setData
+
+
 
   const headerRef = useRef(null);
   const menuRef = useRef(null);

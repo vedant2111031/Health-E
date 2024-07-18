@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import {useNavigate } from "react-router-dom";
-import { BASE_URL, token } from "../../config";
+import { BASE_URL, getToken} from "../../config";
 import { toast } from "react-toastify";
 import HashLoader from "react-spinners/HashLoader";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+
+
+
 
 const Profile = ({user}) => {
   const [selectedFile, setSelectedFile] = useState("");
@@ -63,6 +66,7 @@ const Profile = ({user}) => {
     appendIfNotEmpty("photo", selectedFile);
     appendIfNotEmpty("bloodType", formData.bloodType);
   
+    const token=getToken()
 
     try {
       const res = await fetch(`${BASE_URL}/users/${user._id}`, {

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { token } from "../config";
+import {  getToken } from "../config";
 import {toast } from 'react-toastify';
+
+
+
 
 const useFetchData = (url) => {
   const [data, setData] = useState(['']);
@@ -9,8 +12,10 @@ const useFetchData = (url) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token=getToken()
       setLoading(true);
 
+     
 
 //now try block is running
       try {

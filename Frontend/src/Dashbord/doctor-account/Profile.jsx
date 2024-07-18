@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
-import { BASE_URL, token } from "../../config";
+import { BASE_URL, getToken } from "../../config";
 import { toast } from "react-toastify";
+
+
 
 const Profile = ({ doctorData }) => {
   const [formData, setFormData] = useState({
@@ -82,6 +84,8 @@ const Profile = ({ doctorData }) => {
     if (selectedFile) {
       formDataToSend.append("photo", selectedFile);
     }
+
+    const token=getToken()
     try {
       const res = await fetch(`${BASE_URL}/doctors/${doctorData._id}`, {
         method: "PUT",

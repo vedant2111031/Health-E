@@ -1,21 +1,26 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { BASE_URL, token } from "../../config";
+import { BASE_URL, getToken} from "../../config";
 import convertTime from "../../utils/convertTime";
+
+
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTimeSlotId, setSelectedTimeSlotId] = useState("");
 
+
+
   const handleTimeSlotChange = (e) => {
     const selectedId = e.target.value;
     setSelectedTimeSlotId(selectedId);
-    console.log("Selected Time Slot ID:", selectedId);
+   
   };
 
   const bookingHandler = async (e) => {
     e.preventDefault();
-    if (!token) {
+    const token=getToken()
+    if (!token || token==null || token==undefined) {
       toast.error("Authorization token is missing");
       return;
     }
