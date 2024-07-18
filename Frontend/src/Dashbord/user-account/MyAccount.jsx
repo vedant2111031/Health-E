@@ -18,13 +18,46 @@ const MyAccount = () => {
     fetchData: fetchUserData,
   } = useFetchData(`${BASE_URL}/users/profile/me`);
 
-  useEffect(() => {
-    fetchUserData(); // Fetch user data when component mounts
-  }, [fetchUserData]);
+ 
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
     window.location.reload();
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account? This action cannot be undone."
+    );
+  
+    if (confirmDelete) {
+      try {
+        console.log('Attempting to delete account...');
+        console.log('URL:', `${BASE_URL}/users/profile/me`);
+        console.log('Token:', token);
+  
+        const response = await fetch(`${BASE_URL}/users/profile/me`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (response.ok) {
+          dispatch({ type: "LOGOUT" });
+          alert("Account deleted successfully.");
+          window.location.reload();
+        } else {
+          const errorData = await response.json();
+          console.error('Delete account error:', errorData);
+          alert(`Error: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        alert("An error occurred. Please try again later.");
+      }
+    }
   };
 
   return (
@@ -68,7 +101,7 @@ const MyAccount = () => {
                 >
                   Logout
                 </button>
-                <button className="w-full text-white  bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md">
+                <button onClick={handleDeleteAccount} className="w-full text-white  bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md">
                   Delete account
                 </button>
               </div>
