@@ -2,7 +2,7 @@ import {useContext} from "react";
 import { BiMenu } from "react-icons/bi";
 import { authContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom"; 
-import { BASE_URL,token } from "../../config";
+import { BASE_URL,getToken } from "../../config";
 
 const Tabs = ({ tab, setTab }) => {
   const { dispatch } = useContext(authContext);
@@ -21,10 +21,10 @@ const Tabs = ({ tab, setTab }) => {
   
     if (confirmDelete) {
       try {
-        console.log('Attempting to delete account...');
-        console.log('URL:', `${BASE_URL}/users/profile/me`);
-        console.log('Token:', token);
-  
+        // console.log('Attempting to delete account...');
+        // console.log('URL:', `${BASE_URL}/users/profile/me`);
+        // console.log('Token:', token);
+        const token=getToken()
         const response = await fetch(`${BASE_URL}/doctors/profile/me`, {
           method: "DELETE",
           headers: {

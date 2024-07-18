@@ -5,8 +5,6 @@ import stripePackage from 'stripe';
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from '../utils/ApiError.js';
 import { ApiResponse } from "../utils/ApiResponse.js"
-
-
 import Stripe from "stripe"
 
 
@@ -16,8 +14,13 @@ export const getCheckoutSession =asyncHandler(async (req, res) => {
   const doctor = await Doctor.findById(req.params.doctorId);
   const user = await User.findById(req.userId);
 
-  if (!doctor || !user) {
-    throw new ApiError(404, "Doctor or user not found");
+
+  if (!user) {
+    throw new ApiError(404, "user not found (User should patient only)");
+  }
+
+  if (!doctor) {
+    throw new ApiError(404, "Doctor not found");
   }
 
   const timeSlot=req.body.timeSlot
@@ -45,7 +48,7 @@ export const getCheckoutSession =asyncHandler(async (req, res) => {
             product_data:{
               name:doctor.name,
               description:doctor.bio,
-              images:[doctor.photo]
+              images:[doctor.photo],
             }
           },
           quantity:1 

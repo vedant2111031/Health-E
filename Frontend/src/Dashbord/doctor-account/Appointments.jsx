@@ -1,6 +1,8 @@
 import React from "react";
 import { formateDate } from "../../utils/formateDate";
 import { AiOutlineDelete } from "react-icons/ai";
+import {BASE_URL, getToken} from "../../config";
+import { toast } from "react-toastify";
 
 const Appointments = ({ appointments, onStatusChange, onDelete }) => {
   const handleStatusChange = (id, event) => {
@@ -8,8 +10,29 @@ const Appointments = ({ appointments, onStatusChange, onDelete }) => {
     onStatusChange(id, newStatus);
   };
 
-  const handleDelete = (id) => {
-    console.log(id)
+  const handleDelete = async(bookingId) => {
+
+    const token=getToken()
+
+    try {
+      const res = await fetch(`${BASE_URL}/doctors/deleteBooking/${bookingId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw Error(result.message);
+      }
+
+      toast.success(result.message);
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message);
+    }
   };
 
   return (

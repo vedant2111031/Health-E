@@ -1,4 +1,5 @@
 import {Doctor} from "../models/doctor.model.js"
+import { User } from "../models/user.model.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
@@ -128,4 +129,45 @@ const getDoctorProfile=asyncHandler(async(req,res)=>{
     res.status(200).json(new ApiResponse(200, {...rest,appointments}, "Profile info is getting"))
 })
 
-export {updateDoctor, deleteDoctor, getSingleDoctor, getAllDoctor, getDoctorProfile}
+
+const deleteBooking=asyncHandler(async(req,res)=>{
+   
+    const bookingId=req.params.id
+    const doctorId=req.userId
+    
+
+    const doctor=await Doctor.findById(doctorId)
+    if(!doctor){
+        throw new ApiError(404,"Doctor does not exist")
+    }
+    
+
+    const booking=await Booking.findByIdAndDelete(bookingId)
+    if(!booking){
+        throw new ApiError(404, "This booking doesnot exist please refresh the page")
+    }
+
+    if(!doctor._id.equals(booking.doctor._id)){
+        throw new ApiError(400, "doctor Id miss match")
+    }
+
+    const userId=booking.user._id
+
+    const updatedDoctor = await Doctor.findByIdAndUpdate(
+        doctorId,
+        { $pull: { appointments: bookingId } },
+        { new: true }
+      );
+
+
+      const updateUser = await User.findByIdAndUpdate(
+        userId,
+        { $pull: { appointments: bookingId } },
+        { new: true }
+      );
+
+      res.status(200).json(new ApiResponse(200, updatedDoctor ,"Booking deleted successfull"))
+
+})
+
+export {updateDoctor, deleteDoctor, getSingleDoctor, getAllDoctor, getDoctorProfile,deleteBooking}
