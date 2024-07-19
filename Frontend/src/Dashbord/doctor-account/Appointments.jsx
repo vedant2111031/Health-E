@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { formateDate } from "../../utils/formateDate";
 import { AiOutlineDelete } from "react-icons/ai";
-import {BASE_URL, getToken} from "../../config";
+import { BASE_URL, getToken } from "../../config";
 import { toast } from "react-toastify";
 
-const Appointments = ({ appointments, onStatusChange, onDelete }) => {
+const Appointments = ({ initialAppointments }) => {
+  const [appointments, setAppointments] = useState(initialAppointments);
+  const [statusState, setStatusState] = useState({});
+
   const handleStatusChange = (id, event) => {
     const newStatus = event.target.value;
-    onStatusChange(id, newStatus);
+
+    setStatusState((prevStatus) => ({
+      ...prevStatus,
+      [id]: { status: newStatus, changed: true },
+    }));
+
+    toast.success(`Status changed to ${newStatus}`);
   };
 
-  const handleDelete = async(bookingId) => {
-
-    const token=getToken()
+  const handleDelete = async (id, index) => {
+    const token = getToken();
 
     try {
-      const res = await fetch(`${BASE_URL}/doctors/deleteBooking/${bookingId}`, {
+      const res = await fetch(`${BASE_URL}/doctors/deleteBooking/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -28,9 +36,14 @@ const Appointments = ({ appointments, onStatusChange, onDelete }) => {
         throw Error(result.message);
       }
 
+      // Update the state to remove the deleted appointment
+      setAppointments((prevAppointments) => 
+        prevAppointments.filter((_, i) => i !== index)
+      );
+
       toast.success(result.message);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(error.message);
     }
   };
@@ -50,7 +63,7 @@ const Appointments = ({ appointments, onStatusChange, onDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {appointments?.map((item) => (
+          {appointments?.map((item, index) => (
             <tr key={item._id}>
               <th
                 scope="row"
@@ -68,10 +81,11 @@ const Appointments = ({ appointments, onStatusChange, onDelete }) => {
               <td className="px-6 py-4">{item.timeSlot}</td>
               <td className="px-6 py-4">
                 <select
-                  value={item.status || "pending"}
+                  value={statusState[item._id]?.status || item.status || "pending"}
                   onChange={(event) => handleStatusChange(item._id, event)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
                   style={{ minWidth: "120px" }}
+                  disabled={statusState[item._id]?.changed}
                 >
                   <option value="pending">Pending</option>
                   <option value="accepted">Accepted</option>
@@ -80,7 +94,7 @@ const Appointments = ({ appointments, onStatusChange, onDelete }) => {
               </td>
               <td className="px-6 py-4">
                 <button
-                  onClick={() => handleDelete(item._id)}
+                  onClick={() => handleDelete(item._id, index)}
                   className="bg-red-600 p-2 rounded-full text-white text-[18px] cursor-pointer"
                 >
                   <AiOutlineDelete />
