@@ -33,12 +33,20 @@ const Home = () => {
                   We follow a holistic approch to health care.
                 </h1>
                 <p className="text__para text-[18px] leading-[30px] font-[400]">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Ratione quisquam laboriosam nihil iusto ducimus quos
-                  accusantium vel dolorum velit culpa aliquam voluptate suscipit
-                  ab obcaecati odit, iste minima dicta officia?
+                  Health-E is a pioneering platform dedicated to enhancing your
+                  healthcare experience. With access to a vast network of
+                  top-rated doctors, both physically and virtually.
+                  <br />
+                  Our advanced search tools help you find doctors based on your
+                  specific needs and preferences, while our comprehensive
+                  medicine finder assists in locating and obtaining
+                  prescriptions efficiently. <br />
+                  Trust Health-E for a modern, user-friendly approach to
+                  managing your health and wellness.
                 </p>
-                <button onClick={handleRequestAppointment} className="btn">Request an Appointment</button>
+                <button onClick={handleRequestAppointment} className="btn">
+                  Request an Appointment
+                </button>
               </div>
               <div className="mt-[30px] lg:mt-[70px] flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-[30px] mb-7">
                 <div>
@@ -98,10 +106,12 @@ const Home = () => {
                   Find a Doctor
                 </h2>
                 <p className="text-[16px] leading-7 text-textColor font-[400] mt-4 text-center">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Tempore sit beatae recusandae, qui a natus fugit nesciunt
-                  facilis architecto ad molestias vero quibusdam aliquam
-                  incidunt suscipit vitae iusto voluptas labore?
+                  Health-E connects you to a wide array of top-rated doctors,
+                  offering both physical and virtual consultation options.
+                  Whether you need an in-person examination or a virtual
+                  consultation. Experience convenience and
+                  excellence in healthcare with seamless integration of both
+                  physical and virtual doctor interactions.
                 </p>
                 <Link
                   to="/doctors"
@@ -120,10 +130,11 @@ const Home = () => {
                   Find a Location
                 </h2>
                 <p className="text-[16px] leading-7 text-textColor font-[400] mt-4 text-center">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Tempore sit beatae recusandae, qui a natus fugit nesciunt
-                  facilis architecto ad molestias vero quibusdam aliquam
-                  incidunt suscipit vitae iusto voluptas labore?
+                  Health-E simplifies finding your preferred doctor with its
+                  intuitive location-based search. Easily locate top-rated
+                  physicians near you. Our
+                  platform provides detailed information on each doctor's. Discover the best healthcare
+                  professionals in your area with just a few clicks.
                 </p>
                 <Link
                   to="/doctors"
@@ -142,10 +153,11 @@ const Home = () => {
                   Virtual Appointment
                 </h2>
                 <p className="text-[16px] leading-7 text-textColor font-[400] mt-4 text-center">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Tempore sit beatae recusandae, qui a natus fugit nesciunt
-                  facilis architecto ad molestias vero quibusdam aliquam
-                  incidunt suscipit vitae iusto voluptas labore?
+                  Health-E offers the convenience of virtual appointments,
+                  allowing you to consult with top doctors from anywhere.
+                  Schedule video calls with your chosen healthcare providers
+                  without leaving your home, ensuring accessibility and comfort. Enjoy seamless and effective
+                  care with our user-friendly virtual consultation services.
                 </p>
                 <Link
                   to="/doctors"
@@ -214,40 +226,38 @@ const Home = () => {
               </div>
               <div className="flex items-center gap-[6px] lg:gap-[10px] mt-2 lg:mt-[18px]">
                 <img src={user} alt="" />
-                <h4 className="text-[10px] leading-3 lg:text-[16px] lg:leading-[22px] font-[700] text-headingColor">Ashish Mishra</h4>
+                <h4 className="text-[10px] leading-3 lg:text-[16px] lg:leading-[22px] font-[700] text-headingColor">
+                  Ashish Mishra
+                </h4>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-
-
       <section className="shadow-md">
         <div className="container pt-9">
           <div className="flex justify-between gap-[50px] lg:gap-">
             <div className="w-[500px] mt-[80px] mb-[50px] hidden md:block ">
-            <img src={faq} alt="" />
+              <img src={faq} alt="" />
             </div>
             <div className="w-full md:w-1/2">
-          <h2 className="heading">
-            Frequently asked questions.
-          </h2>
-          <FaqList/>
-          </div>
+              <h2 className="heading">Frequently asked questions.</h2>
+              <FaqList />
+            </div>
           </div>
         </div>
       </section>
-
 
       <section className="container">
         <div className="xl:w-[470px] mx-auto py-6">
           <h2 className="heading text-center">What Our patient Says...</h2>
           <p className="text__para text-center">
-            World-class care for everyone.Our health System offers unmatched,expert health care.
+            World-class care for everyone.Our health System offers
+            unmatched,expert health care.
           </p>
         </div>
-      <TestimonialComponent/>
+        <TestimonialComponent />
       </section>
     </>
   );

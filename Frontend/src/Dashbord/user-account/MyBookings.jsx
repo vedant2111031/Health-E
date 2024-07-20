@@ -27,7 +27,7 @@ const MyBookings = () => {
   };
 
   return (
-    <div>
+    <div className="mt-5">
       {loading && !error && <Loading />}
       {error && !loading && <Error errMessage={error} />}
       {!loading && !error && (

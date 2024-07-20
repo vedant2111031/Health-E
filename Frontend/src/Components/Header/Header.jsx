@@ -64,9 +64,9 @@ function Header() {
   useEffect(() => {
     if (shouldFetchUser && token) {
       const apiUrl = role === "doctor" ? `${BASE_URL}/doctors/profile/me` : `${BASE_URL}/users/profile/me`;
-      // Check if setUserData is defined to avoid errors
+     
       if (setUserData) {
-        setUserData(apiUrl); // Trigger fetching user data
+        setUserData(apiUrl); 
       }
     }
   }, [shouldFetchUser, token, role, setUserData]);

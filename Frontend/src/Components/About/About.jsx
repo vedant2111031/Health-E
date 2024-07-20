@@ -13,7 +13,7 @@ const About = () => {
         <div className='px-2'>
           <h2 className="text-xl font-bold">Dr. Mastur D</h2>
           <p className="text-gray-600">CEO DoctorX</p>
-          <p className="text-gray-400 mt-2">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed"</p>
+          <p className="text-gray-400 mt-2">"Health-E is Revolutionizing Your Healthcare Experience"</p>
         </div>
       </div>
     </div>
@@ -21,10 +21,13 @@ const About = () => {
     <div className="w-full lg:w-1/2 xl:w-[670px] order-1 lg:order-2">
       <h2 className="heading">ABOUT US</h2>
       <p className="text__para mt-[30px]">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Health-E is your go-to platform for seamless healthcare solutions, connecting you with top-tier medical professionals for both in-person and virtual consultations. Our innovative platform offers a user-friendly interface that allows patients to effortlessly book appointments, whether you prefer a face-to-face visit or a convenient online session.
       </p>
       <p className="text__para">
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      With Health-E, you can chat directly with healthcare providers, ensuring that your questions and concerns are addressed in real time. Our advanced search features help you find doctors based on your specific preferences, including specialty, experience, and location.
+      </p>
+      <p className="text__para">
+      In addition to connecting you with healthcare professionals, Health-E simplifies your prescription needs by helping you find and obtain medicines with ease. Experience a new level of convenience and care with Health-E, where we blend technology and compassionate service to support your health journey every step of the way.
       </p>
       <div className="flex justify-center lg:justify-start space-x-4">
         <Link to='/'><button className="btn">Learn more</button></Link>

@@ -15,15 +15,15 @@ const Links = [
     icon: <AiFillYoutube className="group-hover:text-white w-4 h-5" />,
   },
   {
-    path: "https://www.youtube.com/",
+    path: "https://github.com/vedant2111031",
     icon: <AiFillGithub className="group-hover:text-white w-4 h-5" />,
   },
   {
-    path: "https://www.youtube.com/",
+    path: "https://www.instagram.com/",
     icon: <AiFillInstagram className="group-hover:text-white w-4 h-5" />,
   },
   {
-    path: "https://www.youtube.com/",
+    path: "https://www.linkedin.com/in/vedant-pandey7/",
     icon: <RiLinkedinFill className="group-hover:text-white w-4 h-5" />,
   },
 ];
@@ -49,11 +49,11 @@ const quickLinks01 = [
 
 const quickLinks02 = [
   {
-    path: "/find-a-doctor",
+    path: "/doctors",
     display: "Find a Doctor",
   },
   {
-    path: "/",
+    path: "/doctors",
     display: "Request an Appointment",
   },
   {

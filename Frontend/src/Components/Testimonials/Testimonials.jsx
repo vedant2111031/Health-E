@@ -5,21 +5,27 @@ import { HiStar } from "react-icons/hi";
 const testimonials = [
   {
     name: "Joshua Jones",
-    title: "Business Manager",
+    title: "Marketing Specialist",
     image: "/img/author1.png",
-    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    text: "Health-E transformed my healthcare experience with its seamless virtual consultations. The convenience of accessing top doctors from home was invaluable, especially during my busy schedule.",
   },
   {
     name: "Paula Mora",
     title: "Business Manager",
     image: "/img/author2.png",
-    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    text: "I was impressed by Health-E’s user-friendly platform and the quality of care provided. The ability to find a specialist and schedule an appointment online saved me so much time and hassle.",
   },
   {
     name: "Rhonda Rhodes",
-    title: "Business Manager",
+    title: "Software Engineer",
     image: "/img/author3.png",
-    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    text: "Health-E’s integrated services made managing my health straightforward. From virtual consultations to finding local specialists, their platform exceeded my expectations.",
+  },
+  {
+    name: "David Lee",
+    title: "Entrepreneur",
+    image: "/img/author5.png",
+    text: "Navigating through Health-E was a breeze. The platform offered exceptional access to top-rated doctors, both virtually and in person, which made my healthcare journey much smoother."
   },
 ];
 
