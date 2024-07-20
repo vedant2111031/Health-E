@@ -73,7 +73,7 @@ const Appointments = ({ initialAppointments }) => {
   };
 
   return (
-    <div className="ml-[-5rem]">
+    <div className="ml-[-5rem] ">
       <table className="w-full text-left text-sm text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>

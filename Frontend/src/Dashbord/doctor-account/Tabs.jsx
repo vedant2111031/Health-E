@@ -48,7 +48,7 @@ const Tabs = ({ tab, setTab }) => {
   };
 
   return (
-    <div className="mx-[3px]">
+    <div className="mx-[3px] mr-2">
       <span className="lg:hidden ">
         <BiMenu className="w-6 h-6 cursor-pointer" />
       </span>

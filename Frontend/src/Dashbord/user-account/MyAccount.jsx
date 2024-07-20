@@ -52,7 +52,6 @@ const MyAccount = () => {
 
 
       } catch (error) {
-        // console.error(error);
         toast.error(error.message || 'An unexpected error occurred.');
       }
     }

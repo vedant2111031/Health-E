@@ -1,9 +1,10 @@
 import { useEffect, useRef, useContext, useState } from "react";
 import logo from "../../assets/images/logo01.png";
+import defaultPhoto from "../../assets/images/user.png"; 
 import { NavLink, Link } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 import { authContext } from "../../context/AuthContext";
-import useFetchData from "../../hooks/useFetchData"; // Adjust this import as per your hook implementation
+import useFetchData from "../../hooks/useFetchData"; 
 import { BASE_URL } from "../../config";
 
 const navLinks = [
@@ -30,10 +31,7 @@ function Header() {
 
   const [shouldFetchUser, setShouldFetchUser] = useState(true); // State to trigger user data fetching
 
-
   const { data: userData, loading, setData: setUserData } = useFetchData(); // Ensure useFetchData returns setData
-
-
 
   const headerRef = useRef(null);
   const menuRef = useRef(null);
@@ -78,7 +76,7 @@ function Header() {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <img src={logo} alt="Logo" className="max-w-[160px]"/>
+            <img src={logo} alt="Logo" className="max-w-[160px]" />
           </div>
           <div className="navigation" ref={menuRef} onClick={toggleMenu}>
             <ul className="menu flex items-center gap-[2.7rem]">
@@ -104,7 +102,7 @@ function Header() {
               <div>
                 <Link to={`${role === 'doctor' ? '/doctors/profile/me' : '/users/profile/me'}`}>
                   <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                    {!loading && <img src={user?.photo} className="w-full rounded-full" alt="User" />}
+                    {!loading && <img src={user?.photo || defaultPhoto} className="w-full rounded-full" alt="User" />}
                   </figure>
                 </Link>
               </div>
