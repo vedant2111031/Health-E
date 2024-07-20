@@ -7,8 +7,7 @@ import { ApiError } from "../utils/ApiError.js"
 export const authenticate= asyncHandler(async(req,res, next)=>{
 
     const authToken=req.headers.authorization 
-
-    if(!authToken || !authToken.startsWith("Bearer")){
+    if(authToken==undefined || !authToken || !authToken.startsWith("Bearer")){
         throw new ApiError(401, "No token , authorization denied")
     }
 

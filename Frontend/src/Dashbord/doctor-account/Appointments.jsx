@@ -8,7 +8,7 @@ const Appointments = ({ initialAppointments }) => {
   const [appointments, setAppointments] = useState(initialAppointments);
   const [statusState, setStatusState] = useState({});
 
-  const handleStatusChange = (id, event) => {
+  const handleStatusChange = async(id, event) => {
     const newStatus = event.target.value;
 
     setStatusState((prevStatus) => ({
@@ -16,14 +16,38 @@ const Appointments = ({ initialAppointments }) => {
       [id]: { status: newStatus, changed: true },
     }));
 
-    toast.success(`Status changed to ${newStatus}`);
+    
+    const token=getToken()
+    try {
+      const res = await fetch(`${BASE_URL}/bookings/statusChange/${id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({newStatus}),
+      });
+
+      const result=await res.json()
+
+      if(!res.ok){
+        throw Error(result.message)
+      }
+
+      toast.success(`Status changed to ${newStatus}`);
+    }catch(error){
+      console.log(error);
+      toast.error(error.message);
+    }
+
+
   };
 
   const handleDelete = async (id, index) => {
     const token = getToken();
 
     try {
-      const res = await fetch(`${BASE_URL}/doctors/deleteBooking/${id}`, {
+      const res = await fetch(`${BASE_URL}/bookings/deleteBooking/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -85,13 +109,14 @@ const Appointments = ({ initialAppointments }) => {
                   onChange={(event) => handleStatusChange(item._id, event)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
                   style={{ minWidth: "120px" }}
-                  disabled={statusState[item._id]?.changed}
+                  disabled={statusState[item._id]?.changed || item.status === "approved" || item.status === "cancelled"}
                 >
                   <option value="pending">Pending</option>
-                  <option value="accepted">Accepted</option>
-                  <option value="rejected">Rejected</option>
+                  <option value="approved">Approved</option>
+                  <option value="cancelled">Cancelled</option>
                 </select>
               </td>
+
               <td className="px-6 py-4">
                 <button
                   onClick={() => handleDelete(item._id, index)}

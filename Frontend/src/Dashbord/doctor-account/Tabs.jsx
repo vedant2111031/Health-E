@@ -3,10 +3,13 @@ import { BiMenu } from "react-icons/bi";
 import { authContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom"; 
 import { BASE_URL,getToken } from "../../config";
+import { toast } from "react-toastify";
+
 
 const Tabs = ({ tab, setTab }) => {
-  const { dispatch } = useContext(authContext);
+  const { user,dispatch } = useContext(authContext);
   const navigate = useNavigate();
+
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -18,14 +21,11 @@ const Tabs = ({ tab, setTab }) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete your account? This action cannot be undone."
     );
-  
+
     if (confirmDelete) {
       try {
-        // console.log('Attempting to delete account...');
-        // console.log('URL:', `${BASE_URL}/users/profile/me`);
-        // console.log('Token:', token);
         const token=getToken()
-        const response = await fetch(`${BASE_URL}/doctors/profile/me`, {
+        const res = await fetch(`${BASE_URL}/doctors/${user._id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -33,18 +33,16 @@ const Tabs = ({ tab, setTab }) => {
           },
         });
   
-        if (response.ok) {
-          dispatch({ type: "LOGOUT" });
-          alert("Account deleted successfully.");
-          window.location.reload();
-        } else {
-          const errorData = await response.json();
-          console.error('Delete account error:', errorData);
-          alert(`Error: ${errorData.message}`);
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
-        alert("An error occurred. Please try again later.");
+        if (!res.ok) {
+          const result= await res.json();
+          throw Error(result.message)
+        } 
+           dispatch({ type: "LOGOUT" });
+          toast.success("Account deleted successfully.");
+        
+      } catch (err) {
+        console.log(err)
+        toast.error(err.message);
       }
     }
   };

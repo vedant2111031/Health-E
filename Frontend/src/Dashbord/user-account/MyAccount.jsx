@@ -4,8 +4,9 @@ import Loading from "../../Components/Loader/Loading";
 import MyBookings from "./MyBookings";
 import Profile from "./Profile";
 import useFetchData from "../../hooks/useFetchData";
-import { BASE_URL } from "../../config";
+import { BASE_URL, getToken } from "../../config";
 import Error from "../../Components/Error/Error";
+import { toast } from "react-toastify";
 
 const MyAccount = () => {
   const [tab, setTab] = useState("bookings");
@@ -32,11 +33,9 @@ const MyAccount = () => {
   
     if (confirmDelete) {
       try {
-        console.log('Attempting to delete account...');
-        console.log('URL:', `${BASE_URL}/users/profile/me`);
-        console.log('Token:', token);
-  
-        const response = await fetch(`${BASE_URL}/users/profile/me`, {
+        
+        const token=getToken()
+        const res = await fetch(`${BASE_URL}/users/${userData._id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -44,18 +43,17 @@ const MyAccount = () => {
           },
         });
   
-        if (response.ok) {
-          dispatch({ type: "LOGOUT" });
-          alert("Account deleted successfully.");
-          window.location.reload();
-        } else {
-          const errorData = await response.json();
-          console.error('Delete account error:', errorData);
-          alert(`Error: ${errorData.message}`);
-        }
+        if (!res.ok) {
+          const result= await res.json();
+          throw Error(result.message)
+        } 
+        dispatch({ type: "LOGOUT" });
+        toast.success("Account deleted successfully.");
+
+
       } catch (error) {
-        console.error('Fetch error:', error);
-        alert("An error occurred. Please try again later.");
+        // console.error(error);
+        toast.error(error.message || 'An unexpected error occurred.');
       }
     }
   };

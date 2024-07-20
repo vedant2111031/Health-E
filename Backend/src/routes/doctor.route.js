@@ -1,6 +1,6 @@
 import express from "express"
 
-import { updateDoctor, deleteDoctor, getAllDoctor,getSingleDoctor, getDoctorProfile ,deleteBooking} from "../controllers/doctor.controller.js";
+import { updateDoctor, deleteDoctor, getAllDoctor,getSingleDoctor, getDoctorProfile } from "../controllers/doctor.controller.js";
 import { authenticate, restrict } from "../auth/verifyToken.js";
 import reviewRouter from "./review.route.js"
 import {upload} from "../middlewares/multer.js"
@@ -21,8 +21,6 @@ router.route("/:id")
 router.route("/profile/me")
     .get(authenticate, restrict(["doctor"]), getDoctorProfile)
 
-router.route("/deleteBooking/:id")
-    .delete(authenticate,restrict(["doctor"]),deleteBooking)
 
 router.route("/").get(getAllDoctor)
 
