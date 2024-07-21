@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "start-dev": "nodemon -r dotenv/config --experimental-json-modules index.js"
+    "start-dev": "nodemon -r dotenv/config --experimental-json-modules index.js",
+    "build": "echo 'No build step required'"
   },
   "author": "Aanand rai",
   "license": "ISC",
