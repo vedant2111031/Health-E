@@ -31,13 +31,13 @@ And node, MongoDB, stripe,ExpressJS and other techs for the backend.
 
 # UI-
 <img src="https://github.com/user-attachments/assets/4e74c215-6c72-44bb-92f9-162359d0cacb" alt="Screenshot" width="400" height="300"/>
-<img src="https://github.com/user-attachments/assets/bf342f0a-8d48-4848-bb64-75b1cef236ad" alt="Screenshot" width="500" height="400"/>
-<img src="https://github.com/user-attachments/assets/446821ae-4340-4231-866d-f4429aa144ee" alt="Screenshot" width="500" height="400"/>
-<img src="https://github.com/user-attachments/assets/cb375d1f-ec14-4ef9-aca9-f94348a506d2" alt="Screenshot" width="500" height="400"/>
-<img src="https://github.com/user-attachments/assets/802cbf40-8c25-4406-89b8-b80f38fef6d1" alt="Screenshot" width="500" height="400"/>
-<img src="https://github.com/user-attachments/assets/860c7da8-1d1c-4e41-ac5f-510c54ab1546" alt="Screenshot" width="500" height="400"/>
-<img src="https://github.com/user-attachments/assets/5d4159e1-ea9d-4c0a-981f-3da80f833f69" alt="Screenshot" width="500" height="400"/>
-<img src="https://github.com/user-attachments/assets/52747db2-b180-4384-8e2d-df767ef32caf" alt="Screenshot" width="500" height="400"/>
+<img src="https://github.com/user-attachments/assets/bf342f0a-8d48-4848-bb64-75b1cef236ad" alt="Screenshot" width="400" height="300"/>
+<img src="https://github.com/user-attachments/assets/446821ae-4340-4231-866d-f4429aa144ee" alt="Screenshot" width="400" height="300"/>
+<img src="https://github.com/user-attachments/assets/cb375d1f-ec14-4ef9-aca9-f94348a506d2" alt="Screenshot" width="400" height="300"/>
+<img src="https://github.com/user-attachments/assets/802cbf40-8c25-4406-89b8-b80f38fef6d1" alt="Screenshot" width="400" height="300"/>
+<img src="https://github.com/user-attachments/assets/860c7da8-1d1c-4e41-ac5f-510c54ab1546" alt="Screenshot" width="400" height="300"/>
+<img src="https://github.com/user-attachments/assets/5d4159e1-ea9d-4c0a-981f-3da80f833f69" alt="Screenshot" width="400" height="300"/>
+<img src="https://github.com/user-attachments/assets/52747db2-b180-4384-8e2d-df767ef32caf" alt="Screenshot" width="400" height="300"/>
 
 # Running the Site
 
