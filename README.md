@@ -30,7 +30,7 @@ And node, MongoDB, stripe,ExpressJS and other techs for the backend.
 > Many more...
 
 # UI-
-<img src="https://github.com/user-attachments/assets/4e74c215-6c72-44bb-92f9-162359d0cacb" alt="Screenshot" width="500" height="400"/>
+<img src="https://github.com/user-attachments/assets/4e74c215-6c72-44bb-92f9-162359d0cacb" alt="Screenshot" width="400" height="300"/>
 <img src="https://github.com/user-attachments/assets/bf342f0a-8d48-4848-bb64-75b1cef236ad" alt="Screenshot" width="500" height="400"/>
 <img src="https://github.com/user-attachments/assets/446821ae-4340-4231-866d-f4429aa144ee" alt="Screenshot" width="500" height="400"/>
 <img src="https://github.com/user-attachments/assets/cb375d1f-ec14-4ef9-aca9-f94348a506d2" alt="Screenshot" width="500" height="400"/>
