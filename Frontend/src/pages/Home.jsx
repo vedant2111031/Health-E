@@ -15,7 +15,7 @@ import ServicesList from "../Components/Services/ServicesList";
 import FaqList from "../Components/Faq/FaqList";
 import TestimonialComponent from "../Components/Testimonials/Testimonials";
 import DoctorList from "../Components/Doctors/DoctorList";
-
+import { FaUsers, FaUserMd } from "react-icons/fa";
 const Home = () => {
   const navigate = useNavigate();
 
@@ -24,8 +24,8 @@ const Home = () => {
   };
   return (
     <>
-      <section className="hero__section pt-[40px] 2xl:h-[800px] shadow-lg">
-        <div className="max-w-full w-[1440px] px-8 mx-auto">
+      <section className="hero__section pt-[40px] pb-[40px] 2xl:h-[800px] shadow-lg">
+        <div className="max-w-full w-[1440px] px-8 mx-auto ">
           <div className="flex flex-col lg:flex-row gap-[90px] items-center justify-between">
             <div>
               <div className="lg:w-[500px]">
@@ -48,36 +48,27 @@ const Home = () => {
                   Request an Appointment
                 </button>
               </div>
-              <div className="mt-[30px] lg:mt-[70px] flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-[30px] mb-7">
-                <div>
-                  <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700] text-headingColor">
-                    30+
-                  </h2>
-                  <span className="w-[100px] h-2 bg-orange-400 rounded-full block mt-[-14px]"></span>
-                  <p>Years of Experience</p>
-                </div>
-                <div>
-                  <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700] text-headingColor">
-                    5k+
-                  </h2>
-                  <span className="w-[100px] h-2 bg-blue-500 rounded-full block mt-[-14px]"></span>
-                  <p>Happy Patients</p>
-                </div>
-                <div>
-                  <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700] text-headingColor">
-                    1k+
-                  </h2>
-                  <span className="w-[100px] h-2 bg-purple-500 rounded-full block mt-[-14px]"></span>
-                  <p>Experienced Doctors</p>
-                </div>
-              </div>
+              
             </div>
             <div className="flex gap-[30px] justify-end">
-              <div>
-                <img className="w-full" src={hero} alt="" />
+              <div className="relative flex flex-col w-full max-w-xs  mx-auto rounded-lg ">
+                <img className="w-full object-cover" src={hero} alt="" />
+                <div className="absolute bottom-[180px] flex items-center space-x-2 bg-white rounded-md shadow">
+                  <FaUsers className="text-blue-500" />
+                  <span className="text-lg font-semibold">
+                    10K+ Happy Patients
+                  </span>
+                  
+                </div>
               </div>
-              <div className="mt-[30px]">
+              <div className="mt-[30px] relative">
                 <img src={hero2} alt="" />
+                <div className="absolute top-4 right-5 flex items-center space-x-2 bg-white p-2 rounded-md shadow">
+                    <FaUserMd className="text-blue-500" />
+                    <span className="text-lg font-semibold">
+                      5k+ Expert Doctors
+                    </span>
+                  </div>
               </div>
             </div>
           </div>
@@ -109,9 +100,9 @@ const Home = () => {
                   Health-E connects you to a wide array of top-rated doctors,
                   offering both physical and virtual consultation options.
                   Whether you need an in-person examination or a virtual
-                  consultation. Experience convenience and
-                  excellence in healthcare with seamless integration of both
-                  physical and virtual doctor interactions.
+                  consultation. Experience convenience and excellence in
+                  healthcare with seamless integration of both physical and
+                  virtual doctor interactions.
                 </p>
                 <Link
                   to="/doctors"
@@ -132,8 +123,8 @@ const Home = () => {
                 <p className="text-[16px] leading-7 text-textColor font-[400] mt-4 text-center">
                   Health-E simplifies finding your preferred doctor with its
                   intuitive location-based search. Easily locate top-rated
-                  physicians near you. Our
-                  platform provides detailed information on each doctor's. Discover the best healthcare
+                  physicians near you. Our platform provides detailed
+                  information on each doctor's. Discover the best healthcare
                   professionals in your area with just a few clicks.
                 </p>
                 <Link
@@ -156,8 +147,9 @@ const Home = () => {
                   Health-E offers the convenience of virtual appointments,
                   allowing you to consult with top doctors from anywhere.
                   Schedule video calls with your chosen healthcare providers
-                  without leaving your home, ensuring accessibility and comfort. Enjoy seamless and effective
-                  care with our user-friendly virtual consultation services.
+                  without leaving your home, ensuring accessibility and comfort.
+                  Enjoy seamless and effective care with our user-friendly
+                  virtual consultation services.
                 </p>
                 <Link
                   to="/doctors"
