@@ -7,7 +7,7 @@ import { BsClock } from "react-icons/bs";
 import { FaCheckCircle, FaExclamationCircle, FaTimesCircle } from "react-icons/fa";
 
 const MyBookings = () => {
-  const { data: appointments, loading, error } = useFetchData(`${BASE_URL}/users/appointments/my-appointments`);
+  const { data : appointments, loading, error } = useFetchData(`${BASE_URL}/users/appointments/my-appointments`);
 
   // Log the data to inspect its structure
   console.log('Appointments Data:', appointments);

@@ -140,7 +140,26 @@ const getMyAppointments=asyncHandler(async(req,res)=>{
     // retrieve doctors using doctor ids 
     const doctors= await Doctor.find({_id:{$in:doctorIds}}).select("-password")
 
-    res.status(200).json(new ApiResponse(200, doctors, "Appointments are getting"))
+
+
+    const doctorMap = new Map();
+    doctors.forEach(doctor => {
+      doctorMap.set(doctor._id.toString(), doctor);
+    });
+  
+    // Prepare the response with detailed booking information
+    const appointments = bookings.map(booking => {
+      const doctor = doctorMap.get(booking.doctor.id.toString());
+      return {
+        doctor: doctor,
+          // Include any other necessary doctor details
+        timeSlot: booking.timeSlot,
+        status: booking.status
+      };
+    });
+
+
+    res.status(200).json(new ApiResponse(200, appointments, "Appointments are getting"))
 
 })
 
