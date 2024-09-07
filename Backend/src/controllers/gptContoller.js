@@ -5,7 +5,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
 
 
-const apiKey = 'AIzaSyBE7gPsNFbC1tTU5NBXthyQO-db2dHwrlk';
+const apiKey = process.env.geminiApi;
 
 export const sendGeminiRequest=async(req,res) =>{
   try {
