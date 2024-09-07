@@ -34,11 +34,11 @@ const Chatbot = () => {
               messages: input
             }),
           });
-          console.log(response)
 
           if (response.ok) {
             const data = await response.json();
-            const botMessage = { text: data.choices[0].message.content, sender: 'bot' };
+            console.log(data)
+            const botMessage = { text: data.botReply, sender: 'bot' };
             setMessages(prevMessages => [...prevMessages, botMessage]);
           } else {
             setMessages(prevMessages => [...prevMessages, { text: 'Error fetching GPT response', sender: 'bot' }]);
