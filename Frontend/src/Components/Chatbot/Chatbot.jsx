@@ -3,7 +3,6 @@ import { symptomMedicineMapping } from '../../assets/data/symptomMedicineMapping
 import ChatbotIcon from "../../assets/images/chatbot-icon.jpg"; // Path to your chatbot image
 import { BASE_URL } from '../../config';
 
-// Ensure this API key is stored securely, not hardcoded like this in production!
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
