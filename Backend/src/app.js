@@ -21,7 +21,7 @@ import bookingRouter from "./routes/booking.route.js"
 import gptRouter from "./routes/gpt.route.js"
  
 
- 
+app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/doctors", doctorRouter)
 
