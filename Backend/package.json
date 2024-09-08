@@ -11,6 +11,7 @@
   "author": "Aanand rai",
   "license": "ISC",
   "dependencies": {
+    "@google/generative-ai": "^0.17.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.2.0",
     "cookie-parser": "^1.4.6",

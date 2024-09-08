@@ -18,10 +18,10 @@ import userRouter from "./routes/user.route.js"
 import doctorRouter from "./routes/doctor.route.js"
 import reviewRouter from "./routes/review.route.js"
 import bookingRouter from "./routes/booking.route.js"
-
+import gptRouter from "./routes/gpt.route.js"
+ 
 
 app.use("/api/v1/auth",authRouter)
-
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/doctors", doctorRouter)
 
@@ -33,6 +33,7 @@ app.use("/api/v1/doctors", doctorRouter)
 
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/bookings", bookingRouter)
+app.use("/api/v1/gpt", gptRouter); // Mount GPT route
 // app.get("/",(req,res)=>{
 //     res.send("testing testing")
 // })
