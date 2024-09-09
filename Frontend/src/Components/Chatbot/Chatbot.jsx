@@ -58,7 +58,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className={`fixed bottom-4 right-4 transition-transform duration-300 ${isOpen ? 'w-80' : 'w-16 h-16'} bg-white border border-gray-300 rounded-lg shadow-lg`}>
+    <div className={`fixed bottom-4 right-4 transition-transform duration-300 ${isOpen ? 'w-80' : 'w-14 h-14 rounded-full'} bg-white border border-gray-300 rounded-lg shadow-lg`}>
       {/* Options Section */}
       {isOpen && !currentOption && (
         <div className="p-2">
