@@ -16,6 +16,7 @@ import FaqList from "../Components/Faq/FaqList";
 import TestimonialComponent from "../Components/Testimonials/Testimonials";
 import DoctorList from "../Components/Doctors/DoctorList";
 import { FaUsers, FaUserMd } from "react-icons/fa";
+import News from "../Components/Blog/News";
 const Home = () => {
   const navigate = useNavigate();
 
@@ -162,8 +163,22 @@ const Home = () => {
           </div>
         </div>
       </section>
-
       <About />
+
+{/*blog*/}
+      <section className="shadow-md">
+        <div className="container my-9">
+          <div className="xl:w-[500px] mx-auto">
+            <h2 className="heading text-center">Blog's From all over the World.</h2>
+            <p className="text__para text-center">
+            “He who has health, has hope; and he who has hope,<br/> has everything.” – Arabian Proverb.
+            </p>
+          </div>
+          <News />
+        </div>
+      </section>
+
+
       {/* services */}
       <section className="shadow-md">
         <div className="container my-9 ">

@@ -8,7 +8,7 @@ import DoctorDetails from "../pages/Doctors/DoctorDetails";
 import MyAccount from "../Dashbord/user-account/MyAccount";
 import Dashbord from "../Dashbord/doctor-account/Dashbord";
 import CheckoutSuccess from "../pages/Doctors/CheckoutSuccess";
-
+import Newsy from "../Components/Blog/Newsy";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -24,6 +24,7 @@ function Routers() {
       <Route path="/contact" element={<Contact />} />
       <Route path="/services" element={<Services />} />
       <Route path="/checkout-success" element={<CheckoutSuccess />} />
+      <Route path="/blog" element={<Newsy/>} />
       <Route
         path="/users/profile/me"
         element={
