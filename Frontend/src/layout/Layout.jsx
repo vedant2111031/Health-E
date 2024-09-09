@@ -10,8 +10,9 @@ function Layout() {
     <Header/>
     <main>
       <Routers/>
+      <Chatbot/>
     </main>
-    <Chatbot/>
+    
     <Footer/>
     </>
   )
