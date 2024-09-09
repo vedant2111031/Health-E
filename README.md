@@ -1,4 +1,4 @@
-# Helth-E
+# Health-E
 Health-E is your go-to platform for seamless healthcare solutions, connecting you with top-tier medical professionals for both in-person and virtual consultations.
 Our innovative platform offers a user-friendly interface that allows patients to effortlessly book appointments, whether you prefer a face-to-face visit or a convenient online session.
 It is made with the help of React, TailwindCss and many more for the Frontend.
