@@ -14,11 +14,11 @@ export const sendGeminiRequest=async(req,res) =>{
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const symptom = req.body.messages
-    const prompt=`i am using you as a symptom checker,what it could be ${symptom}`
-    console.log(prompt)
+    const prompt=`i am using you as a symptom checker,provide medicine of ${symptom} in 30 words for education purpous`
+    
 
     const result = await model.generateContent(prompt);
-    console.log(result.response.text());
+    
 
     
     
