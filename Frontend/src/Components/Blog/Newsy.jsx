@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Newsitem from './Newsitem';
 import InfiniteScroll from "react-infinite-scroll-component";
-import { apiKey } from '../../config';
-
+import { BASE_URL } from '../../config';
 
 const News = () => {
     const [articles, setArticles] = useState([]);
@@ -10,13 +9,12 @@ const News = () => {
     const [totalResults, setTotalResults] = useState(0);
 
     const fetchNews = async (page = 1) => {
-        
-        const pageSize = 50;
-        const url = `https://newsapi.org/v2/top-headlines?country=us&category=general&apiKey=${apiKey}&page=${page}&pageSize=${pageSize}`;
+        const url = `${BASE_URL}/news/get?page=${page}`;
         
         const response = await fetch(url);
-        const data = await response.json();
+        const result = await response.json();
         
+        const data = result.data;
         setArticles((prevArticles) => [...prevArticles, ...data.articles]);
         setTotalResults(data.totalResults);
     };
@@ -26,20 +24,22 @@ const News = () => {
     }, []);  // Empty dependency array to fetch only on the first render
 
     const fetchMoreData = () => {
-        setPage((prevPage) => prevPage + 1);
-        fetchNews(page + 1);
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchNews(nextPage);
     };
 
     return (
         <>
             <div className="bg-secondary text-{headingColor} py-8 px-4">
                 <div className='justify-center flex flex-col mx-auto container'>
-                <h1 className="text-center text-3xl font-bold mb-6">
-                    Health Blogs...
-                </h1>
-                <p className='text-{text__para} m-auto items-center font-serif text-grey-400  text-center'>
-                "The doctor of the future will give no medicine, but will instruct his patients in care of the human frame,<br/> in diet, and in the cause and prevention of disease.” –  Thomas Edison
-                </p>
+                    <h1 className="text-center text-3xl font-bold mb-6">
+                        Health Blogs...
+                    </h1>
+                    <p className='text-{text__para} m-auto items-center font-serif text-grey-400  text-center'>
+                        "The doctor of the future will give no medicine, but will instruct his patients in care of the human frame,
+                        <br/> in diet, and in the cause and prevention of disease.” –  Thomas Edison
+                    </p>
                 </div>
 
                 {/* Infinite Scroll */}
@@ -51,9 +51,9 @@ const News = () => {
                 >
                     <div className="container mx-auto">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {articles.map((article) => (
-                                <div key={article.url}>
-                                    <Newsitem 
+                            {articles.map((article, index) => (
+                                <div key={`${article.url}-${index}`}>
+                                    <Newsitem
                                         title={article.title || "No title"} 
                                         description={article.description || "No description"} 
                                         imageUrl={article.urlToImage} 

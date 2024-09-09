@@ -2,21 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import Newsitem from './Newsitem';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'; // Import the right arrow icon
-import { apiKey } from '../../config';
+import { BASE_URL } from '../../config';
 const News = () => {
     const [articles, setArticles] = useState([]);
     const [page, setPage] = useState(1);
     const [totalResults, setTotalResults] = useState(0);
     const scrollContainerRef = useRef(null); // Reference to the scroll container
 
-    const fetchNews = async (page = 1) => {
+    const fetchNews = async () => {
         
-        const pageSize = 20;
-        const url = `https://newsapi.org/v2/top-headlines?country=us&category=general&apiKey=${apiKey}&page=${page}&pageSize=${pageSize}`;
+        
+        const url = `${BASE_URL}/news/get`
         
         const response = await fetch(url);
-        const data = await response.json();
-        console.log(data)
+        const result = await response.json();
+        const data=result.data
         setArticles((prevArticles) => [...prevArticles, ...data.articles]);
         setTotalResults(data.totalResults);
     };
@@ -76,13 +76,13 @@ const News = () => {
                         >
                             <FaArrowLeft size={24} color="white" /> {/* Adjust size and color as needed */}
                         </div>
-                            {articles.map((article) => (
+                            {articles.map((article,index) => (
                                 <div 
                                     className="col-md-3 d-inline-block mb-[70px]" 
-                                    key={article.url} 
+                                    key={`${article.url}-${index}`}
                                     style={{ display: 'inline-block', width: '400px' }} // Increase width of each card
                                 >
-                                    <Newsitem 
+                                    <Newsitem key={article.url}
                                         title={article.title || "No title"} 
                                         description={article.description || "No description"} 
                                         imageUrl={article.urlToImage} 
