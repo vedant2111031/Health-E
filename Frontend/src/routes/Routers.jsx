@@ -11,6 +11,10 @@ import CheckoutSuccess from "../pages/Doctors/CheckoutSuccess";
 import Newsy from "../Components/Blog/Newsy";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import MriDiagnosis from "../pages/MriDiagnosis";
+import TumorDetection from "../pages/TumorDetection";
+import AlzheimerDetection from "../pages/AlzheimerDetection";
+import HemorrhageDetection from "../pages/HemorrhageDetection";
 
 function Routers() {
   return (
@@ -25,6 +29,10 @@ function Routers() {
       <Route path="/services" element={<Services />} />
       <Route path="/checkout-success" element={<CheckoutSuccess />} />
       <Route path="/blog" element={<Newsy/>} />
+      <Route path="/mri-diagnosis" element={<MriDiagnosis />} />
+      <Route path="/tumor-detection" element={<TumorDetection />} />
+      <Route path="/alzheimer-detection" element={<AlzheimerDetection />} />
+      <Route path="/hemorrhage-detection" element={<HemorrhageDetection/>} />
       <Route
         path="/users/profile/me"
         element={

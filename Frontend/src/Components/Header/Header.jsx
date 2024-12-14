@@ -33,9 +33,9 @@ const navLinks = [
 function Header() {
   const { user, role, token, dispatch } = useContext(authContext);
 
-  const [shouldFetchUser, setShouldFetchUser] = useState(true); // State to trigger user data fetching
+  const [shouldFetchUser, setShouldFetchUser] = useState(true);
 
-  const { data: userData, loading, setData: setUserData } = useFetchData(); // Ensure useFetchData returns setData
+  const { data: userData, loading, setData: setUserData } = useFetchData();
 
   const headerRef = useRef(null);
   const menuRef = useRef(null);
@@ -59,9 +59,9 @@ function Header() {
 
   useEffect(() => {
     if (!token) {
-      setShouldFetchUser(false); // Reset shouldFetchUser state if not authenticated
+      setShouldFetchUser(false);
     } else {
-      setShouldFetchUser(true); // Trigger user data fetching when authenticated
+      setShouldFetchUser(true);
     }
   }, [token]);
 
@@ -80,7 +80,9 @@ function Header() {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <img src={logo} alt="Logo" className="max-w-[160px]" />
+            <Link to="/home">
+              <img src={logo} alt="Logo" className="max-w-[160px] cursor-pointer" />
+            </Link>
           </div>
           <div className="navigation" ref={menuRef} onClick={toggleMenu}>
             <ul className="menu flex items-center gap-[2.7rem]">
