@@ -80,7 +80,7 @@ function Header() {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <Link to="/home">
+            <Link to="/">
               <img src={logo} alt="Logo" className="max-w-[160px] cursor-pointer" />
             </Link>
           </div>

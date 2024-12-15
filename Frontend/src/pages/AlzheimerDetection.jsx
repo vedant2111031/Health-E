@@ -1,7 +1,14 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { authContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 
 const AlzheimerDetection = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
+  const navigate = useNavigate();
+
+  const { token } = useContext(authContext);
+  const isLoggedIn = !!token;
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -10,8 +17,22 @@ const AlzheimerDetection = () => {
       setUploadedImage(imageUrl);
     }
   };
+
+  const handleSubmit = () => {
+    if (!isLoggedIn) {
+      toast.error("Please log in to submit your scan.", {
+        onClose: () => {
+          setTimeout(() => navigate("/login"), 2000); // Wait 2 seconds before redirecting
+        },
+      });
+      return;
+    }
+
+    toast.success("Scan Submitted Successfully!");
+  };
+
   useEffect(() => {
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -21,13 +42,14 @@ const AlzheimerDetection = () => {
           Alzheimer Detection
         </h1>
         <p className="text-lg lg:text-xl text-gray-700 text-center max-w-3xl mx-auto mb-8">
-          Upload your MRI scan and let our system analyze it for early signs of Alzheimer’s disease with cutting-edge accuracy.
+          Upload your MRI scan and let our system analyze it for early signs of
+          Alzheimer’s disease with cutting-edge accuracy.
         </p>
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-2xl mx-auto">
           <label className="block text-lg font-medium text-gray-800 mb-4">
             Upload MRI Scan
           </label>
-          {/* Conditional Rendering of Uploaded Image or Upload Box */}
+
           {uploadedImage ? (
             <div className="relative border-2 border-purple-500 rounded-lg p-6 flex items-center justify-center">
               <img
@@ -61,7 +83,15 @@ const AlzheimerDetection = () => {
               <p className="text-gray-600">Drag & Drop or Click to Upload</p>
             </div>
           )}
-          <button className="mt-6 w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+          <button
+            className={`mt-6 w-full font-semibold text-lg px-6 py-3 rounded-lg shadow-lg transition-transform transform ${
+              uploadedImage
+                ? "bg-blue-600 hover:bg-blue-700 text-white hover:scale-105"
+                : "bg-gray-400 text-gray-800 cursor-not-allowed"
+            }`}
+            onClick={handleSubmit}
+            disabled={!uploadedImage}
+          >
             Submit Scan
           </button>
         </div>
@@ -69,12 +99,12 @@ const AlzheimerDetection = () => {
       <div className="mt-10 text-center">
         <p className="text-gray-600">
           Need help?{" "}
-          <a
-            href="#"
-            className="text-purple-600 hover:underline font-medium transition-colors"
+          <Link
+            to="/contact"
+            className="text-blue-600 hover:underline font-medium transition-colors"
           >
             Contact Support
-          </a>
+          </Link>
         </p>
       </div>
     </div>

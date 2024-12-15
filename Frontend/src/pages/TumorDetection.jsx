@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { authContext } from "../context/AuthContext"; // Import AuthContext
+import { authContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
 const TumorDetection = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const navigate = useNavigate();
 
-  // Access authContext to check if the user is logged in
   const { token, user } = useContext(authContext);
-  const isLoggedIn = !!token; // Check if token exists
+  const isLoggedIn = !!token;
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -21,12 +20,14 @@ const TumorDetection = () => {
 
   const handleSubmit = () => {
     if (!isLoggedIn) {
-      toast.error("Please log in to submit your scan.");
-      navigate("/login"); // Redirect to login page
+      toast.error("Please log in to submit your scan.", {
+        onClose: () => {
+          setTimeout(() => navigate("/login"), 2000); // Wait 2 seconds before redirecting
+        },
+      });
       return;
     }
 
-    // Submit logic when the user is logged in
     toast.success("Scan Submitted Successfully!");
   };
 
@@ -37,18 +38,15 @@ const TumorDetection = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white py-10">
       <div className="container mx-auto px-5">
-        {/* Page Title */}
         <h1 className="text-4xl lg:text-5xl font-extrabold text-blue-600 mb-6 text-center">
           Tumor Detection
         </h1>
 
-        {/* Description */}
         <p className="text-lg lg:text-xl text-gray-700 text-center max-w-3xl mx-auto mb-8">
           Upload your MRI scan and let our advanced diagnostic system detect
           early signs of brain tumors with precision and speed.
         </p>
 
-        {/* File Upload Section */}
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-2xl mx-auto">
           <label className="block text-lg font-medium text-gray-800 mb-4">
             Upload MRI Scan
@@ -88,24 +86,20 @@ const TumorDetection = () => {
             </div>
           )}
 
-          {/* Submit Button */}
           <button
-            className={`mt-6 w-full ${
-              isLoggedIn
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-gray-400 cursor-not-allowed"
-            } text-white font-semibold text-lg px-6 py-3 rounded-lg shadow-lg transition-transform transform ${
-              isLoggedIn ? "hover:scale-105" : ""
+            className={`mt-6 w-full font-semibold text-lg px-6 py-3 rounded-lg shadow-lg transition-transform transform ${
+              uploadedImage
+                ? "bg-blue-600 hover:bg-blue-700 text-white hover:scale-105"
+                : "bg-gray-400 text-gray-800 cursor-not-allowed"
             }`}
             onClick={handleSubmit}
-            disabled={!isLoggedIn} // Disable if not logged in
+            disabled={!uploadedImage} 
           >
             Submit Scan
           </button>
         </div>
       </div>
 
-      {/* Interactive Footer */}
       <div className="mt-10 text-center">
         <p className="text-gray-600">
           Need help?{" "}

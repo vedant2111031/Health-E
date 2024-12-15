@@ -6,7 +6,12 @@ import useFetchData from "../../hooks/useFetchData";
 import Loader from "../../Components/Loader/Loading";
 import Error from "../../Components/Error/Error";
 
+
+
 const Doctor = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []); 
   const [query, setQuery] = useState("");
   const [debounceQuery, setDebounceQuery] = useState("");
   

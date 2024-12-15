@@ -57,8 +57,8 @@ const quickLinks02 = [
     display: "Request an Appointment",
   },
   {
-    path: "/",
-    display: "Find a Location",
+    path: "/services",
+    display: "Use MRI Diagnosis",
   },
   {
     path: "/",
