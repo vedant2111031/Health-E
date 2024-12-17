@@ -48,38 +48,37 @@ const MRIDiagnosis = () => {
     <div>
       {/* Welcome Page */}
       <section className="h-screen bg-gradient-to-b from-blue-500 to-blue-300 text-white flex flex-col justify-center items-center px-4 md:px-8">
-  <h1 className="text-3xl md:text-5xl font-bold mb-6 text-center">
-    Welcome to Our Services
-  </h1>
-  <p className="text-base md:text-lg mb-8 text-center">
-    From appointment booking to virtual consultation to MRI diagnosis, we’ve
-    got you covered. <br />
-    We provide a wide range of services to our users, helping them stay healthy
-    and fit in this stressful world.
-  </p>
-  <div className="flex flex-wrap justify-center gap-4">
-    <button
-      className="bg-white text-blue-600 font-bold px-6 py-3 rounded-lg shadow hover:bg-gray-200"
-      onClick={() => navigate("/doctors")} 
-    >
-      Book Appointment
-    </button>
-    <button
-      className="bg-white text-blue-600 font-bold px-6 py-3 rounded-lg shadow hover:bg-gray-200"
-      onClick={() => navigate("/doctors")} 
-    >
-      Book Virtual Consultation
-    </button>
-    <button
-      onClick={handleExploreClick}
-      className="bg-yellow-500 text-white font-bold px-6 py-3 rounded-lg shadow hover:bg-yellow-600"
-    >
-      Explore MRI Diagnosis
-    </button>
-  </div>
-</section>
+        <h1 className="text-3xl md:text-5xl font-bold mb-6 text-center">
+          Welcome to Our Services
+        </h1>
+        <p className="text-base md:text-lg mb-8 text-center">
+          From appointment booking to virtual consultation to MRI diagnosis,
+          we’ve got you covered. <br />
+          We provide a wide range of services to our users, helping them stay
+          healthy and fit in this stressful world.
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <button
+            className="bg-white text-blue-600 font-bold px-6 py-3 rounded-lg shadow hover:bg-gray-200"
+            onClick={() => navigate("/doctors")}
+          >
+            Book Appointment
+          </button>
+          <button
+            className="bg-white text-blue-600 font-bold px-6 py-3 rounded-lg shadow hover:bg-gray-200"
+            onClick={() => navigate("/doctors")}
+          >
+            Book Virtual Consultation
+          </button>
+          <button
+            onClick={handleExploreClick}
+            className="bg-yellow-500 text-white font-bold px-6 py-3 rounded-lg shadow hover:bg-yellow-600"
+          >
+            Explore MRI Diagnosis
+          </button>
+        </div>
+      </section>
 
-      
       {showSecondPage && (
         <section id="secondPage" className="bg-gray-50 py-16">
           {/* Why Choose Us Section */}

@@ -22,14 +22,16 @@ const TumorDetection = () => {
     if (!isLoggedIn) {
       toast.error("Please log in to submit your scan.", {
         onClose: () => {
-          setTimeout(() => navigate("/login"), 2000); // Wait 2 seconds before redirecting
+          setTimeout(() => navigate("/login"), 1500); 
         },
       });
       return;
     }
 
+    navigate("/result");
     toast.success("Scan Submitted Successfully!");
   };
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -87,7 +89,7 @@ const TumorDetection = () => {
           )}
 
           <button
-            className={`mt-6 w-full font-semibold text-lg px-6 py-3 rounded-lg shadow-lg transition-transform transform ${
+            className={`mt-6 w-full font-semibold text-lg px-6 py-3 rounded-lg shadow-lg ${
               uploadedImage
                 ? "bg-blue-600 hover:bg-blue-700 text-white hover:scale-105"
                 : "bg-gray-400 text-gray-800 cursor-not-allowed"

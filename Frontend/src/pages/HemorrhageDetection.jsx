@@ -18,16 +18,17 @@ const HemorrhageDetection = () => {
     }
   };
 
-  const handleSubmit = () => {
+ const handleSubmit = () => {
     if (!isLoggedIn) {
       toast.error("Please log in to submit your scan.", {
         onClose: () => {
-          setTimeout(() => navigate("/login"), 2000);
+          setTimeout(() => navigate("/login"), 1500); 
         },
       });
       return;
     }
-
+    navigate("/result");
+  
     toast.success("Scan Submitted Successfully!");
   };
 
