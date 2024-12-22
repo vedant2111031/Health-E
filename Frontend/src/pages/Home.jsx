@@ -29,7 +29,6 @@ const Home = () => {
     navigate("/doctors");
   };
 
-
   const handleCardClick = (path) => {
     navigate(path);
   };
@@ -98,65 +97,63 @@ const Home = () => {
             </div>
 
             <div className="grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-[30px] mt-[30px] lg:mt-[55px] relative">
-  {[
-    {
-      icon: icon1,
-      title: "Find a Doctor",
-      description: `Health-E connects you to a wide array of top-rated doctors,
-offering both physical and virtual consultation options.
-Whether you need an in-person examination or a virtual consultation.`,
-      link: "/doctors",
-      clickIcon: (
-        <BsArrowRightCircle className="text-primaryColor w-8 h-8 group-hover:text-headingColor" />
-      ),
-    },
-    {
-      icon: icon2,
-      title: "Use Our ML Model",
-      description: `Detect early signs of brain tumors, Alzheimer's disease, and hemorrhages using advanced diagnostic analysis present on our website. Upload your MRI scans to receive accurate and timely results.`,
-      link: "/mri-diagnosis",
-      clickIcon: (
-        <FaMicroscope className="text-primaryColor w-8 h-8 group-hover:text-headingColor" />
-      ),
-      popup: true,
-    },
-    {
-      icon: icon3,
-      title: "Virtual Appointment",
-      description: `Health-E offers the convenience of virtual appointments, allowing you to consult with top doctors from anywhere, ensuring accessibility and comfort. You can chat or directly connect with the doctors.`,
-      link: "/doctors",
-      clickIcon: (
-        <BsCameraVideo className="text-primaryColor w-7 h-7 group-hover:text-headingColor" />
-      ), 
-    },
-  ].map((item, index) => (
-    <Link
-      to={item.link}
-      key={index}
-      className="block py-[30px] px-5 bg-white shadow-md hover:shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 border border-gray-200 hover:border-primaryColor group relative"
-    >
-      {item.popup && (
-        <div className="absolute -top-2 -right-2 bg-gradient-to-r from-primaryColor to-headingColor text-white text-[13px] font-bold uppercase py-3 px-5 rounded-full shadow-lg animate-bounce">
-          Latest
-        </div>
-      )}
-      <div className="flex items-center justify-center">
-        <img src={item.icon} alt="" className="w-16 h-16" />
-      </div>
-      <div className="mt-[30px] text-center">
-        <h2 className="text-[26px] leading-9 text-headingColor font-[700]">
-          {item.title}
-        </h2>
-        <p className="text-[16px] leading-7 text-textColor font-[400] mt-4">
-          {item.description}
-        </p>
-      </div>
-      <div className="flex items-center justify-center mt-8 group-hover:scale-110 transition-transform">
-        {item.clickIcon}
-      </div>
-    </Link>
-  ))}
-</div>
+              {[
+                {
+                  icon: icon1,
+                  title: "Find a Doctor",
+                  description: `Health-E connects you to a wide array of top-rated doctors, offering both physical and virtual consultation options. 1Whether you need an in-person examination or a virtual consultation.`,
+                  link: "/doctors",
+                  clickIcon: (
+                    <BsArrowRightCircle className="text-primaryColor w-8 h-8 group-hover:text-headingColor" />
+                  ),
+                },
+                {
+                  icon: icon2,
+                  title: "Use Our ML Model",
+                  description: `Detect early signs of brain tumors, Alzheimer's disease, and hemorrhages using advanced diagnostic analysis present on our website. Upload your MRI scans to receive accurate and timely results.`,
+                  link: "/mri-diagnosis",
+                  clickIcon: (
+                    <FaMicroscope className="text-primaryColor w-8 h-8 group-hover:text-headingColor" />
+                  ),
+                  popup: true,
+                },
+                {
+                  icon: icon3,
+                  title: "Virtual Appointment",
+                  description: `Health-E offers the convenience of virtual appointments, allowing you to consult with top doctors from anywhere, ensuring accessibility and comfort. You can chat or directly connect with the doctors.`,
+                  link: "/doctors",
+                  clickIcon: (
+                    <BsCameraVideo className="text-primaryColor w-7 h-7 group-hover:text-headingColor" />
+                  ),
+                },
+              ].map((item, index) => (
+                <Link
+                  to={item.link}
+                  key={index}
+                  className="block py-[30px] px-5 bg-white shadow-md hover:shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 border border-gray-200 hover:border-primaryColor group relative"
+                >
+                  {item.popup && (
+                    <div className="absolute -top-2 -right-2 bg-gradient-to-r from-primaryColor to-headingColor text-white text-[13px] font-bold uppercase py-3 px-5 rounded-full shadow-lg animate-bounce">
+                      Latest
+                    </div>
+                  )}
+                  <div className="flex items-center justify-center">
+                    <img src={item.icon} alt="" className="w-16 h-16" />
+                  </div>
+                  <div className="mt-[30px] text-center">
+                    <h2 className="text-[26px] leading-9 text-headingColor font-[700]">
+                      {item.title}
+                    </h2>
+                    <p className="text-[16px] leading-7 text-textColor font-[400] mt-4">
+                      {item.description}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center mt-8 group-hover:scale-110 transition-transform">
+                    {item.clickIcon}
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -175,8 +172,10 @@ Whether you need an in-person examination or a virtual consultation.`,
                 using advanced diagnostic analysis present on our website.
                 Upload your MRI scans to receive accurate and timely results.
               </p>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md"
-              onClick={() => handleCardClick("/mri-diagnosis")}>
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md"
+                onClick={() => handleCardClick("/mri-diagnosis")}
+              >
                 Know your Mental Health
               </button>
             </div>

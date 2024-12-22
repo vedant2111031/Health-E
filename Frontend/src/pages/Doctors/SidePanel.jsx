@@ -1,37 +1,45 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { BASE_URL, getToken} from "../../config";
+import { BASE_URL, getToken } from "../../config";
 import convertTime from "../../utils/convertTime";
-
-
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTimeSlotId, setSelectedTimeSlotId] = useState("");
 
-
-
   const handleTimeSlotChange = (e) => {
     const selectedId = e.target.value;
     setSelectedTimeSlotId(selectedId);
-   
   };
 
   const bookingHandler = async (e) => {
     e.preventDefault();
-    const token=getToken()
-    if (!token || token==null || token==undefined) {
-      toast.error("Authorization token is missing");
+    const token = getToken();
+  
+    if (!token) {
+      toast.error("Login to book an appointment.");
+      setTimeout(() => {
+        window.location.href = "/login"; 
+      }, 2000);
       return;
     }
-
+  
+    if (!/^([A-Za-z0-9-_]+\.){2}[A-Za-z0-9-_]+$/.test(token)) {
+      toast.error("Please log in to book appointment.");
+      localStorage.removeItem('token');
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+      return;
+    }
+  
     if (!selectedTimeSlotId) {
       toast.error("Please select a time slot.");
       return;
     }
-
+  
     setIsLoading(true);
-
+  
     try {
       const res = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`, {
         method: 'POST',
@@ -44,13 +52,13 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
           ticketPrice,
         }),
       });
-     
+  
       const data = await res.json();
-      
+  
       if (!res.ok) {
         throw new Error(data.message || 'Something went wrong. Please try again.');
       }
-
+  
       if (data.data?.url) {
         window.location.href = data.data.url;
       }
@@ -60,6 +68,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">

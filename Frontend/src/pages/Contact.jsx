@@ -1,17 +1,18 @@
-import React, { useState,useEffect } from "react";
-
-
-
+import React, { useState, useEffect } from "react";
+import emailjs from "emailjs-com";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
-
   useEffect(() => {
-    window.scrollTo(0, 0); 
-  }, []); 
+    window.scrollTo(0, 0);
+  }, []);
+
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     subject: "",
-    message: ""
+    message: "",
   });
 
   const [status, setStatus] = useState("");
@@ -24,25 +25,53 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
+    try {
+      console.log("Sending email with data:", formData); // Debugging
+      const result = await emailjs.send(
+        "service_rtdbpts", // Your service ID
+        "template_b1lyz1o", // Your template ID
+        formData,
+        "zcdmren8ioOPY7Z2K" // Your public key
+      );
 
-     
-        setStatus("Message sent successfully!");
-        setFormData({ email: "", subject: "", message: "" });
-      
-      
-      
-    } 
-  
-  
+      console.log("Email sent successfully:", result); // Debugging
+      toast.success("Message sent successfully!", {
+        position: "top-center",
+      });
+
+      setStatus(""); // Clear status
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      console.error("Error sending email:", error); // Debugging
+      toast.error("Failed to send the message. Try again!", {
+        position: "top-center",
+      });
+      setStatus(""); // Clear status even on error
+    }
+  };
 
   return (
     <section className="py-4 shadow-md">
       <div className="px-4 mx-auto max-w-screen-md">
         <h2 className="heading text-center">Contact Us</h2>
-        <p className="mb-8 lg:mb-16 font-light text-center text__para">
-          Let us know any issue faced. Or want to give us feedback for better features.
+        <p className="mb-8 lg:mb-16 font-light text-center text__para text-primaryColor">
+          Let us know any issue faced, or want to give us feedback for better features.
         </p>
         <form onSubmit={handleSubmit} className="space-y-8">
+          <div>
+            <label htmlFor="name" className="form__label">
+              Your Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Your Name"
+              className="form__input mt-1"
+              required
+            />
+          </div>
           <div>
             <label htmlFor="email" className="form__label">
               Your Email
@@ -91,6 +120,7 @@ const Contact = () => {
         </form>
         {status && <p className="text-center mt-4">{status}</p>}
       </div>
+      <ToastContainer />
     </section>
   );
 };

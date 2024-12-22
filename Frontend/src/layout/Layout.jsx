@@ -12,7 +12,6 @@ function Layout() {
       <Routers/>
       <Chatbot/>
     </main>
-    
     <Footer/>
     </>
   )

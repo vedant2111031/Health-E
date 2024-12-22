@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import ChatbotIcon from "../../assets/images/chatbot-icon.png"; // Path to your chatbot image
+import ChatbotIcon from "../../assets/images/chatbot-icon.png";
 import { BASE_URL } from '../../config';
-
-
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,14 +34,12 @@ const Chatbot = () => {
 
           if (response.ok) {
             const data = await response.json();
-            console.log(data)
             const botMessage = { text: data.botReply, sender: 'bot' };
             setMessages(prevMessages => [...prevMessages, botMessage]);
           } else {
             setMessages(prevMessages => [...prevMessages, { text: 'Error fetching GPT response', sender: 'bot' }]);
           }
         } catch (error) {
-          console.log(error)
           setMessages(prevMessages => [...prevMessages, { text: 'Error connecting to GPT', sender: 'bot' }]);
         }
 
@@ -58,7 +54,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className={`fixed bottom-4 right-4 transition-transform duration-300 ${isOpen ? 'w-80' : 'w-14 h-14 rounded-full'} bg-white border border-gray-300 rounded-lg shadow-lg`}>
+    <div className={`fixed bottom-4 right-4 transition-all duration-300 ${isOpen ? 'w-80' : 'w-14 h-14 rounded-full'} bg-white border border-gray-300 rounded-lg shadow-lg z-50`}>
       {/* Options Section */}
       {isOpen && !currentOption && (
         <div className="p-2">
