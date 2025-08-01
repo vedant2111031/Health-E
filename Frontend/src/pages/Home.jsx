@@ -40,7 +40,7 @@ const Home = () => {
             <div>
               <div className="lg:w-[500px]">
                 <h1 className="text-[36px] leading-[46px] text-headingColor font-[700] md:text-[50px] md:leading-[60px]">
-                  We follow a holistic approch to health care.
+                  We follow a holistic approach to health care.
                 </h1>
                 <p className="text__para text-[18px] leading-[30px] font-[400]">
                   Health-E is a pioneering platform dedicated to enhancing your
