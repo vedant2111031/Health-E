@@ -76,8 +76,24 @@ const quickLinks03 = [
   },
 ];
 
-function Footer() {
-  const year = new Date().getFullYear();
+// ✅ DATALAYER TRACKING FUNCTION
+const pushFooterLinkClick = (label, url) => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "web.webInteractionLink.click",
+    web: {
+      interactionType: "link click",
+      link: {
+        text: label.toLowerCase(),
+        url: url.toLowerCase(),
+        section: "footer",
+      },
+      componentName: "footer",
+    },
+  });
+};
+
+
   return (
     <footer className="pb-16 pt-10">
       <div className="container">
@@ -87,56 +103,84 @@ function Footer() {
             <p className="text-[16px] leading-7 font-[400] text-textColor">
               Copyright {year} developed by D-CODER.
             </p>
+
+            {/* ✅ SOCIAL ICONS */}
             <div className="flex items-center gap-3 mt-4">
               {Links.map((link, index) => (
                 <Link
                   to={link.path}
                   key={index}
                   className="w-9 h-9 border border-solid border-[#181A1E] rounded-full flex items-center justify-center group hover:bg-primaryColor hover:border-none"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => pushFooterLinkClick(link.label, link.path)}
                 >
                   {link.icon}
                 </Link>
               ))}
             </div>
           </div>
+
+          {/* ✅ QUICK LINKS 1 */}
           <div>
-          <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
-            Quick Links
-          </h2>
-          <ul>
-            {quickLinks01.map((item, index) => (
-              <li key={index} className="mb-4">
-                <Link to={item.path} className="text-[16px] leading-7 font-[400] text-textColor">{item.display}</Link>
-              </li>
-            ))}
-          </ul>
+            <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
+              Quick Links
+            </h2>
+            <ul>
+              {quickLinks01.map((item, index) => (
+                <li key={index} className="mb-4">
+                  <Link
+                    to={item.path}
+                    className="text-[16px] leading-7 font-[400] text-textColor"
+                    onClick={() => pushFooterLinkClick(item.display, item.path)}
+                  >
+                    {item.display}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* ✅ QUICK LINKS 2 */}
+          <div>
+            <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
+              Can
+            </h2>
+            <ul>
+              {quickLinks02.map((item, index) => (
+                <li key={index} className="mb-4">
+                  <Link
+                    to={item.path}
+                    className="text-[16px] leading-7 font-[400] text-textColor"
+                    onClick={() => pushFooterLinkClick(item.display, item.path)}
+                  >
+                    {item.display}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* ✅ QUICK LINKS 3 */}
+          <div>
+            <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
+              Support
+            </h2>
+            <ul>
+              {quickLinks03.map((item, index) => (
+                <li key={index} className="mb-4">
+                  <Link
+                    to={item.path}
+                    className="text-[16px] leading-7 font-[400] text-textColor"
+                    onClick={() => pushFooterLinkClick(item.display, item.path)}
+                  >
+                    {item.display}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div>
-          <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
-            Can
-          </h2>
-          <ul>
-            {quickLinks02.map((item, index) => (
-              <li key={index} className="mb-4">
-                <Link to={item.path} className="text-[16px] leading-7 font-[400] text-textColor">{item.display}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="">
-          <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
-            Support
-          </h2>
-          <ul>
-            {quickLinks03.map((item, index) => (
-              <li key={index} className="mb-4">
-                <Link to={item.path} className="text-[16px] leading-7 font-[400] text-textColor">{item.display}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        </div>
-        
       </div>
     </footer>
   );
