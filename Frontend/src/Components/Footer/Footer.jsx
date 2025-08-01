@@ -76,8 +76,10 @@ const quickLinks03 = [
   },
 ];
 
-// ✅ DATALAYER TRACKING FUNCTION
 const pushFooterLinkClick = (label, url) => {
+  const isAbsoluteUrl = url.startsWith("http");
+  const fullUrl = isAbsoluteUrl ? url : `${window.location.origin}${url}`;
+
   window.adobeDataLayer = window.adobeDataLayer || [];
   window.adobeDataLayer.push({
     event: "web.webinteractionlink.click",
@@ -86,12 +88,18 @@ const pushFooterLinkClick = (label, url) => {
       interactionType: "link click",
       link: {
         section: "footer",
-        text: label.toLowerCase(),
-        url: window.location.origin + url,
+        text: label.toLowerCase() || "unknown",
+        url: fullUrl,
       },
     },
   });
+
+  console.log("✅ adobeDataLayer pushed:", {
+    label,
+    fullUrl,
+  });
 };
+
 
 
  const Footer = () => {
