@@ -62,7 +62,7 @@ const quickLinks02 = [
   },
   {
     path: "/",
-    display: "Get a Opinion",
+    display: "Get an Opinion",
   },
 ];
 const quickLinks03 = [
@@ -78,21 +78,24 @@ const quickLinks03 = [
 
 // ✅ DATALAYER TRACKING FUNCTION
 const pushFooterLinkClick = (label, url) => {
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: "web.webInteractionLink.click",
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  window.adobeDataLayer.push({
+    event: "web.webinteractionlink.click",
     web: {
+      componentName: "footer",
       interactionType: "link click",
       link: {
-        text: label.toLowerCase(),
-        url: url.toLowerCase(),
         section: "footer",
+        text: label.toLowerCase(),
+        url: window.location.origin + url,
       },
-      componentName: "footer",
     },
   });
 };
 
+
+ const Footer = () => {
+  const year = new Date().getFullYear();
 
   return (
     <footer className="pb-16 pt-10">
@@ -107,8 +110,8 @@ const pushFooterLinkClick = (label, url) => {
             {/* ✅ SOCIAL ICONS */}
             <div className="flex items-center gap-3 mt-4">
               {Links.map((link, index) => (
-                <Link
-                  to={link.path}
+                <a
+                  href={link.path}
                   key={index}
                   className="w-9 h-9 border border-solid border-[#181A1E] rounded-full flex items-center justify-center group hover:bg-primaryColor hover:border-none"
                   target="_blank"
@@ -116,7 +119,7 @@ const pushFooterLinkClick = (label, url) => {
                   onClick={() => pushFooterLinkClick(link.label, link.path)}
                 >
                   {link.icon}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
@@ -184,6 +187,6 @@ const pushFooterLinkClick = (label, url) => {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;
