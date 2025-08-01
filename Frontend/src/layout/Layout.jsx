@@ -21,11 +21,14 @@ const Layout = () => {
 
   return (
     <>
-      {/* Your nav/header */}
-      <Outlet />
-      {/* Your footer */}
+    <Header/>
+    <main>
+      <Routers/>
+      <Chatbot/>
+    </main>
+    <Footer/>
     </>
-  );
+  )
 };
 
 export default Layout;
