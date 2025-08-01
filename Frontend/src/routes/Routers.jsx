@@ -16,14 +16,8 @@ import TumorDetection from "../pages/TumorDetection";
 import AlzheimerDetection from "../pages/AlzheimerDetection";
 import HemorrhageDetection from "../pages/HemorrhageDetection";
 import Result from "../pages/MRIResult";
-import { pushPageViewData } from "../components/pageViewTracker"; 
 
 function Routers() {
-   const location = useLocation();
-
-  useEffect(() => {
-    pushPageViewData(location.pathname);
-  }, [location]);
    
   return (
     <Routes>
