@@ -15,52 +15,42 @@ const Doctor = () => {
   const [debounceQuery, setDebounceQuery] = useState("");
   const [searchStarted, setSearchStarted] = useState(false);
 
+  // Ensure dataLayer exists
   window.dataLayer = window.dataLayer || [];
 
-  const triggerSearchInteractionEvent = () => {
-    if (window.dataLayer) {
-      window.dataLayer.push({
-        event: "web.webInteraction.click",
-        web: {
-          webInteractionDetails: {
-            interactionType: "search",
-            interactionAction: "overlay open"
-          }
-        }
-      });
-    } else {
-      console.warn("dataLayer not found for search interaction.");
-    }
+  // Trigger overlay interaction (on input focus)
+  const triggerSearchOverlayEvent = () => {
+    window.dataLayer.push({
+      event: "web.search.overlay",
+      web: {
+        webInteractionDetails: {
+          interactionType: "search",
+          interactionAction: "overlay open",
+        },
+      },
+    });
   };
 
+  // Trigger search result load event (on search submit)
   const triggerSearchResultsLoadedEvent = () => {
-    if (window.dataLayer) {
-      window.dataLayer.push({
-        event: "web.webPageDetails.pageViews",
-        web: {
-          webPageDetails: {
-            pageName: "Doctor Search Results",
-            pageType: "search result",
-            siteSection: "Doctors"
-          }
-        }
-      });
-    } else {
-      console.warn("dataLayer not found for results event.");
-    }
+    window.dataLayer.push({
+      event: "web.search.loadResults",
+      web: {
+        webPageDetails: {
+          pageName: "Doctor Search Results",
+          pageType: "search result",
+          siteSection: "Doctors",
+        },
+      },
+    });
   };
 
-  // Search click handler
   const handleSearch = () => {
-    if (!searchStarted) {
-      triggerSearchInteractionEvent();
-      setSearchStarted(true);
-    }
     setQuery(query.trim());
     triggerSearchResultsLoadedEvent();
   };
 
-  // Debounce effect for input change
+  // Debounce input change
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebounceQuery(query);
@@ -88,7 +78,7 @@ const Doctor = () => {
               value={query}
               onFocus={() => {
                 if (!searchStarted) {
-                  triggerSearchInteractionEvent();
+                  triggerSearchOverlayEvent(); // ← new event
                   setSearchStarted(true);
                 }
               }}
