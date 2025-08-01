@@ -15,6 +15,8 @@ const Doctor = () => {
   const [debounceQuery, setDebounceQuery] = useState("");
   const [searchStarted, setSearchStarted] = useState(false);
 
+  window.dataLayer = window.dataLayer || [];
+
   const triggerSearchInteractionEvent = () => {
     if (window.dataLayer) {
       window.dataLayer.push({
