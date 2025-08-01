@@ -15,13 +15,9 @@ const Doctor = () => {
   const [debounceQuery, setDebounceQuery] = useState("");
   const [searchStarted, setSearchStarted] = useState(false);
 
-  const handleSearch = () => {
-    setQuery(query.trim());
-  };
-
   const triggerSearchInteractionEvent = () => {
-    if (window.adobeDataLayer) {
-      window.adobeDataLayer.push({
+    if (window.dataLayer) {
+      window.dataLayer.push({
         event: "web.webInteraction.click",
         web: {
           webInteractionDetails: {
@@ -30,12 +26,14 @@ const Doctor = () => {
           }
         }
       });
+    } else {
+      console.warn("dataLayer not found for search interaction.");
     }
   };
 
   const triggerSearchResultsLoadedEvent = () => {
-    if (window.adobeDataLayer) {
-      window.adobeDataLayer.push({
+    if (window.dataLayer) {
+      window.dataLayer.push({
         event: "web.webPageDetails.pageViews",
         web: {
           webPageDetails: {
@@ -45,16 +43,27 @@ const Doctor = () => {
           }
         }
       });
+    } else {
+      console.warn("dataLayer not found for results event.");
     }
   };
 
+  // Search click handler
+  const handleSearch = () => {
+    if (!searchStarted) {
+      triggerSearchInteractionEvent();
+      setSearchStarted(true);
+    }
+    setQuery(query.trim());
+    triggerSearchResultsLoadedEvent();
+  };
+
+  // Debounce effect for input change
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebounceQuery(query);
-      if (query.trim()) {
-        triggerSearchResultsLoadedEvent();
-      }
-    }, 700);
+    }, 500);
+
     return () => clearTimeout(timeout);
   }, [query]);
 
@@ -111,8 +120,7 @@ const Doctor = () => {
         <div className="xl:w-[470px] mx-auto py-6">
           <h2 className="heading text-center">What Our patient Says...</h2>
           <p className="text__para text-center">
-            World-class care for everyone.Our health System offers
-            unmatched,expert health care.
+            World-class care for everyone. Our health system offers unmatched, expert health care.
           </p>
         </div>
         <TestimonialComponent />
