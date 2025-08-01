@@ -6,6 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 const Contact = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Fire formLoad on mount
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "formLoad",
+      formName: "Contact Us",
+      formType: "contact",
+    });
   }, []);
 
   const [formData, setFormData] = useState({
@@ -16,17 +24,50 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState("");
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
+  // Track first interaction
+  const handleFirstInteraction = (e) => {
+    if (!hasInteracted) {
+      window.dataLayer.push({
+        event: "formInitiate",
+        formName: "Contact Us",
+        formType: "contact",
+      });
+      setHasInteracted(true);
+    }
+    handleChange(e);
+  };
+
+  // Track field errors
+  const handleBlur = (e) => {
+    if (!e.target.checkValidity()) {
+      window.dataLayer.push({
+        event: "formFieldError",
+        formName: "Contact Us",
+        field: e.target.id,
+        error: e.target.validationMessage,
+      });
+    }
+  };
+
+  // Submit handler with dataLayer events
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
+
+    window.dataLayer.push({
+      event: "formSubmit",
+      formName: "Contact Us",
+      formType: "contact",
+    });
+
     try {
-      console.log("Sending email with data:", formData); // Debugging
       const result = await emailjs.send(
         "service_rtdbpts", // Your service ID
         "template_b1lyz1o", // Your template ID
@@ -34,19 +75,26 @@ const Contact = () => {
         "zcdmren8ioOPY7Z2K" // Your public key
       );
 
-      console.log("Email sent successfully:", result); // Debugging
       toast.success("Message sent successfully!", {
         position: "top-center",
       });
 
-      setStatus(""); // Clear status
+      window.dataLayer.push({
+        event: "formComplete",
+        formName: "Contact Us",
+        formType: "contact",
+        formData: { ...formData },
+      });
+
+      setStatus("");
       setFormData({ name: "", email: "", subject: "", message: "" });
+      setHasInteracted(false);
     } catch (error) {
-      console.error("Error sending email:", error); // Debugging
+      console.error("Error sending email:", error);
       toast.error("Failed to send the message. Try again!", {
         position: "top-center",
       });
-      setStatus(""); // Clear status even on error
+      setStatus("");
     }
   };
 
@@ -59,56 +107,52 @@ const Contact = () => {
         </p>
         <form onSubmit={handleSubmit} className="space-y-8">
           <div>
-            <label htmlFor="name" className="form__label">
-              Your Name
-            </label>
+            <label htmlFor="name" className="form__label">Your Name</label>
             <input
               type="text"
               id="name"
               value={formData.name}
-              onChange={handleChange}
+              onChange={handleFirstInteraction}
+              onBlur={handleBlur}
               placeholder="Your Name"
               className="form__input mt-1"
               required
             />
           </div>
           <div>
-            <label htmlFor="email" className="form__label">
-              Your Email
-            </label>
+            <label htmlFor="email" className="form__label">Your Email</label>
             <input
               type="email"
               id="email"
               value={formData.email}
-              onChange={handleChange}
+              onChange={handleFirstInteraction}
+              onBlur={handleBlur}
               placeholder="example@gmail.com"
               className="form__input mt-1"
               required
             />
           </div>
           <div>
-            <label htmlFor="subject" className="form__label">
-              Subject
-            </label>
+            <label htmlFor="subject" className="form__label">Subject</label>
             <input
               type="text"
               id="subject"
               value={formData.subject}
-              onChange={handleChange}
+              onChange={handleFirstInteraction}
+              onBlur={handleBlur}
               placeholder="Write your views"
               className="form__input mt-1"
               required
             />
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="message" className="form__label">
-              Your Message
-            </label>
+            <label htmlFor="message" className="form__label">Your Message</label>
             <textarea
               rows="4"
               id="message"
               value={formData.message}
-              onChange={handleChange}
+              onChange={handleFirstInteraction}
+              onBlur={handleBlur}
               placeholder="Leave a comment..."
               className="form__input mt-1"
               required
