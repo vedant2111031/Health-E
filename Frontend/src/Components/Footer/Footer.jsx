@@ -80,8 +80,8 @@ const pushFooterLinkClick = (label, url) => {
   const isAbsoluteUrl = url.startsWith("http");
   const fullUrl = isAbsoluteUrl ? url : `${window.location.origin}${url}`;
 
-  window.adobeDataLayer = window.adobeDataLayer || [];
-  window.adobeDataLayer.push({
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
     event: "web.webinteractionlink.click",
     web: {
       componentName: "footer",
@@ -92,11 +92,6 @@ const pushFooterLinkClick = (label, url) => {
         url: fullUrl,
       },
     },
-  });
-
-  console.log("✅ adobeDataLayer pushed:", {
-    label,
-    fullUrl,
   });
 };
 
