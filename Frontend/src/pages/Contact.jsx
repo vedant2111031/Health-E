@@ -7,12 +7,18 @@ const Contact = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // Fire formLoad on mount
+    // Fire form load event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "formLoad",
-      formName: "Contact Us",
-      formType: "contact",
+      event: "web.webPageDetails.form.load",
+      web: {
+        webPageDetails: {
+          form: {
+            name: "global contact us",
+            formType: "contact",
+          },
+        },
+      },
     });
   }, []);
 
@@ -35,9 +41,15 @@ const Contact = () => {
   const handleFirstInteraction = (e) => {
     if (!hasInteracted) {
       window.dataLayer.push({
-        event: "formInitiate",
-        formName: "Contact Us",
-        formType: "contact",
+        event: "web.webPageDetails.form.initiate",
+        web: {
+          webPageDetails: {
+            form: {
+              name: "global contact us",
+              formType: "contact",
+            },
+          },
+        },
       });
       setHasInteracted(true);
     }
@@ -48,31 +60,43 @@ const Contact = () => {
   const handleBlur = (e) => {
     if (!e.target.checkValidity()) {
       window.dataLayer.push({
-        event: "formFieldError",
-        formName: "Contact Us",
-        field: e.target.id,
-        error: e.target.validationMessage,
+        event: "web.webPageDetails.form.fieldsWithError",
+        web: {
+          webPageDetails: {
+            form: {
+              name: "global contact us",
+              formType: "contact",
+              fieldsWithErrors: e.target.id,
+            },
+          },
+        },
       });
     }
   };
 
-  // Submit handler with dataLayer events
+  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
 
     window.dataLayer.push({
-      event: "formSubmit",
-      formName: "Contact Us",
-      formType: "contact",
+      event: "web.webPageDetails.form.submit",
+      web: {
+        webPageDetails: {
+          form: {
+            name: "global contact us",
+            formType: "contact",
+          },
+        },
+      },
     });
 
     try {
       const result = await emailjs.send(
-        "service_rtdbpts", // Your service ID
-        "template_b1lyz1o", // Your template ID
+        "service_rtdbpts",        // Your service ID
+        "template_b1lyz1o",       // Your template ID
         formData,
-        "zcdmren8ioOPY7Z2K" // Your public key
+        "zcdmren8ioOPY7Z2K"       // Your public key
       );
 
       toast.success("Message sent successfully!", {
@@ -80,10 +104,16 @@ const Contact = () => {
       });
 
       window.dataLayer.push({
-        event: "formComplete",
-        formName: "Contact Us",
-        formType: "contact",
-        formData: { ...formData },
+        event: "web.webPageDetails.form.complete",
+        web: {
+          webPageDetails: {
+            form: {
+              name: "global contact us",
+              formType: "contact",
+              formData: { ...formData },
+            },
+          },
+        },
       });
 
       setStatus("");
