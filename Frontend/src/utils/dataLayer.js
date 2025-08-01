@@ -1,27 +1,24 @@
-
-
-export const pushPageLoadData = ({ pageName, pageUrl, user = {} }) => {
-  window.digitalData = window.digitalData || {};
-  window.digitalData.page = {
-    pageName,
-    pageUrl,
-    pageType: "content", // Or dynamic like "home", "contact", etc.
-    referrer: document.referrer || "",
+// src/utils/datalayer.js
+export const pushPageLoadData = ({ pageName, user }) => {
+  const data = {
+    event: 'pageLoad',
+    page: {
+      name: pageName,
+      path: window.location.pathname,
+      title: document.title,
+      url: window.location.href,
+    },
+    user: user || null,
     timestamp: new Date().toISOString(),
+    device: {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      userAgent: navigator.userAgent,
+    },
   };
 
-  if (user && user.id) {
-    window.digitalData.user = {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      loginStatus: "logged-in",
-    };
-  } else {
-    window.digitalData.user = {
-      loginStatus: "guest",
-    };
-  }
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(data);
 
-  console.log("[DataLayer] Page Load Data:", window.digitalData);
+  console.log('[DataLayer] Page Load Pushed:', data);
 };
