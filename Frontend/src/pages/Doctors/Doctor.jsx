@@ -6,22 +6,54 @@ import useFetchData from "../../hooks/useFetchData";
 import Loader from "../../Components/Loader/Loading";
 import Error from "../../Components/Error/Error";
 
-
-
 const Doctor = () => {
   useEffect(() => {
-    window.scrollTo(0, 0); 
-  }, []); 
+    window.scrollTo(0, 0);
+  }, []);
+
   const [query, setQuery] = useState("");
   const [debounceQuery, setDebounceQuery] = useState("");
-  
+  const [searchStarted, setSearchStarted] = useState(false);
+
   const handleSearch = () => {
     setQuery(query.trim());
+  };
+
+  const triggerSearchInteractionEvent = () => {
+    if (window.adobeDataLayer) {
+      window.adobeDataLayer.push({
+        event: "web.webInteraction.click",
+        web: {
+          webInteractionDetails: {
+            interactionType: "search",
+            interactionAction: "overlay open"
+          }
+        }
+      });
+    }
+  };
+
+  const triggerSearchResultsLoadedEvent = () => {
+    if (window.adobeDataLayer) {
+      window.adobeDataLayer.push({
+        event: "web.webPageDetails.pageViews",
+        web: {
+          webPageDetails: {
+            pageName: "Doctor Search Results",
+            pageType: "search result",
+            siteSection: "Doctors"
+          }
+        }
+      });
+    }
   };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebounceQuery(query);
+      if (query.trim()) {
+        triggerSearchResultsLoadedEvent();
+      }
     }, 700);
     return () => clearTimeout(timeout);
   }, [query]);
@@ -31,6 +63,7 @@ const Doctor = () => {
     loading,
     error,
   } = useFetchData(`${BASE_URL}/doctors?query=${debounceQuery}`);
+
   return (
     <>
       <section className="bg-[#fff9ea]">
@@ -42,7 +75,13 @@ const Doctor = () => {
               className="py-4 pl-4 pr-2 bg-transparent w-full focus-outline-none cursor-pointer placeholder:text-textColor"
               placeholder="Search Doctor by name or specification"
               value={query}
-              onChange={e => setQuery(e.target.value)}
+              onFocus={() => {
+                if (!searchStarted) {
+                  triggerSearchInteractionEvent();
+                  setSearchStarted(true);
+                }
+              }}
+              onChange={(e) => setQuery(e.target.value)}
             />
             <button
               className="btn mt-0 rounded-[0px] rounded-r-md"
@@ -53,19 +92,21 @@ const Doctor = () => {
           </div>
         </div>
       </section>
+
       <section>
         <div className="container">
           {loading && <Loader />}
           {error && <Error />}
           {!loading && !error && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-              {doctors.map((doctor,index) => (
+              {doctors.map((doctor, index) => (
                 <DoctorCard key={`${doctor.id}-${index}`} doctor={doctor} />
               ))}
             </div>
           )}
         </div>
       </section>
+
       <section className="container">
         <div className="xl:w-[470px] mx-auto py-6">
           <h2 className="heading text-center">What Our patient Says...</h2>
