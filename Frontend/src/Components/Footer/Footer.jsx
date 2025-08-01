@@ -11,22 +11,27 @@ import {
 
 const Links = [
   {
+    label: "YouTube",
     path: "https://www.youtube.com/",
     icon: <AiFillYoutube className="group-hover:text-white w-4 h-5" />,
   },
   {
+    label: "GitHub",
     path: "https://github.com/vedant2111031",
     icon: <AiFillGithub className="group-hover:text-white w-4 h-5" />,
   },
   {
+    label: "Instagram",
     path: "https://www.instagram.com/",
     icon: <AiFillInstagram className="group-hover:text-white w-4 h-5" />,
   },
   {
+    label: "LinkedIn",
     path: "https://www.linkedin.com/in/vedant-pandey7/",
     icon: <RiLinkedinFill className="group-hover:text-white w-4 h-5" />,
   },
 ];
+
 
 const quickLinks01 = [
   {
