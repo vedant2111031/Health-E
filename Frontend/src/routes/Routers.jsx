@@ -24,6 +24,7 @@ function Routers() {
   useEffect(() => {
     pushPageViewData(location.pathname);
   }, [location]);
+   
   return (
     <Routes>
       <Route path="/" element={<Home />} />
