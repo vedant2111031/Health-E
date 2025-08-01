@@ -75,21 +75,24 @@ function Header() {
     }
   }, [shouldFetchUser, token, role, setUserData]);
 
-  const pushDataLayerEvent = (text, url) => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "web.webInteractionLink.click",
-      web: {
-        interactionType: "link click",
-        link: {
-          text: text,
-          url: url,
-          section: "header",
-        },
-        componentName: "header",
+ const pushDataLayerEvent = (text, relativeUrl) => {
+  const fullUrl = new URL(relativeUrl, window.location.origin).href;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "web.webinteractionlink.click",
+    web: {
+      interactiontype: "link click",
+      link: {
+        text: text.toLowerCase(),
+        url: fullUrl.toLowerCase(),
+        section: "header",
       },
-    });
-  };
+      componentname: "header",
+    },
+  });
+};
+
 
   return (
     <header className="header flex items-center" ref={headerRef}>
