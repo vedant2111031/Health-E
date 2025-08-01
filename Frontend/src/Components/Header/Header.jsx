@@ -75,12 +75,28 @@ function Header() {
     }
   }, [shouldFetchUser, token, role, setUserData]);
 
+  const pushDataLayerEvent = (text, url) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "web.webInteractionLink.click",
+      web: {
+        interactionType: "link click",
+        link: {
+          text: text,
+          url: url,
+          section: "header",
+        },
+        componentName: "header",
+      },
+    });
+  };
+
   return (
     <header className="header flex items-center" ref={headerRef}>
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <Link to="/">
+            <Link to="/" onClick={() => pushDataLayerEvent("Logo", "/")}>
               <img src={logo} alt="Logo" className="max-w-[160px] cursor-pointer" />
             </Link>
           </div>
@@ -95,6 +111,7 @@ function Header() {
                         ? "text-primaryColor text-[16px] leading-7 font-[600]"
                         : "text-textColor text-[16px] leading-7 font-[500] hover:text-primaryColor"
                     }
+                    onClick={() => pushDataLayerEvent(link.display, link.path)}
                   >
                     {link.display}
                   </NavLink>
@@ -106,14 +123,25 @@ function Header() {
           <div className="flex items-center gap-4">
             {token && user ? (
               <div>
-                <Link to={`${role === 'doctor' ? '/doctors/profile/me' : '/users/profile/me'}`}>
+                <Link
+                  to={`${role === 'doctor' ? '/doctors/profile/me' : '/users/profile/me'}`}
+                  onClick={() =>
+                    pushDataLayerEvent("Profile", role === 'doctor' ? '/doctors/profile/me' : '/users/profile/me')
+                  }
+                >
                   <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                    {!loading && <img src={user?.photo || defaultPhoto} className="w-full rounded-full" alt="User" />}
+                    {!loading && (
+                      <img
+                        src={user?.photo || defaultPhoto}
+                        className="w-full rounded-full"
+                        alt="User"
+                      />
+                    )}
                   </figure>
                 </Link>
               </div>
             ) : (
-              <Link to='/login'>
+              <Link to="/login" onClick={() => pushDataLayerEvent("Login", "/login")}>
                 <button className="bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]">
                   Login
                 </button>
