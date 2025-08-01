@@ -45,10 +45,12 @@ const Doctor = () => {
     });
   };
 
-  const handleSearch = () => {
-    setQuery(query.trim());
-    triggerSearchResultsLoadedEvent();
-  };
+const handleSearch = () => {
+  const trimmed = query.trim();
+  setQuery(trimmed);
+  triggerSearchResultsLoadedEvent(trimmed); //
+};
+
 
   // Debounce input change
   useEffect(() => {
