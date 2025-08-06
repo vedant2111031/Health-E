@@ -44,8 +44,7 @@ const Doctor = () => {
           siteSection: "doctors"
         },
         search: {
-          searchTerm: searchQuery.toLowerCase(),
-          source: source // "auto" or "manual"
+          searchTerm: searchQuery.toLowerCase()
         }
       }
     });
