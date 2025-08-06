@@ -10,12 +10,29 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
   const handleTimeSlotChange = (e) => {
     const selectedId = e.target.value;
     setSelectedTimeSlotId(selectedId);
+
+    // 🔹 Data layer for time slot selection
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "appointmentbooking.initiate",
+      web: {
+        componentname: "sidepanel",
+        interactiontype: "dropdown select",
+        form: {
+          section: "appointment booking",
+          timeslotId: selectedId.toLowerCase()
+        }
+      }
+    });
+
+    // Store timeslot for success tracking
+    localStorage.setItem("appointment_timeslotId", selectedId);
   };
 
   const bookingHandler = async (e) => {
     e.preventDefault();
     const token = getToken();
-  
+
     if (!token) {
       toast.error("Login to book an appointment.");
       setTimeout(() => {
@@ -23,7 +40,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
       }, 2000);
       return;
     }
-  
+
     if (!/^([A-Za-z0-9-_]+\.){2}[A-Za-z0-9-_]+$/.test(token)) {
       toast.error("Please log in to book appointment.");
       localStorage.removeItem('token');
@@ -32,14 +49,35 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
       }, 2000);
       return;
     }
-  
+
     if (!selectedTimeSlotId) {
       toast.error("Please select a time slot.");
       return;
     }
-  
+
+    // 🔸 Data layer for form submission
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "appointmentbooking.submit",
+      web: {
+        componentname: "sidepanel",
+        interactiontype: "form submit",
+        form: {
+          section: "appointment booking",
+          doctorId: doctorId,
+          timeslotId: selectedTimeSlotId,
+          buttonText: "Book Appointment",
+          price: `${ticketPrice} INR`
+        }
+      }
+    });
+
+    // Store for use on success page
+    localStorage.setItem("appointment_doctorId", doctorId);
+    localStorage.setItem("appointment_price", ticketPrice);
+
     setIsLoading(true);
-  
+
     try {
       const res = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`, {
         method: 'POST',
@@ -52,13 +90,13 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
           ticketPrice,
         }),
       });
-  
+
       const data = await res.json();
-  
+
       if (!res.ok) {
         throw new Error(data.message || 'Something went wrong. Please try again.');
       }
-  
+
       if (data.data?.url) {
         window.location.href = data.data.url;
       }
@@ -68,7 +106,6 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
@@ -78,6 +115,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
           {ticketPrice} INR
         </span>
       </div>
+
       <div className="mt-[30px]">
         <p className="text__para mt-0 font-semibold text-headingColor">
           Available Time Slots:
@@ -96,6 +134,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
           ))}
         </select>
       </div>
+
       <button 
         onClick={bookingHandler} 
         className="btn px-2 w-full rounded-md mt-5" 
