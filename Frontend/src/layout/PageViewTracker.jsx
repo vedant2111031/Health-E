@@ -8,16 +8,20 @@ const PageViewTracker = () => {
     const pathSegments = location.pathname.split("/").filter(Boolean);
     const lastSegment = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : "home";
 
-    const pageName = `health-e | ${lastSegment.toLowerCase()}`;
+    // Capitalize first letter for browser tab
+    const formattedSegment = lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1);
+    const titleName = `Health-E | ${formattedSegment}`;
+    document.title = titleName;
 
-    document.title = pageName;
+    // Lowercase for data layer
+    const dataLayerPageName = `health-e | ${lastSegment.toLowerCase()}`;
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: "web.webPageDetails.pageView",
       web: {
         webPageDetails: {
-          pageName: pageName,
+          pageName: dataLayerPageName,
           pageURL: window.location.href,
           referrer: document.referrer || "direct",
           device: {
