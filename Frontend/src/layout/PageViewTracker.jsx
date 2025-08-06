@@ -8,9 +8,9 @@ const PageViewTracker = () => {
     const pathSegments = location.pathname.split("/").filter(Boolean);
     const lastSegment = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : "home";
 
-    const pageName = `Health-E | ${lastSegment}`;
+    const pageName = `health-e | ${lastSegment.toLowerCase()}`;
 
-    document.title = pageName; // 👈 Set the title here
+    document.title = pageName;
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
