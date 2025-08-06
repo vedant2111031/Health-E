@@ -18,7 +18,7 @@ const Doctor = () => {
   // Ensure dataLayer exists
   window.dataLayer = window.dataLayer || [];
 
-  // Trigger overlay interaction (on input focus)
+  // Event: search overlay opened (on input focus)
   const triggerSearchOverlayEvent = () => {
     window.dataLayer.push({
       event: "web.search.overlay",
@@ -31,33 +31,34 @@ const Doctor = () => {
     });
   };
 
-  // Trigger search result load event (on search submit)
-  const triggerSearchResultsLoadedEvent = () => {
+  // Event: search results loaded (on search button click)
+  const triggerSearchResultsLoadedEvent = (searchQuery) => {
     window.dataLayer.push({
       event: "web.search.loadResults",
       web: {
         webPageDetails: {
-          pageName: "Doctor Search Results",
+          pageName: "doctor search results",
           pageType: "search result",
-          siteSection: "Doctors",
+          siteSection: "doctors"
         },
-      },
+        search: {
+          searchTerm: searchQuery.toLowerCase()
+        }
+      }
     });
   };
 
-const handleSearch = () => {
-  const trimmed = query.trim();
-  setQuery(trimmed);
-  triggerSearchResultsLoadedEvent(trimmed); //
-};
+  const handleSearch = () => {
+    const trimmed = query.trim();
+    setQuery(trimmed);
+    triggerSearchResultsLoadedEvent(trimmed);
+  };
 
-
-  // Debounce input change
+  // Debounce input value for API call
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebounceQuery(query);
     }, 500);
-
     return () => clearTimeout(timeout);
   }, [query]);
 
@@ -80,7 +81,7 @@ const handleSearch = () => {
               value={query}
               onFocus={() => {
                 if (!searchStarted) {
-                  triggerSearchOverlayEvent(); // ← new event
+                  triggerSearchOverlayEvent();
                   setSearchStarted(true);
                 }
               }}
@@ -112,7 +113,7 @@ const handleSearch = () => {
 
       <section className="container">
         <div className="xl:w-[470px] mx-auto py-6">
-          <h2 className="heading text-center">What Our patient Says...</h2>
+          <h2 className="heading text-center">What Our Patient Says...</h2>
           <p className="text__para text-center">
             World-class care for everyone. Our health system offers unmatched, expert health care.
           </p>
