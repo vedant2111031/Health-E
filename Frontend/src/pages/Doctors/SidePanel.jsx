@@ -17,7 +17,7 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
       event: "appointmentbooking.initiate",
       web: {
         componentname: "sidepanel",
-        interactiontype: "dropdown select",
+        interactiontype: "dropdown",
         form: {
           section: "appointment booking",
           timeslotId: selectedId.toLowerCase()
@@ -61,7 +61,7 @@ window.dataLayer.push({
   event: "appointmentbooking.submit",
   web: {
     componentname: "sidepanel",
-    interactiontype: "form submit",
+    interactiontype: "submit",
     form: {
       section: "appointment booking",
       doctorId: doctorId.toLowerCase(),
