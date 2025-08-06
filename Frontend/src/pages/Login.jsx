@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../config";
 import { toast } from "react-toastify";
@@ -15,6 +15,35 @@ const Login = () => {
   const navigate = useNavigate();
   const { dispatch } = useContext(authContext);
 
+  // Ensure dataLayer is available
+  window.dataLayer = window.dataLayer || [];
+
+  // Trigger form load and initiate when component mounts
+  useEffect(() => {
+    const formMeta = {
+      name: "login form",
+      formType: "authentication",
+    };
+
+    window.dataLayer.push({
+      event: "web.webpagedetails.form.load",
+      web: {
+        webPageDetails: {
+          form: formMeta,
+        },
+      },
+    });
+
+    window.dataLayer.push({
+      event: "web.webpagedetails.form.initiate",
+      web: {
+        webPageDetails: {
+          form: formMeta,
+        },
+      },
+    });
+  }, []);
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -22,6 +51,19 @@ const Login = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
+
+    // Trigger form submit event (NO personal data included)
+    window.dataLayer.push({
+      event: "web.webpagedetails.form.submit",
+      web: {
+        webPageDetails: {
+          form: {
+            name: "login form",
+            formType: "authentication",
+          },
+        },
+      },
+    });
 
     try {
       const res = await fetch(`${BASE_URL}/auth/login`, {
@@ -49,6 +91,19 @@ const Login = () => {
           user: newresult,
           token: token,
           role: newresult.role,
+        },
+      });
+
+      // Trigger form complete event (NO personal data included)
+      window.dataLayer.push({
+        event: "web.webpagedetails.form.complete",
+        web: {
+          webPageDetails: {
+            form: {
+              name: "login form",
+              formType: "authentication",
+            },
+          },
         },
       });
 
@@ -99,11 +154,7 @@ const Login = () => {
               type="submit"
               className="w-full bg-primaryColor text-white text-[16px] leading-[30px] rounded-lg px-4 py-3 flex justify-center items-center"
             >
-              {loading ? (
-                <HashLoader size={25} color="#fff" />
-              ) : (
-                "Login"
-              )}
+              {loading ? <HashLoader size={25} color="#fff" /> : "Login"}
             </button>
           </div>
 
