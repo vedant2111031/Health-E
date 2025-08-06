@@ -56,21 +56,22 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }) => {
     }
 
     // 🔸 Data layer for form submission
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "appointmentbooking.submit",
-      web: {
-        componentname: "sidepanel",
-        interactiontype: "form submit",
-        form: {
-          section: "appointment booking",
-          doctorId: doctorId,
-          timeslotId: selectedTimeSlotId,
-          buttonText: "Book Appointment",
-          price: `${ticketPrice} INR`
-        }
-      }
-    });
+ window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: "appointmentbooking.submit",
+  web: {
+    componentname: "sidepanel",
+    interactiontype: "form submit",
+    form: {
+      section: "appointment booking",
+      doctorId: doctorId.toLowerCase(),
+      timeslotId: selectedTimeSlotId.toLowerCase(),
+      buttonText: "book appointment",
+      price: `${ticketPrice} inr`
+    }
+  }
+});
+
 
     // Store for use on success page
     localStorage.setItem("appointment_doctorId", doctorId);
