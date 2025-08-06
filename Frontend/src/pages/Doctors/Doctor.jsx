@@ -31,8 +31,10 @@ const Doctor = () => {
     });
   };
 
-  // Event: search results loaded (on search button click)
-  const triggerSearchResultsLoadedEvent = (searchQuery) => {
+  // Generic function for pushing search results event
+  const triggerSearchResultsLoadedEvent = (searchQuery, source) => {
+    if (!searchQuery) return;
+
     window.dataLayer.push({
       event: "web.search.loadResults",
       web: {
@@ -42,23 +44,31 @@ const Doctor = () => {
           siteSection: "doctors"
         },
         search: {
-          searchTerm: searchQuery.toLowerCase()
+          searchTerm: searchQuery.toLowerCase(),
+          source: source // "auto" or "manual"
         }
       }
     });
   };
 
+  // Manual Search
   const handleSearch = () => {
     const trimmed = query.trim();
     setQuery(trimmed);
-    triggerSearchResultsLoadedEvent(trimmed);
+    triggerSearchResultsLoadedEvent(trimmed, "manual");
   };
 
-  // Debounce input value for API call
+  // Debounce input for API call
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setDebounceQuery(query);
+      const trimmed = query.trim();
+      setDebounceQuery(trimmed);
+
+      if (trimmed !== "") {
+        triggerSearchResultsLoadedEvent(trimmed, "auto");
+      }
     }, 500);
+
     return () => clearTimeout(timeout);
   }, [query]);
 
