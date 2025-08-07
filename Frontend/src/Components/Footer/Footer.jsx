@@ -89,8 +89,8 @@ const pushFooterLinkClick = (label, url) => {
   window.dataLayer.push({
     event: "web.webinteractionlink.click",
     web: {
-      componentName: "footer",
-      interactionType: "link click",
+      componentname: "footer",
+      interactiontype: "link click",
       link: {
         section: "footer",
         text: label.toLowerCase() || "unknown",
