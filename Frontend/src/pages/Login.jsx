@@ -26,16 +26,7 @@ const Login = () => {
     };
 
     window.dataLayer.push({
-      event: "web.webpagedetails.form.load",
-      web: {
-        webPageDetails: {
-          form: formMeta,
-        },
-      },
-    });
-
-    window.dataLayer.push({
-      event: "web.webpagedetails.form.initiate",
+      event: "login.form.load",
       web: {
         webPageDetails: {
           form: formMeta,
@@ -54,7 +45,7 @@ const Login = () => {
 
     // Trigger form submit event (NO personal data included)
     window.dataLayer.push({
-      event: "web.webpagedetails.form.submit",
+      event: "login.form.submit",
       web: {
         webPageDetails: {
           form: {
@@ -96,7 +87,7 @@ const Login = () => {
 
       // Trigger form complete event (NO personal data included)
       window.dataLayer.push({
-        event: "web.webpagedetails.form.complete",
+        event: "login.form.complete",
         web: {
           webPageDetails: {
             form: {
