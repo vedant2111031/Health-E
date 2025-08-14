@@ -33,7 +33,7 @@ const Signup = () => {
 
     // Form Load
     window.dataLayer.push({
-      event: "web.webpagedetails.form.load",
+      event: "signup.form.load",
       web: {
         webPageDetails: {
           form: formMeta,
@@ -73,7 +73,7 @@ const Signup = () => {
 
     // Trigger form.submit event
     window.dataLayer.push({
-      event: "web.webpagedetails.form.submit",
+      event: "signup.form.submit",
       web: {
         webPageDetails: {
           form: {
@@ -108,12 +108,13 @@ const Signup = () => {
 
       // Trigger form.complete event
       window.dataLayer.push({
-        event: "web.webpagedetails.form.complete",
+        event: "signup.form.complete",
         web: {
           webPageDetails: {
             form: {
               name: "signup form",
               formType: "authentication",
+              status: "signup success",
             },
           },
         },
