@@ -40,16 +40,6 @@ const Signup = () => {
         },
       },
     });
-
-    // Form Initiate
-    window.dataLayer.push({
-      event: "web.webpagedetails.form.initiate",
-      web: {
-        webPageDetails: {
-          form: formMeta,
-        },
-      },
-    });
   }, []);
 
   const handleInputChange = (e) => {
