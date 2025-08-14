@@ -93,7 +93,7 @@ const Login = () => {
             form: {
               name: "login form",
               formType: "authentication",
-              status: "login success"
+              status: "login success",
             },
           },
         },
