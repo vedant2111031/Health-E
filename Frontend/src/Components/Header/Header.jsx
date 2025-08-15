@@ -109,6 +109,7 @@ function Header() {
                 <li key={index}>
                   <NavLink
                     to={link.path}
+                    end
                     className={(navClass) =>
                       navClass.isActive
                         ? "text-primaryColor text-[16px] leading-7 font-[600]"
