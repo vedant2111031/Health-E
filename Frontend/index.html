@@ -1,9 +1,22 @@
 <!doctype html>
 <html lang="en">
   <head>
-     <script>    // Ensure dataLayer exists before anything tries to use it
-  window.dataLayer = window.dataLayer || [];
-     </script>
+    <!-- 1. Initialize dataLayer FIRST -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+  </script>
+
+  <!-- 2. Add the manual click tracking script -->
+  <script>
+    document.addEventListener('click', function(event) {
+      window.dataLayer.push({
+        event: 'manual_click',
+        click_text: event.target.innerText,
+        click_class: event.target.className,
+        click_id: event.target.id,
+      });
+    });
+  </script>
     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
