@@ -46,11 +46,13 @@ const DoctorCard = ({ doctor }) => {
           </p>
         </div>
        <Link
-  to={`/doctors/${doctor._id}`}
-  onClick={() => {
+  to="#"
+  onClick={(e) => {
+    e.preventDefault(); // stop instant navigation
+
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "web.webinteractionlink.click",
+      event: "web.doctorCard.click",
       component_name: "doctorcard",
       interaction_type: "link click",
       section: "doctor list",
@@ -62,11 +64,17 @@ const DoctorCard = ({ doctor }) => {
           : "",
       destination_url: `/doctors/${doctor._id}`
     });
+
+    // allow GTM to process, then navigate
+    setTimeout(() => {
+      window.location.href = `/doctors/${doctor._id}`;
+    }, 150);
   }}
   className="w-10 h-10 min-w-10 min-h-10 rounded-full border border-gray-800 flex items-center justify-center hover:bg-primaryColor hover:border-primaryColor transition duration-300"
 >
   <BsArrowRight className="text-gray-800 group-hover:text-white w-[18px] h-[18px]" />
 </Link>
+
       </div>
     </div>
   );
