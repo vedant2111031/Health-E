@@ -45,35 +45,7 @@ const DoctorCard = ({ doctor }) => {
             At {experiences && experiences[0]?.hospital} 
           </p>
         </div>
-       <Link
-  to="#"
-  onClick={(e) => {
-    e.preventDefault(); // stop instant navigation
-
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "web.doctorCard.click",
-      component_name: "doctorcard",
-      interaction_type: "link click",
-      section: "doctor list",
-      doctor_name: name ? name.toLowerCase() : "",
-      specialization: specialization ? specialization.toLowerCase() : "",
-      hospital:
-        experiences && experiences[0]?.hospital
-          ? experiences[0].hospital.toLowerCase()
-          : "",
-      destination_url: `/doctors/${doctor._id}`
-    });
-
-    // allow GTM to process, then navigate
-    setTimeout(() => {
-      window.location.href = `/doctors/${doctor._id}`;
-    }, 150);
-  }}
-  className="w-10 h-10 min-w-10 min-h-10 rounded-full border border-gray-800 flex items-center justify-center hover:bg-primaryColor hover:border-primaryColor transition duration-300"
->
-  <BsArrowRight className="text-gray-800 group-hover:text-white w-[18px] h-[18px]" />
-</Link>
+       <Link to={/doctors/${doctor._id}} onClick={() => { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: "web.webinteractionlink.click", web: { componentname: "doctorcard", interactiontype: "link click", link: { section: "doctor list", text: name.toLowerCase(), specialization: specialization.toLowerCase(), hospital: experiences && experiences[0]?.hospital?.toLowerCase(), url: /doctors/${doctor._id} } } }); }} className="w-10 h-10 min-w-10 min-h-10 rounded-full border border-gray-800 flex items-center justify-center hover:bg-primaryColor hover:border-primaryColor transition duration-300" > <BsArrowRight className="text-gray-800 group-hover:text-white w-[18px] h-[18px]" /> </Link>
 
       </div>
     </div>
