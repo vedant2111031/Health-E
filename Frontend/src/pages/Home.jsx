@@ -25,13 +25,49 @@ import News from "../Components/Blog/News";
 const Home = () => {
   const navigate = useNavigate();
 
-  const handleRequestAppointment = () => {
-    navigate("/doctors");
+  const fireBreadcrumbTracking = () => {
+  // ===============================
+  // 1️⃣ DIRECT CALL — Adobe Satellite
+  // ===============================
+  const directCallDL = {
+    pageName: "direct call",
+    clickhref: "direct call",
   };
 
-  const handleCardClick = (path) => {
-    navigate(path);
+  if (window._satellite && typeof window._satellite.track === "function") {
+    window._satellite.track("breadcrumb", directCallDL);
+  }
+
+  // ===============================
+  // 2️⃣ CUSTOM EVENT
+  // ===============================
+  const customEventDL = {
+    pageName: "custom event",
+    clickhref: "custom event",
   };
+
+  window.dispatchEvent(
+    new CustomEvent("breadcrumb", {
+      detail: customEventDL,
+    })
+  );
+};
+
+
+
+ const handleRequestAppointment = () => {
+  fireBreadcrumbTracking();   // analytics first
+  navigate("/doctors");       // redirect after
+};
+
+
+
+  const handleCardClick = (path) => {
+  fireBreadcrumbTracking();
+  navigate(path);
+};
+
+
   return (
     <>
       <section className="hero__section pt-[40px] pb-[40px] 2xl:h-[800px] shadow-lg">
