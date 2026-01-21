@@ -25,45 +25,48 @@ import News from "../Components/Blog/News";
 const Home = () => {
   const navigate = useNavigate();
 
-  const fireBreadcrumbTracking = () => {
-  // ===============================
-  // 1️⃣ DIRECT CALL — Adobe Satellite
-  // ===============================
-  const directCallDL = {
-    pageName: "direct call",
-    clickhref: "direct call",
+  const fireBreadcrumbTracking = (type) => {
+  var _dl = {
+    event: "web.webInteractions.linkClicks",
+    siteSection: {
+      level1: "xxxx",
+      level2: "xxxxx",
+      level3: "xxxxxx",
+    },
+    siteBrand: "healthe",
+    pageName: type,        // "direct call" OR "custom event."
+    siteName: "doctor appointment",
+    clickhref: type,       //"direct call" OR "custom even.t"
   };
 
-  if (window._satellite && typeof window._satellite.track === "function") {
-    window._satellite.track("breadcrumb", directCallDL);
+  // 🔹 DIRECT CALL
+  if (type === "direct call") {
+    if (window._satellite && typeof window._satellite.track === "function") {
+      window._satellite.track("breadcrumb", _dl);
+    }
   }
 
-  // ===============================
-  // 2️⃣ CUSTOM EVENT
-  // ===============================
-  const customEventDL = {
-    pageName: "custom event",
-    clickhref: "custom event",
-  };
-
-  window.dispatchEvent(
-    new CustomEvent("breadcrumb", {
-      detail: customEventDL,
-    })
-  );
+  // 🔹 CUSTOM EVENT
+  if (type === "custom event") {
+    window.dispatchEvent(
+      new CustomEvent("breadcrumbClick", {
+        detail: _dl,
+      })
+    );
+  }
 };
 
 
 
  const handleRequestAppointment = () => {
-  fireBreadcrumbTracking();   // analytics first
+  fireBreadcrumbTracking("direct call");// analytics first
   navigate("/doctors");       // redirect after
 };
 
 
 
   const handleCardClick = (path) => {
-  fireBreadcrumbTracking();
+  fireBreadcrumbTracking("custom event");
   navigate(path);
 };
 
