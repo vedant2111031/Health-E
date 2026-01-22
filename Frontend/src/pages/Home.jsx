@@ -25,8 +25,8 @@ import News from "../Components/Blog/News";
 const Home = () => {
   const navigate = useNavigate();
 
-  const fireBreadcrumbTracking = (type) => {
-  var _dl = {
+const fireBreadcrumbTracking = (type) => {
+  const _dl = {
     event: "web.webInteractions.linkClicks",
     siteSection: {
       level1: "xxxx",
@@ -34,23 +34,25 @@ const Home = () => {
       level3: "xxxxxx",
     },
     siteBrand: "healthe",
-    pageName: type,        // "direct call" OR "custom event."
+    pageName: type,          // "direct call" | "custom event"
     siteName: "doctor appointment",
-    clickhref: type,       //"direct call" OR "custom even.t"
+    clickhref: type,         // "direct call" | "custom event"
   };
 
-  // 🔹 DIRECT CALL
+  // 🔹 DIRECT CALL (Adobe Launch)
   if (type === "direct call") {
     if (window._satellite && typeof window._satellite.track === "function") {
       window._satellite.track("breadcrumb", _dl);
     }
   }
 
-  // 🔹 CUSTOM EVENT
+  // 🔹 CUSTOM EVENT (Browser Event)
   if (type === "custom event") {
     window.dispatchEvent(
       new CustomEvent("breadcrumbClick", {
-        detail: _dl,
+        detail: {
+          _dl, 
+        },
       })
     );
   }
