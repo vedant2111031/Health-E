@@ -4,7 +4,7 @@ import Footer from '../Components/Footer/Footer'
 import Routers from '../routes/Routers'
 import Chatbot from '../Components/Chatbot/Chatbot'
 import PageViewTracker from './PageViewTracker'
-import ConsentBanner from '../components/ConsentBanner'
+import ConsentBanner from '../ConsentBanner'
 
 function Layout() {
   return (
