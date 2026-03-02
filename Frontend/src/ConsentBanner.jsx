@@ -85,74 +85,88 @@ export default function ConsentBanner() {
   if (!showBanner && !showSettings) return null;
 
   return (
-    <div className="consent-overlay">
-      <div className="consent-modal">
+  <div className="consent-backdrop">
+    <div className="consent-modal">
 
-        {!showSettings ? (
-          <>
-            <h3>We value your privacy</h3>
-            <p>
-              We use cookies to enhance your experience.
-            </p>
+      {!showSettings ? (
+        <>
+          <h2>We value your privacy</h2>
+          <p>
+            We use cookies to enhance your experience and analyze traffic.
+            You can choose your preferences.
+          </p>
 
-            <div className="consent-buttons">
-              <button onClick={acceptAll}>Accept All</button>
-              <button onClick={rejectAll}>Reject All</button>
-              <button onClick={() => setShowSettings(true)}>
-                Customize
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <h3>Privacy Preferences</h3>
+          <div className="consent-actions">
+            <button className="primary" onClick={acceptAll}>
+              Accept All
+            </button>
 
-            <label>
-              <input type="checkbox" checked disabled />
-              Strictly Necessary (Always Active)
-            </label>
+            <button className="secondary" onClick={rejectAll}>
+              Reject All
+            </button>
 
-            <label>
-              <input
-                type="checkbox"
-                checked={consent.performance}
-                onChange={() =>
-                  setConsent({ ...consent, performance: !consent.performance })
-                }
-              />
-              Performance Cookies
-            </label>
+            <button className="link" onClick={() => setShowSettings(true)}>
+              Customize Preferences
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <h2>Privacy Preferences</h2>
 
-            <label>
-              <input
-                type="checkbox"
-                checked={consent.functional}
-                onChange={() =>
-                  setConsent({ ...consent, functional: !consent.functional })
-                }
-              />
-              Functional Cookies
-            </label>
+          <div className="consent-option">
+            <input type="checkbox" checked disabled />
+            <span>
+              <strong>Strictly Necessary</strong>
+              <small>Always Active</small>
+            </span>
+          </div>
 
-            <label>
-              <input
-                type="checkbox"
-                checked={consent.targeting}
-                onChange={() =>
-                  setConsent({ ...consent, targeting: !consent.targeting })
-                }
-              />
-              Targeting Cookies
-            </label>
+          <div className="consent-option">
+            <input
+              type="checkbox"
+              checked={consent.performance}
+              onChange={() =>
+                setConsent({ ...consent, performance: !consent.performance })
+              }
+            />
+            <span>Performance Cookies</span>
+          </div>
 
-            <div className="consent-buttons">
-              <button onClick={savePreferences}>Save</button>
-              <button onClick={() => setShowSettings(false)}>Cancel</button>
-            </div>
-          </>
-        )}
+          <div className="consent-option">
+            <input
+              type="checkbox"
+              checked={consent.functional}
+              onChange={() =>
+                setConsent({ ...consent, functional: !consent.functional })
+              }
+            />
+            <span>Functional Cookies</span>
+          </div>
 
-      </div>
+          <div className="consent-option">
+            <input
+              type="checkbox"
+              checked={consent.targeting}
+              onChange={() =>
+                setConsent({ ...consent, targeting: !consent.targeting })
+              }
+            />
+            <span>Targeting Cookies</span>
+          </div>
+
+          <div className="consent-actions">
+            <button className="primary" onClick={savePreferences}>
+              Save Preferences
+            </button>
+
+            <button className="secondary" onClick={() => setShowSettings(false)}>
+              Back
+            </button>
+          </div>
+        </>
+      )}
+
     </div>
-  );
-}
+  </div>
+);
