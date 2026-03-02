@@ -13,36 +13,48 @@ export default function ConsentBanner() {
     targeting: false
   });
 
-  const buildActiveGroups = (consent) => {
-    let groups = ["C0001"]; // strictly necessary always
+  // 🔹 Build OneTrust-style variable
+  const buildActiveGroups = (consentData) => {
+    let groups = ["C0001"]; // Necessary always ON
 
-    if (consent.performance) groups.push("C0002");
-    if (consent.functional) groups.push("C0003");
-    if (consent.targeting) groups.push("C0004");
+    if (consentData.performance) groups.push("C0002");
+    if (consentData.functional) groups.push("C0003");
+    if (consentData.targeting) groups.push("C0004");
 
     window.OptanonActiveGroups = "," + groups.join(",") + ",";
   };
 
+  // 🔹 Initialize on load
   useEffect(() => {
+
     const stored = localStorage.getItem(CONSENT_KEY);
 
     if (!stored) {
+      // First visit → show banner
+      buildActiveGroups({
+        performance: false,
+        functional: false,
+        targeting: false
+      });
       setShowBanner(true);
     } else {
       const parsed = JSON.parse(stored);
       setConsent(parsed);
       buildActiveGroups(parsed);
     }
+
   }, []);
 
+  // 🔹 Save Consent
   const saveConsent = (updatedConsent) => {
     localStorage.setItem(CONSENT_KEY, JSON.stringify(updatedConsent));
+    setConsent(updatedConsent);
     buildActiveGroups(updatedConsent);
     setShowBanner(false);
     setShowSettings(false);
-    window.location.reload();
   };
 
+  // 🔹 Accept All
   const acceptAll = () => {
     saveConsent({
       performance: true,
@@ -51,6 +63,7 @@ export default function ConsentBanner() {
     });
   };
 
+  // 🔹 Reject All
   const rejectAll = () => {
     saveConsent({
       performance: false,
@@ -59,15 +72,21 @@ export default function ConsentBanner() {
     });
   };
 
+  // 🔹 Save Custom
   const savePreferences = () => {
     saveConsent(consent);
   };
 
+  // 🔹 Always expose variable (even before React runs)
+  if (!window.OptanonActiveGroups) {
+    window.OptanonActiveGroups = ",C0001,";
+  }
+
   if (!showBanner && !showSettings) return null;
 
   return (
-    <div style={styles.overlay}>
-      <div style={styles.modal}>
+    <div className="consent-overlay">
+      <div className="consent-modal">
 
         {!showSettings ? (
           <>
@@ -76,7 +95,7 @@ export default function ConsentBanner() {
               We use cookies to enhance your experience.
             </p>
 
-            <div style={styles.buttons}>
+            <div className="consent-buttons">
               <button onClick={acceptAll}>Accept All</button>
               <button onClick={rejectAll}>Reject All</button>
               <button onClick={() => setShowSettings(true)}>
@@ -126,13 +145,9 @@ export default function ConsentBanner() {
               Targeting Cookies
             </label>
 
-            <div style={styles.buttons}>
-              <button onClick={savePreferences}>
-                Save Preferences
-              </button>
-              <button onClick={() => setShowSettings(false)}>
-                Cancel
-              </button>
+            <div className="consent-buttons">
+              <button onClick={savePreferences}>Save</button>
+              <button onClick={() => setShowSettings(false)}>Cancel</button>
             </div>
           </>
         )}
@@ -141,24 +156,3 @@ export default function ConsentBanner() {
     </div>
   );
 }
-
-const styles = {
-  overlay: {
-    position: "fixed",
-    bottom: 0,
-    width: "100%",
-    background: "rgba(0,0,0,0.6)",
-    zIndex: 9999
-  },
-  modal: {
-    background: "#fff",
-    padding: "20px",
-    margin: "20px",
-    borderRadius: "6px"
-  },
-  buttons: {
-    marginTop: "15px",
-    display: "flex",
-    gap: "10px"
-  }
-};
