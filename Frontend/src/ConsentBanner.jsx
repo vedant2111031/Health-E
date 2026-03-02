@@ -13,9 +13,8 @@ export default function ConsentBanner() {
     targeting: false
   });
 
-  // 🔹 Build OneTrust-style variable
   const buildActiveGroups = (consentData) => {
-    let groups = ["C0001"]; // Necessary always ON
+    let groups = ["C0001"];
 
     if (consentData.performance) groups.push("C0002");
     if (consentData.functional) groups.push("C0003");
@@ -23,20 +22,12 @@ export default function ConsentBanner() {
 
     window.OptanonActiveGroups = "," + groups.join(",") + ",";
   };
-useEffect(() => {
-  if (showBanner || showSettings) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
-}, [showBanner, showSettings]);
-  // 🔹 Initialize on load
+
   useEffect(() => {
 
     const stored = localStorage.getItem(CONSENT_KEY);
 
     if (!stored) {
-      // First visit → show banner
       buildActiveGroups({
         performance: false,
         functional: false,
@@ -51,7 +42,14 @@ useEffect(() => {
 
   }, []);
 
-  // 🔹 Save Consent
+  useEffect(() => {
+    if (showBanner || showSettings) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [showBanner, showSettings]);
+
   const saveConsent = (updatedConsent) => {
     localStorage.setItem(CONSENT_KEY, JSON.stringify(updatedConsent));
     setConsent(updatedConsent);
@@ -60,7 +58,6 @@ useEffect(() => {
     setShowSettings(false);
   };
 
-  // 🔹 Accept All
   const acceptAll = () => {
     saveConsent({
       performance: true,
@@ -69,7 +66,6 @@ useEffect(() => {
     });
   };
 
-  // 🔹 Reject All
   const rejectAll = () => {
     saveConsent({
       performance: false,
@@ -78,101 +74,92 @@ useEffect(() => {
     });
   };
 
-  // 🔹 Save Custom
   const savePreferences = () => {
     saveConsent(consent);
   };
 
-  // 🔹 Always expose variable (even before React runs)
-  if (!window.OptanonActiveGroups) {
-    window.OptanonActiveGroups = ",C0001,";
-  }
-
   if (!showBanner && !showSettings) return null;
 
   return (
-  <div className="consent-backdrop">
-    <div className="consent-modal">
+    <div className="consent-backdrop">
+      <div className="consent-modal">
 
-      {!showSettings ? (
-        <>
-          <h2>We value your privacy</h2>
-          <p>
-            We use cookies to enhance your experience and analyze traffic.
-            You can choose your preferences.
-          </p>
+        {!showSettings ? (
+          <>
+            <h2>We value your privacy</h2>
+            <p>
+              We use cookies to enhance your experience and analyze traffic.
+            </p>
 
-          <div className="consent-actions">
-            <button className="primary" onClick={acceptAll}>
-              Accept All
-            </button>
+            <div className="consent-actions">
+              <button className="primary" onClick={acceptAll}>
+                Accept All
+              </button>
 
-            <button className="secondary" onClick={rejectAll}>
-              Reject All
-            </button>
+              <button className="secondary" onClick={rejectAll}>
+                Reject All
+              </button>
 
-            <button className="link" onClick={() => setShowSettings(true)}>
-              Customize Preferences
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <h2>Privacy Preferences</h2>
+              <button className="link" onClick={() => setShowSettings(true)}>
+                Customize Preferences
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2>Privacy Preferences</h2>
 
-          <div className="consent-option">
-            <input type="checkbox" checked disabled />
-            <span>
-              <strong>Strictly Necessary</strong>
-              <small>Always Active</small>
-            </span>
-          </div>
+            <div className="consent-option">
+              <input type="checkbox" checked disabled />
+              <span>Strictly Necessary (Always Active)</span>
+            </div>
 
-          <div className="consent-option">
-            <input
-              type="checkbox"
-              checked={consent.performance}
-              onChange={() =>
-                setConsent({ ...consent, performance: !consent.performance })
-              }
-            />
-            <span>Performance Cookies</span>
-          </div>
+            <div className="consent-option">
+              <input
+                type="checkbox"
+                checked={consent.performance}
+                onChange={() =>
+                  setConsent({ ...consent, performance: !consent.performance })
+                }
+              />
+              <span>Performance Cookies</span>
+            </div>
 
-          <div className="consent-option">
-            <input
-              type="checkbox"
-              checked={consent.functional}
-              onChange={() =>
-                setConsent({ ...consent, functional: !consent.functional })
-              }
-            />
-            <span>Functional Cookies</span>
-          </div>
+            <div className="consent-option">
+              <input
+                type="checkbox"
+                checked={consent.functional}
+                onChange={() =>
+                  setConsent({ ...consent, functional: !consent.functional })
+                }
+              />
+              <span>Functional Cookies</span>
+            </div>
 
-          <div className="consent-option">
-            <input
-              type="checkbox"
-              checked={consent.targeting}
-              onChange={() =>
-                setConsent({ ...consent, targeting: !consent.targeting })
-              }
-            />
-            <span>Targeting Cookies</span>
-          </div>
+            <div className="consent-option">
+              <input
+                type="checkbox"
+                checked={consent.targeting}
+                onChange={() =>
+                  setConsent({ ...consent, targeting: !consent.targeting })
+                }
+              />
+              <span>Targeting Cookies</span>
+            </div>
 
-          <div className="consent-actions">
-            <button className="primary" onClick={savePreferences}>
-              Save Preferences
-            </button>
+            <div className="consent-actions">
+              <button className="primary" onClick={savePreferences}>
+                Save Preferences
+              </button>
 
-            <button className="secondary" onClick={() => setShowSettings(false)}>
-              Back
-            </button>
-          </div>
-        </>
-      )}
+              <button className="secondary" onClick={() => setShowSettings(false)}>
+                Back
+              </button>
+            </div>
+          </>
+        )}
 
+      </div>
     </div>
-  </div>
-);
+  );
+}
