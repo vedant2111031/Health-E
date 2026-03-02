@@ -33,11 +33,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-MDX9BZL7');</script> -->
 <!-- End Google Tag Manager -->
-   <!-- ✅ Adobe Launch script -->
-    <script
-      src="https://assets.adobedtm.com/de3a66fdc88b/ed79f7d793b3/launch-e8865498c1f5-development.min.js"
-      async
-    ></script>
+
+
+    
+   <!-- 🔹 Consent Bootstrap (OneTrust-like) -->
+<script>
+(function() {
+  try {
+    const stored = localStorage.getItem("site_consent");
+
+    if (!stored) {
+      window.OptanonActiveGroups = ",C0001,";
+    } else {
+      const consent = JSON.parse(stored);
+
+      let groups = ["C0001"];
+
+      if (consent.performance) groups.push("C0002");
+      if (consent.functional) groups.push("C0003");
+      if (consent.targeting) groups.push("C0004");
+
+      window.OptanonActiveGroups = "," + groups.join(",") + ",";
+    }
+
+  } catch(e) {
+    window.OptanonActiveGroups = ",C0001,";
+  }
+})();
+</script>
+
+<!-- ✅ Adobe Launch script -->
+<script
+  src="https://assets.adobedtm.com/de3a66fdc88b/ed79f7d793b3/launch-e8865498c1f5-development.min.js"
+></script>
  
 
     <title>Health-E</title>
