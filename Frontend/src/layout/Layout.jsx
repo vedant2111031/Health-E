@@ -4,17 +4,20 @@ import Footer from '../Components/Footer/Footer'
 import Routers from '../routes/Routers'
 import Chatbot from '../Components/Chatbot/Chatbot'
 import PageViewTracker from './PageViewTracker'
+import ConsentBanner from '../components/ConsentBanner'
 
 function Layout() {
   return (
     <>
-    <Header/>
-    <main>
-      <PageViewTracker />
-      <Routers/>
-      <Chatbot/>
-    </main>
-    <Footer/>
+      <ConsentBanner />
+
+      <Header/>
+      <main>
+        <PageViewTracker />
+        <Routers/>
+        <Chatbot/>
+      </main>
+      <Footer/>
     </>
   )
 }
