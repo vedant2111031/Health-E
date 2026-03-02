@@ -23,7 +23,13 @@ export default function ConsentBanner() {
 
     window.OptanonActiveGroups = "," + groups.join(",") + ",";
   };
-
+useEffect(() => {
+  if (showBanner || showSettings) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+}, [showBanner, showSettings]);
   // 🔹 Initialize on load
   useEffect(() => {
 
