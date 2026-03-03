@@ -37,7 +37,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     
    <!-- 🔹 Consent Bootstrap (OneTrust-like) -->
-<!-- <script>
+<script>
 (function() {
   try {
     const stored = localStorage.getItem("site_consent");
@@ -51,16 +51,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       if (consent.performance) groups.push("C0002");
       if (consent.functional) groups.push("C0003");
-      if (consent.targeting) groups.push("C0004"); -->
+      if (consent.targeting) groups.push("C0004");
 
-      <!-- window.OptanonActiveGroups = "," + groups.join(",") + ",";
+      window.OptanonActiveGroups = "," + groups.join(",") + ",";
     }
 
   } catch(e) {
     window.OptanonActiveGroups = ",C0001,";
   }
 })();
-</script> -->
+</script>
 
 <!-- ✅ Adobe Launch script -->
 <script
