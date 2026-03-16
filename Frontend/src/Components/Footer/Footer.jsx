@@ -5,7 +5,6 @@ import { RiLinkedinFill } from "react-icons/ri";
 import {
   AiFillYoutube,
   AiFillGithub,
-  AiOutlineInstagram,
   AiFillInstagram,
 } from "react-icons/ai";
 
@@ -31,7 +30,6 @@ const Links = [
     icon: <RiLinkedinFill className="group-hover:text-white w-4 h-5" />,
   },
 ];
-
 
 const quickLinks01 = [
   {
@@ -70,6 +68,7 @@ const quickLinks02 = [
     display: "Get an Opinion",
   },
 ];
+
 const quickLinks03 = [
   {
     path: "/",
@@ -100,22 +99,45 @@ const pushFooterLinkClick = (label, url) => {
   });
 };
 
+/* Open Cookie Preferences Banner */
+const openCookiePreferences = () => {
 
+  if (window.openCookieSettings) {
+    window.openCookieSettings();
+  }
 
- const Footer = () => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "web.webinteractionlink.click",
+    web: {
+      componentname: "footer",
+      interactiontype: "link click",
+      link: {
+        section: "footer",
+        text: "cookie preferences",
+        url: window.location.origin + "#cookie-preferences",
+      },
+    },
+  });
+
+};
+
+const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
     <footer className="pb-16 pt-10">
       <div className="container">
         <div className="flex justify-between flex-col md:flex-row flex-wrap gap-[30px] container mx-auto">
+
+          {/* LOGO + SOCIAL */}
           <div>
-            <img src={logo} alt="" />
+            <img src={logo} alt="logo" />
+
             <p className="text-[16px] leading-7 font-[400] text-textColor">
               Copyright {year} developed by D-CODER.
             </p>
 
-            {/* ✅ SOCIAL ICONS */}
             <div className="flex items-center gap-3 mt-4">
               {Links.map((link, index) => (
                 <a
@@ -132,18 +154,21 @@ const pushFooterLinkClick = (label, url) => {
             </div>
           </div>
 
-          {/* ✅ QUICK LINKS 1 */}
+          {/* QUICK LINKS */}
           <div>
             <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
               Quick Links
             </h2>
+
             <ul>
               {quickLinks01.map((item, index) => (
                 <li key={index} className="mb-4">
                   <Link
                     to={item.path}
                     className="text-[16px] leading-7 font-[400] text-textColor"
-                    onClick={() => pushFooterLinkClick(item.display, item.path)}
+                    onClick={() =>
+                      pushFooterLinkClick(item.display, item.path)
+                    }
                   >
                     {item.display}
                   </Link>
@@ -152,18 +177,21 @@ const pushFooterLinkClick = (label, url) => {
             </ul>
           </div>
 
-          {/* ✅ QUICK LINKS 2 */}
+          {/* SERVICES */}
           <div>
             <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
               Can
             </h2>
+
             <ul>
               {quickLinks02.map((item, index) => (
                 <li key={index} className="mb-4">
                   <Link
                     to={item.path}
                     className="text-[16px] leading-7 font-[400] text-textColor"
-                    onClick={() => pushFooterLinkClick(item.display, item.path)}
+                    onClick={() =>
+                      pushFooterLinkClick(item.display, item.path)
+                    }
                   >
                     {item.display}
                   </Link>
@@ -172,25 +200,40 @@ const pushFooterLinkClick = (label, url) => {
             </ul>
           </div>
 
-          {/* ✅ QUICK LINKS 3 */}
+          {/* SUPPORT */}
           <div>
             <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
               Support
             </h2>
+
             <ul>
               {quickLinks03.map((item, index) => (
                 <li key={index} className="mb-4">
                   <Link
                     to={item.path}
                     className="text-[16px] leading-7 font-[400] text-textColor"
-                    onClick={() => pushFooterLinkClick(item.display, item.path)}
+                    onClick={() =>
+                      pushFooterLinkClick(item.display, item.path)
+                    }
                   >
                     {item.display}
                   </Link>
                 </li>
               ))}
+
+              {/* Cookie Preferences */}
+              <li className="mb-4">
+                <button
+                  onClick={openCookiePreferences}
+                  className="text-[16px] leading-7 font-[400] text-textColor hover:underline cursor-pointer"
+                >
+                  Cookie Preferences
+                </button>
+              </li>
+
             </ul>
           </div>
+
         </div>
       </div>
     </footer>
