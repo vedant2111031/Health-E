@@ -40,14 +40,25 @@ export default function ConsentBanner() {
       buildActiveGroups(parsed);
     }
 
+    // expose global function to open settings from footer
+    window.openCookieSettings = () => {
+      setShowBanner(false);
+      setShowSettings(true);
+    };
+
+    return () => {
+      delete window.openCookieSettings;
+    };
+
   }, []);
 
   useEffect(() => {
-    if (showBanner || showSettings) {
-      document.body.style.overflow = "hidden";
-    } else {
+    document.body.style.overflow =
+      showBanner || showSettings ? "hidden" : "auto";
+
+    return () => {
       document.body.style.overflow = "auto";
-    }
+    };
   }, [showBanner, showSettings]);
 
   const saveConsent = (updatedConsent) => {
@@ -87,11 +98,14 @@ export default function ConsentBanner() {
         {!showSettings ? (
           <>
             <h2>We value your privacy</h2>
+
             <p>
-              We use cookies to enhance your experience and analyze traffic.
+              We use cookies to enhance your browsing experience,
+              serve personalized content, and analyze our traffic.
             </p>
 
             <div className="consent-actions">
+
               <button className="primary" onClick={acceptAll}>
                 Accept All
               </button>
@@ -100,9 +114,13 @@ export default function ConsentBanner() {
                 Reject All
               </button>
 
-              <button className="link" onClick={() => setShowSettings(true)}>
+              <button
+                className="link"
+                onClick={() => setShowSettings(true)}
+              >
                 Customize Preferences
               </button>
+
             </div>
           </>
         ) : (
@@ -119,7 +137,10 @@ export default function ConsentBanner() {
                 type="checkbox"
                 checked={consent.performance}
                 onChange={() =>
-                  setConsent({ ...consent, performance: !consent.performance })
+                  setConsent({
+                    ...consent,
+                    performance: !consent.performance
+                  })
                 }
               />
               <span>Performance Cookies</span>
@@ -130,7 +151,10 @@ export default function ConsentBanner() {
                 type="checkbox"
                 checked={consent.functional}
                 onChange={() =>
-                  setConsent({ ...consent, functional: !consent.functional })
+                  setConsent({
+                    ...consent,
+                    functional: !consent.functional
+                  })
                 }
               />
               <span>Functional Cookies</span>
@@ -141,20 +165,31 @@ export default function ConsentBanner() {
                 type="checkbox"
                 checked={consent.targeting}
                 onChange={() =>
-                  setConsent({ ...consent, targeting: !consent.targeting })
+                  setConsent({
+                    ...consent,
+                    targeting: !consent.targeting
+                  })
                 }
               />
               <span>Targeting Cookies</span>
             </div>
 
             <div className="consent-actions">
-              <button className="primary" onClick={savePreferences}>
+
+              <button
+                className="primary"
+                onClick={savePreferences}
+              >
                 Save Preferences
               </button>
 
-              <button className="secondary" onClick={() => setShowSettings(false)}>
+              <button
+                className="secondary"
+                onClick={() => setShowSettings(false)}
+              >
                 Back
               </button>
+
             </div>
           </>
         )}
